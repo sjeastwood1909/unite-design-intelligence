@@ -1,0 +1,80 @@
+/* Unite — Selection controls: checkbox, radio, toggle */
+
+.unite-checkbox, .unite-radio { display: inline-flex; align-items: flex-start; gap: var(--spacing-03); cursor: pointer; user-select: none; }
+.unite-checkbox input, .unite-radio input { position: absolute; width: 1px; height: 1px; opacity: 0; margin: 0; }
+
+.unite-checkbox__box {
+  flex-shrink: 0; position: relative;
+  width: 1rem; height: 1rem; margin-block-start: 1px;
+  border: 1px solid var(--icon-primary);
+  border-radius: 1px;
+  transition: background-color var(--duration-fast-01), border-color var(--duration-fast-01);
+}
+.unite-checkbox__box::after {
+  content: ''; position: absolute;
+  inset-block-start: 2px; inset-inline-start: 5px;
+  width: 4px; height: 8px;
+  border-inline-end: 2px solid var(--icon-inverse);
+  border-block-end: 2px solid var(--icon-inverse);
+  transform: rotate(45deg) scale(0);
+  transition: transform var(--duration-fast-01);
+}
+.unite-checkbox input:checked + .unite-checkbox__box,
+.unite-checkbox input:indeterminate + .unite-checkbox__box { background: var(--icon-primary); border-color: var(--icon-primary); }
+.unite-checkbox input:checked + .unite-checkbox__box::after { transform: rotate(45deg) scale(1); }
+.unite-checkbox input:indeterminate + .unite-checkbox__box::after {
+  inset-block-start: 7px; inset-inline-start: 3px; width: 8px; height: 0;
+  border-inline-end: none; border-block-end: 2px solid var(--icon-inverse);
+  transform: none;
+}
+.unite-checkbox input:focus-visible + .unite-checkbox__box,
+.unite-radio input:focus-visible + .unite-radio__circle { outline: 2px solid var(--focus); outline-offset: 1px; }
+
+.unite-radio__circle {
+  flex-shrink: 0; position: relative;
+  width: 1rem; height: 1rem; margin-block-start: 1px;
+  border: 1px solid var(--icon-primary);
+  border-radius: 50%;
+}
+.unite-radio__circle::after {
+  content: ''; position: absolute; inset: 50%;
+  width: 8px; height: 8px; transform: translate(-50%, -50%) scale(0);
+  border-radius: 50%; background: var(--icon-primary);
+  transition: transform var(--duration-fast-01);
+}
+.unite-radio input:checked + .unite-radio__circle::after { transform: translate(-50%, -50%) scale(1); }
+
+.unite-control__label {
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  font-size: var(--type-body-01-size);
+  line-height: var(--type-body-01-lh);
+  letter-spacing: 0.16px;
+}
+.unite-checkbox.is-disabled, .unite-radio.is-disabled { cursor: not-allowed; }
+.unite-checkbox.is-disabled .unite-control__label, .unite-radio.is-disabled .unite-control__label { color: var(--text-disabled); }
+.unite-checkbox.is-disabled .unite-checkbox__box, .unite-radio.is-disabled .unite-radio__circle { border-color: var(--text-disabled); }
+
+/* ---- Toggle ---- */
+.unite-toggle { display: inline-flex; flex-direction: column; gap: var(--spacing-03); }
+.unite-toggle__control { display: inline-flex; align-items: center; gap: var(--spacing-03); cursor: pointer; }
+.unite-toggle input { position: absolute; width: 1px; height: 1px; opacity: 0; }
+.unite-toggle__track {
+  position: relative; flex-shrink: 0;
+  width: 3rem; height: 1.5rem; border-radius: 0.75rem;
+  background: var(--toggle-off);
+  transition: background-color var(--duration-moderate-01) var(--easing-standard-productive);
+}
+.unite-toggle__track::after {
+  content: ''; position: absolute; inset-block-start: 3px; inset-inline-start: 3px;
+  width: 1.125rem; height: 1.125rem; border-radius: 50%; background: var(--icon-on-color);
+  transition: transform var(--duration-moderate-01) var(--easing-standard-productive);
+}
+.unite-toggle input:checked + .unite-toggle__track { background: var(--support-success); }
+.unite-toggle input:checked + .unite-toggle__track::after { transform: translateX(1.5rem); }
+.unite-toggle input:focus-visible + .unite-toggle__track { outline: 2px solid var(--focus); outline-offset: 1px; }
+.unite-toggle--sm .unite-toggle__track { width: 2rem; height: 1rem; }
+.unite-toggle--sm .unite-toggle__track::after { width: 0.625rem; height: 0.625rem; inset-block-start: 3px; inset-inline-start: 3px; }
+.unite-toggle--sm input:checked + .unite-toggle__track::after { transform: translateX(1rem); }
+.unite-toggle__state { color: var(--text-primary); font-size: var(--type-body-01-size); letter-spacing: 0.16px; }
+.unite-toggle.is-disabled .unite-toggle__track { background: var(--button-disabled); }

@@ -1,0 +1,54 @@
+/* Unite — Data display: tile, data table, structured list, badge */
+
+/* ---- Tile ---- */
+.unite-tile {
+  display: block; position: relative;
+  padding: var(--spacing-05);
+  background: var(--layer-01);
+  color: var(--text-primary);
+  min-height: 4rem;
+}
+.unite-tile--clickable { cursor: pointer; outline: 2px solid transparent; outline-offset: -2px; text-decoration: none; transition: background-color var(--duration-fast-01); }
+.unite-tile--clickable:hover { background: var(--layer-hover-01); }
+.unite-tile--clickable:focus-visible { outline: 2px solid var(--focus); }
+.unite-tile--selectable { cursor: pointer; box-shadow: inset 0 0 0 1px transparent; }
+.unite-tile--selected { box-shadow: inset 0 0 0 1px var(--border-interactive); }
+.unite-tile__check { position: absolute; inset-block-start: var(--spacing-05); inset-inline-end: var(--spacing-05); color: var(--icon-primary); }
+
+/* ---- Badge ---- */
+.unite-badge {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-width: 1rem; height: 1rem; padding-inline: var(--spacing-02);
+  border-radius: 0.5rem; background: var(--support-error); color: var(--text-on-color);
+  font-family: var(--font-sans); font-size: 0.6875rem; font-weight: 600; line-height: 1;
+}
+.unite-badge--dot { width: 0.5rem; min-width: 0; height: 0.5rem; padding: 0; border-radius: 50%; }
+
+/* ---- Data table ---- */
+.unite-table-wrap { width: 100%; }
+.unite-table-toolbar { display: flex; align-items: center; justify-content: space-between; height: var(--size-lg); background: var(--layer-01); }
+.unite-table-toolbar__title { padding-inline: var(--spacing-05); font-family: var(--font-sans); font-size: var(--type-heading-03-size); font-weight: 400; color: var(--text-primary); }
+.unite-table { width: 100%; border-collapse: collapse; font-family: var(--font-sans); background: var(--layer-01); }
+.unite-table th, .unite-table td { text-align: start; padding-inline: var(--spacing-05); height: var(--size-md); border-block-end: 1px solid var(--border-subtle-01); letter-spacing: 0.16px; }
+.unite-table thead th {
+  background: var(--layer-accent-01);
+  color: var(--text-primary); font-size: var(--type-body-compact-01-size); font-weight: 600;
+  border-block-end: none;
+}
+.unite-table thead th.is-sortable { cursor: pointer; }
+.unite-table thead th .unite-table__sort { display: inline-flex; align-items: center; gap: var(--spacing-02); color: inherit; background: none; border: none; font: inherit; font-weight: 600; cursor: pointer; padding: 0; }
+.unite-table tbody td { color: var(--text-secondary); font-size: var(--type-body-compact-01-size); }
+.unite-table tbody td:first-child { color: var(--text-primary); }
+.unite-table tbody tr { background: var(--layer-01); transition: background-color var(--duration-fast-01); }
+.unite-table tbody tr:hover { background: var(--layer-hover-01); }
+.unite-table tbody tr.is-selected { background: var(--layer-selected-01); }
+.unite-table tbody tr.is-selected td { box-shadow: inset 2px 0 0 0 var(--interactive); }
+.unite-table--sm th, .unite-table--sm td { height: var(--size-sm); }
+.unite-table--lg th, .unite-table--lg td { height: var(--size-xl); }
+.unite-table__cell-actions { display: flex; gap: var(--spacing-02); justify-content: flex-end; }
+
+/* ---- Structured list ---- */
+.unite-slist { width: 100%; }
+.unite-slist__row { display: flex; gap: var(--spacing-05); padding: var(--spacing-04) var(--spacing-05); border-block-end: 1px solid var(--border-subtle-01); font-size: var(--type-body-01-size); letter-spacing: 0.16px; color: var(--text-secondary); }
+.unite-slist__row--header { color: var(--text-primary); font-weight: 600; border-block-end-color: var(--border-strong-01); }
+.unite-slist__cell { flex: 1; }

@@ -1,0 +1,55 @@
+/* Unite Design System — Typography
+   IBM Plex Sans is the UI typeface; IBM Plex Mono is used for code, numerics and
+   dense data. The type scale mirrors Carbon's Productive set: each step pairs a
+   size, line-height and weight. Use the --type-* shorthand custom properties or
+   the .unite-type-* utility classes. */
+
+:root {
+  /* ---- Font families ---- */
+  --font-sans: 'IBM Plex Sans', system-ui, -apple-system, 'Helvetica Neue', Arial, sans-serif;
+  --font-mono: 'IBM Plex Mono', 'SFMono-Regular', Menlo, Consolas, monospace;
+
+  /* ---- Weights ---- */
+  --font-weight-light: 300;
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+
+  /* ---- Type scale: size / line-height ---- */
+  --type-code-01-size: 0.75rem;          --type-code-01-lh: 1rem;          /* 12 / 16 */
+  --type-code-02-size: 0.875rem;         --type-code-02-lh: 1.25rem;       /* 14 / 20 */
+  --type-label-01-size: 0.75rem;         --type-label-01-lh: 1rem;         /* 12 / 16 */
+  --type-label-02-size: 0.875rem;        --type-label-02-lh: 1.125rem;     /* 14 / 18 */
+  --type-helper-01-size: 0.75rem;        --type-helper-01-lh: 1rem;        /* 12 / 16 */
+  --type-body-compact-01-size: 0.875rem; --type-body-compact-01-lh: 1.125rem; /* 14 / 18 */
+  --type-body-compact-02-size: 1rem;     --type-body-compact-02-lh: 1.375rem; /* 16 / 22 */
+  --type-body-01-size: 0.875rem;         --type-body-01-lh: 1.25rem;       /* 14 / 20 */
+  --type-body-02-size: 1rem;             --type-body-02-lh: 1.5rem;        /* 16 / 24 */
+  --type-heading-compact-01-size: 0.875rem; --type-heading-compact-01-lh: 1.125rem;
+  --type-heading-compact-02-size: 1rem;  --type-heading-compact-02-lh: 1.375rem;
+  --type-heading-01-size: 0.875rem;      --type-heading-01-lh: 1.25rem;    /* 14 / 20 */
+  --type-heading-02-size: 1rem;          --type-heading-02-lh: 1.5rem;     /* 16 / 24 */
+  --type-heading-03-size: 1.25rem;       --type-heading-03-lh: 1.75rem;    /* 20 / 28 */
+  --type-heading-04-size: 1.75rem;       --type-heading-04-lh: 2.25rem;    /* 28 / 36 */
+  --type-heading-05-size: 2rem;          --type-heading-05-lh: 2.5rem;     /* 32 / 40 */
+  --type-heading-06-size: 2.625rem;      --type-heading-06-lh: 3.125rem;   /* 42 / 50 */
+  --type-heading-07-size: 3.375rem;      --type-heading-07-lh: 4rem;       /* 54 / 64 */
+  --type-display-01-size: 4.25rem;       --type-display-01-lh: 4.875rem;   /* 68 / 78 */
+  --type-display-02-size: 5.75rem;       --type-display-02-lh: 6.5rem;     /* 92 / 104 */
+}
+
+/* ---- Type utility classes ---- */
+.unite-type-code-01 { font-family: var(--font-mono); font-size: var(--type-code-01-size); line-height: var(--type-code-01-lh); font-weight: 400; letter-spacing: 0.32px; }
+.unite-type-label-01 { font-family: var(--font-sans); font-size: var(--type-label-01-size); line-height: var(--type-label-01-lh); font-weight: 400; letter-spacing: 0.32px; }
+.unite-type-helper-01 { font-family: var(--font-sans); font-size: var(--type-helper-01-size); line-height: var(--type-helper-01-lh); font-weight: 400; letter-spacing: 0.32px; }
+.unite-type-body-01 { font-family: var(--font-sans); font-size: var(--type-body-01-size); line-height: var(--type-body-01-lh); font-weight: 400; letter-spacing: 0.16px; }
+.unite-type-body-02 { font-family: var(--font-sans); font-size: var(--type-body-02-size); line-height: var(--type-body-02-lh); font-weight: 400; }
+.unite-type-body-compact-01 { font-family: var(--font-sans); font-size: var(--type-body-compact-01-size); line-height: var(--type-body-compact-01-lh); font-weight: 400; letter-spacing: 0.16px; }
+.unite-type-heading-01 { font-family: var(--font-sans); font-size: var(--type-heading-01-size); line-height: var(--type-heading-01-lh); font-weight: 600; letter-spacing: 0.16px; }
+.unite-type-heading-02 { font-family: var(--font-sans); font-size: var(--type-heading-02-size); line-height: var(--type-heading-02-lh); font-weight: 600; }
+.unite-type-heading-03 { font-family: var(--font-sans); font-size: var(--type-heading-03-size); line-height: var(--type-heading-03-lh); font-weight: 400; }
+.unite-type-heading-04 { font-family: var(--font-sans); font-size: var(--type-heading-04-size); line-height: var(--type-heading-04-lh); font-weight: 400; }
+.unite-type-heading-05 { font-family: var(--font-sans); font-size: var(--type-heading-05-size); line-height: var(--type-heading-05-lh); font-weight: 400; }
+.unite-type-heading-06 { font-family: var(--font-sans); font-size: var(--type-heading-06-size); line-height: var(--type-heading-06-lh); font-weight: 300; }
+.unite-type-heading-07 { font-family: var(--font-sans); font-size: var(--type-heading-07-size); line-height: var(--type-heading-07-lh); font-weight: 300; }
