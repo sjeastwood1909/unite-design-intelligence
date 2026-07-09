@@ -1,0 +1,116 @@
+/* Unite — Feedback: tag, notification, loading, progress, modal, tooltip */
+
+/* ---- Tag ---- */
+.unite-tag {
+  display: inline-flex; align-items: center; gap: var(--spacing-02);
+  height: 1.5rem; padding-inline: var(--spacing-03);
+  border-radius: 0.75rem;
+  font-family: var(--font-sans); font-size: var(--type-label-01-size); line-height: 1;
+  letter-spacing: 0.32px; white-space: nowrap;
+  background: var(--gray-20); color: var(--gray-100);
+}
+.unite-tag--sm { height: 1.125rem; }
+.unite-tag--blue { background: var(--blue-20); color: var(--blue-70); }
+.unite-tag--green { background: var(--green-20); color: var(--green-70); }
+.unite-tag--teal { background: var(--teal-20); color: var(--teal-70); }
+.unite-tag--cyan { background: var(--cyan-20); color: var(--cyan-70); }
+.unite-tag--purple { background: var(--purple-20); color: var(--purple-70); }
+.unite-tag--magenta { background: var(--magenta-20); color: var(--magenta-70); }
+.unite-tag--red { background: var(--red-20); color: var(--red-70); }
+.unite-tag--gray { background: var(--gray-20); color: var(--gray-100); }
+.unite-tag--cool-gray { background: var(--cool-gray-20); color: var(--cool-gray-90); }
+.unite-tag--warm-gray { background: var(--warm-gray-20); color: var(--warm-gray-90); }
+.unite-tag--high-contrast { background: var(--background-inverse); color: var(--text-inverse); }
+.unite-tag--outline { background: transparent; box-shadow: inset 0 0 0 1px var(--border-strong-01); color: var(--text-primary); }
+.unite-tag__close { display: inline-flex; background: transparent; border: none; color: inherit; cursor: pointer; padding: 0; margin-inline-start: var(--spacing-01); border-radius: 50%; }
+.unite-tag__close:hover { background: rgba(0,0,0,0.1); }
+
+/* ---- Notification (inline / toast / callout) ---- */
+.unite-notification {
+  display: flex; align-items: flex-start; gap: var(--spacing-05);
+  min-height: 3rem; padding: var(--spacing-05);
+  padding-inline-start: calc(var(--spacing-05) - 3px);
+  border-inline-start: 3px solid var(--support-info);
+  background: var(--notification-bg, var(--layer-01));
+  color: var(--text-primary);
+  max-width: 36rem;
+}
+.unite-notification--error { border-inline-start-color: var(--support-error); background: var(--red-10); }
+.unite-notification--success { border-inline-start-color: var(--support-success); background: var(--green-10); }
+.unite-notification--warning { border-inline-start-color: var(--support-warning); background: var(--yellow-10); }
+.unite-notification--info { border-inline-start-color: var(--support-info); background: var(--blue-10); }
+.unite-notification__icon { flex-shrink: 0; margin-block-start: 1px; }
+.unite-notification--error .unite-notification__icon { color: var(--support-error); }
+.unite-notification--success .unite-notification__icon { color: var(--support-success); }
+.unite-notification--warning .unite-notification__icon { color: var(--support-caution-minor); }
+.unite-notification--info .unite-notification__icon { color: var(--support-info); }
+.unite-notification__body { flex: 1; font-family: var(--font-sans); font-size: var(--type-body-01-size); line-height: var(--type-body-01-lh); letter-spacing: 0.16px; }
+.unite-notification__title { font-weight: 600; }
+.unite-notification__subtitle { font-weight: 400; color: var(--text-primary); }
+.unite-notification__close { background: transparent; border: none; color: var(--icon-primary); cursor: pointer; padding: var(--spacing-01); display: inline-flex; }
+.unite-notification__close:hover { background: var(--background-hover); }
+.unite-notification--toast { background: var(--background-inverse); color: var(--text-inverse); border-inline-start-width: 3px; box-shadow: var(--shadow-md); }
+.unite-notification--toast .unite-notification__close { color: var(--icon-inverse); }
+
+/* ---- Loading spinner ---- */
+.unite-loading { display: inline-block; }
+.unite-loading svg { animation: unite-spin 690ms linear infinite; }
+.unite-loading circle.track { stroke: var(--layer-accent-01); }
+.unite-loading circle.head { stroke: var(--interactive); stroke-linecap: round; }
+@keyframes unite-spin { to { transform: rotate(360deg); } }
+.unite-inline-loading { display: inline-flex; align-items: center; gap: var(--spacing-03); color: var(--text-secondary); font-size: var(--type-body-01-size); }
+
+/* ---- Progress bar ---- */
+.unite-progress { display: flex; flex-direction: column; gap: var(--spacing-03); }
+.unite-progress__labels { display: flex; justify-content: space-between; font-family: var(--font-sans); font-size: var(--type-label-01-size); letter-spacing: 0.32px; }
+.unite-progress__label { color: var(--text-primary); }
+.unite-progress__caption { color: var(--text-helper); }
+.unite-progress__track { position: relative; height: 0.5rem; background: var(--layer-accent-01); overflow: hidden; }
+.unite-progress__bar { position: absolute; inset-block: 0; inset-inline-start: 0; background: var(--interactive); transition: width var(--duration-moderate-02) var(--easing-standard-productive); }
+.unite-progress--success .unite-progress__bar { background: var(--support-success); }
+.unite-progress--error .unite-progress__track { background: transparent; }
+.unite-progress--indeterminate .unite-progress__bar { width: 40% !important; animation: unite-indeterminate 1.6s var(--easing-standard-productive) infinite; }
+@keyframes unite-indeterminate { 0% { transform: translateX(-100%); } 100% { transform: translateX(350%); } }
+
+/* ---- Modal ---- */
+.unite-modal__overlay {
+  position: fixed; inset: 0; z-index: 9000;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--overlay);
+}
+.unite-modal {
+  display: flex; flex-direction: column;
+  width: 48rem; max-width: calc(100vw - 2rem); max-height: calc(100vh - 4rem);
+  background: var(--layer-01);
+  box-shadow: var(--shadow-lg);
+}
+.unite-modal--sm { width: 24rem; }
+.unite-modal--md { width: 36rem; }
+.unite-modal--lg { width: 48rem; }
+.unite-modal__header { padding: var(--spacing-05); padding-block-end: var(--spacing-06); position: relative; }
+.unite-modal__label { color: var(--text-secondary); font-size: var(--type-label-01-size); letter-spacing: 0.32px; margin-block-end: var(--spacing-02); }
+.unite-modal__title { color: var(--text-primary); font-family: var(--font-sans); font-size: var(--type-heading-03-size); line-height: var(--type-heading-03-lh); font-weight: 400; padding-inline-end: var(--spacing-09); }
+.unite-modal__close { position: absolute; inset-block-start: 0; inset-inline-end: 0; width: 3rem; height: 3rem; display: flex; align-items: center; justify-content: center; background: transparent; border: none; color: var(--icon-primary); cursor: pointer; }
+.unite-modal__close:hover { background: var(--background-hover); }
+.unite-modal__body { padding-inline: var(--spacing-05); padding-block-end: var(--spacing-09); overflow-y: auto; color: var(--text-primary); font-size: var(--type-body-01-size); line-height: var(--type-body-01-lh); letter-spacing: 0.16px; }
+.unite-modal__footer { display: flex; }
+.unite-modal__footer .unite-btn { flex: 1; max-width: none; min-height: 4rem; }
+
+/* ---- Tooltip ---- */
+.unite-tooltip { position: relative; display: inline-flex; }
+.unite-tooltip__bubble {
+  position: absolute; z-index: 7000;
+  bottom: calc(100% + 8px); left: 50%; transform: translateX(-50%);
+  background: var(--background-inverse); color: var(--text-inverse);
+  padding: var(--spacing-02) var(--spacing-04);
+  font-family: var(--font-sans); font-size: var(--type-body-01-size); line-height: var(--type-body-01-lh);
+  white-space: nowrap; box-shadow: var(--shadow-sm);
+  opacity: 0; pointer-events: none; transition: opacity var(--duration-fast-02);
+}
+.unite-tooltip__bubble::after { content: ''; position: absolute; top: 100%; left: 50%; transform: translateX(-50%); border: 4px solid transparent; border-block-start-color: var(--background-inverse); }
+.unite-tooltip:hover .unite-tooltip__bubble, .unite-tooltip:focus-within .unite-tooltip__bubble { opacity: 1; }
+
+/* ---- Skeleton ---- */
+.unite-skeleton { position: relative; overflow: hidden; background: var(--skeleton-background); }
+.unite-skeleton::after { content: ''; position: absolute; inset: 0; background: var(--skeleton-element); transform-origin: left; animation: unite-skeleton 2s cubic-bezier(.4,.14,.3,1) infinite; }
+@keyframes unite-skeleton { 0% { transform: scaleX(0); } 20% { transform: scaleX(1); transform-origin: left; } 28% { transform-origin: right; } 51%,100% { transform: scaleX(0); transform-origin: right; } }

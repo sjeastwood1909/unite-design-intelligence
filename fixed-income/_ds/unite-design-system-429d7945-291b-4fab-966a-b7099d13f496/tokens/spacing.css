@@ -1,0 +1,54 @@
+/* Unite Design System — Spacing, layout, sizing
+   The spacing scale is a fixed mini-token set (spacing-01 … spacing-13) used for
+   all padding, margins and gaps. Container sizes drive the standardized control
+   heights (fields, buttons). Grid follows the Carbon-derived 2x grid. */
+
+:root {
+  /* ---- Spacing scale ---- */
+  --spacing-01: 0.125rem; /*  2px */
+  --spacing-02: 0.25rem;  /*  4px */
+  --spacing-03: 0.5rem;   /*  8px */
+  --spacing-04: 0.75rem;  /* 12px */
+  --spacing-05: 1rem;     /* 16px */
+  --spacing-06: 1.5rem;   /* 24px */
+  --spacing-07: 2rem;     /* 32px */
+  --spacing-08: 2.5rem;   /* 40px */
+  --spacing-09: 3rem;     /* 48px */
+  --spacing-10: 4rem;     /* 64px */
+  --spacing-11: 5rem;     /* 80px */
+  --spacing-12: 6rem;     /* 96px */
+  --spacing-13: 10rem;    /* 160px */
+
+  /* ---- Standardized control sizes (heights) ---- */
+  --size-xs: 1.5rem;   /* 24px */
+  --size-sm: 2rem;     /* 32px */
+  --size-md: 2.5rem;   /* 40px */
+  --size-lg: 3rem;     /* 48px — default */
+  --size-xl: 4rem;     /* 64px */
+  --size-2xl: 5rem;    /* 80px */
+
+  /* ---- Icon sizes ---- */
+  --icon-size-01: 1rem;    /* 16px */
+  --icon-size-02: 1.25rem; /* 20px */
+
+  /* ---- Layout / containers ---- */
+  --container-01: 1.5rem;
+  --container-02: 2rem;
+  --container-03: 2.5rem;
+  --container-04: 3rem;
+  --container-05: 4rem;
+
+  /* ---- Grid ---- */
+  --grid-columns: 16; /* @kind other */
+  --grid-margin: 1rem;            /* end margin, small */
+  --grid-gutter: 2rem;           /* 32px gutter */
+  --grid-gutter-condensed: 0.0625rem; /* 1px */
+  --grid-max-width: 99rem;       /* 1584px */
+
+  /* ---- Breakpoints (reference) ---- */
+  --bp-sm: 320px;
+  --bp-md: 672px;
+  --bp-lg: 1056px;
+  --bp-xl: 1312px;
+  --bp-max: 1584px;
+}

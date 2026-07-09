@@ -1,0 +1,485 @@
+/* Unite Design System — Color
+   Base palette (from the Unite Figma "Color" collection — Carbon-derived ramps)
+   plus the semantic theme layer. The semantic tokens on :root are the WHITE
+   theme (Unite's default light theme). Apply [data-theme="g100"] for the dark
+   theme. Components must consume the SEMANTIC tokens (--background, --text-primary,
+   --button-primary, …), never the raw palette directly. */
+
+:root {
+  /* ---- Base palette: Neutral ---- */
+  --white: #ffffff;
+  --black: #000000;
+
+  /* ---- Base palette: Gray ---- */
+  --gray-10: #f4f4f4;
+  --gray-20: #e0e0e0;
+  --gray-30: #c6c6c6;
+  --gray-40: #a8a8a8;
+  --gray-50: #8d8d8d;
+  --gray-60: #6f6f6f;
+  --gray-70: #525252;
+  --gray-80: #393939;
+  --gray-90: #262626;
+  --gray-100: #161616;
+
+  /* ---- Base palette: Blue (primary brand ramp) ---- */
+  --blue-10: #edf5ff;
+  --blue-20: #d0e2ff;
+  --blue-30: #a6c8ff;
+  --blue-40: #78a9ff;
+  --blue-50: #4589ff;
+  --blue-60: #0f62fe;
+  --blue-70: #0043ce;
+  --blue-80: #002d9c;
+  --blue-90: #001d6c;
+  --blue-100: #001141;
+
+  /* ---- Base palette: Red ---- */
+  --red-10: #fff1f1;
+  --red-20: #ffd7d9;
+  --red-30: #ffb3b8;
+  --red-40: #ff8389;
+  --red-50: #fa4d56;
+  --red-60: #da1e28;
+  --red-70: #a2191f;
+  --red-80: #750e13;
+  --red-90: #520408;
+  --red-100: #2d0709;
+
+  /* ---- Base palette: Green ---- */
+  --green-10: #defbe6;
+  --green-20: #a7f0ba;
+  --green-30: #6fdc8c;
+  --green-40: #42be65;
+  --green-50: #24a148;
+  --green-60: #198038;
+  --green-70: #0e6027;
+  --green-80: #044317;
+  --green-90: #022d0d;
+  --green-100: #071908;
+
+  /* ---- Base palette: Teal ---- */
+  --teal-10: #d9fbfb;
+  --teal-20: #9ef0f0;
+  --teal-30: #3ddbd9;
+  --teal-40: #08bdba;
+  --teal-50: #009d9a;
+  --teal-60: #007d79;
+  --teal-70: #005d5d;
+  --teal-80: #004144;
+  --teal-90: #022b30;
+  --teal-100: #081a1c;
+
+  /* ---- Base palette: Cyan ---- */
+  --cyan-10: #e5f6ff;
+  --cyan-20: #bae6ff;
+  --cyan-30: #82cfff;
+  --cyan-40: #33b1ff;
+  --cyan-50: #1192e8;
+  --cyan-60: #0072c3;
+  --cyan-70: #00539a;
+  --cyan-80: #003a6d;
+  --cyan-90: #012749;
+  --cyan-100: #061727;
+
+  /* ---- Base palette: Purple ---- */
+  --purple-10: #f6f2ff;
+  --purple-20: #e8daff;
+  --purple-30: #d4bbff;
+  --purple-40: #be95ff;
+  --purple-50: #a56eff;
+  --purple-60: #8a3ffc;
+  --purple-70: #6929c4;
+  --purple-80: #491d8b;
+  --purple-90: #31135e;
+  --purple-100: #1c0f30;
+
+  /* ---- Base palette: Magenta ---- */
+  --magenta-10: #fff0f7;
+  --magenta-20: #ffd6e8;
+  --magenta-30: #ffafd2;
+  --magenta-40: #ff7eb6;
+  --magenta-50: #ee5396;
+  --magenta-60: #d02670;
+  --magenta-70: #9f1853;
+  --magenta-80: #740937;
+  --magenta-90: #510224;
+  --magenta-100: #2a0a18;
+
+  /* ---- Base palette: Yellow ---- */
+  --yellow-10: #fcf4d6;
+  --yellow-20: #fddc69;
+  --yellow-30: #f1c21b;
+  --yellow-40: #d2a106;
+  --yellow-50: #b28600;
+  --yellow-60: #8e6a00;
+  --yellow-70: #684e00;
+  --yellow-80: #483700;
+  --yellow-90: #302400;
+  --yellow-100: #1c1500;
+
+  /* ---- Base palette: Orange ---- */
+  --orange-10: #fff2e8;
+  --orange-20: #ffd9be;
+  --orange-30: #ffb784;
+  --orange-40: #ff832b;
+  --orange-50: #eb6200;
+  --orange-60: #ba4e00;
+  --orange-70: #8a3800;
+  --orange-80: #5e2900;
+  --orange-90: #3e1a00;
+  --orange-100: #231000;
+
+  /* ---- Base palette: Cool gray ---- */
+  --cool-gray-10: #f2f4f8;
+  --cool-gray-20: #dde1e6;
+  --cool-gray-30: #c1c7cd;
+  --cool-gray-40: #a2a9b0;
+  --cool-gray-50: #878d96;
+  --cool-gray-60: #697077;
+  --cool-gray-70: #4d5358;
+  --cool-gray-80: #343a3f;
+  --cool-gray-90: #21272a;
+  --cool-gray-100: #121619;
+
+  /* ---- Base palette: Warm gray ---- */
+  --warm-gray-10: #f7f3f2;
+  --warm-gray-20: #e5e0df;
+  --warm-gray-30: #cac5c4;
+  --warm-gray-40: #ada8a8;
+  --warm-gray-50: #8f8b8b;
+  --warm-gray-60: #726e6e;
+  --warm-gray-70: #565151;
+  --warm-gray-80: #3c3838;
+  --warm-gray-90: #272525;
+  --warm-gray-100: #171414;
+}
+
+/* ===========================================================================
+   SEMANTIC THEME — White (default light)
+   =========================================================================== */
+:root,
+[data-theme="white"] {
+  /* Backgrounds */
+  --background: var(--white);
+  --background-hover: rgba(141, 141, 141, 0.12);
+  --background-active: rgba(141, 141, 141, 0.50);
+  --background-selected: rgba(141, 141, 141, 0.20);
+  --background-selected-hover: rgba(141, 141, 141, 0.32);
+  --background-inverse: var(--gray-80);
+  --background-inverse-hover: #474747;
+  --background-brand: var(--blue-60);
+
+  /* Layers */
+  --layer-01: var(--gray-10);
+  --layer-02: var(--white);
+  --layer-03: var(--gray-10);
+  --layer-hover-01: #e8e8e8;
+  --layer-hover-02: var(--gray-10);
+  --layer-active-01: var(--gray-30);
+  --layer-selected-01: var(--gray-20);
+  --layer-accent-01: var(--gray-20);
+  --layer-accent-hover-01: #d1d1d1;
+
+  /* Fields (input backgrounds) */
+  --field-01: var(--gray-10);
+  --field-02: var(--white);
+  --field-hover-01: #e8e8e8;
+  --field-hover-02: var(--gray-10);
+
+  /* Text */
+  --text-primary: var(--gray-100);
+  --text-secondary: var(--gray-70);
+  --text-placeholder: var(--gray-40);
+  --text-helper: var(--gray-60);
+  --text-on-color: var(--white);
+  --text-on-color-disabled: var(--gray-40);
+  --text-disabled: rgba(22, 22, 22, 0.25);
+  --text-inverse: var(--white);
+  --text-error: var(--red-60);
+
+  /* Links */
+  --link-primary: var(--blue-60);
+  --link-primary-hover: var(--blue-70);
+  --link-secondary: var(--blue-70);
+  --link-inverse: var(--blue-40);
+  --link-visited: var(--purple-60);
+
+  /* Icons */
+  --icon-primary: var(--gray-100);
+  --icon-secondary: var(--gray-70);
+  --icon-on-color: var(--white);
+  --icon-on-color-disabled: var(--gray-40);
+  --icon-disabled: rgba(22, 22, 22, 0.25);
+  --icon-inverse: var(--white);
+  --icon-interactive: var(--blue-60);
+
+  /* Borders */
+  --border-subtle-00: var(--gray-20);
+  --border-subtle-01: var(--gray-20);
+  --border-subtle-02: var(--gray-20);
+  --border-subtle-selected-01: var(--gray-30);
+  --border-strong-01: var(--gray-50);
+  --border-strong-02: var(--gray-50);
+  --border-inverse: var(--gray-100);
+  --border-interactive: var(--blue-60);
+  --border-disabled: var(--gray-30);
+
+  /* Interactive / buttons */
+  --interactive: var(--blue-60);
+  --button-primary: var(--blue-60);
+  --button-primary-hover: #0353e9;
+  --button-primary-active: var(--blue-80);
+  --button-secondary: var(--gray-80);
+  --button-secondary-hover: #4c4c4c;
+  --button-secondary-active: var(--gray-60);
+  --button-tertiary: var(--blue-60);
+  --button-tertiary-hover: var(--blue-70);
+  --button-tertiary-active: var(--blue-80);
+  --button-danger-primary: var(--red-60);
+  --button-danger-secondary: var(--red-60);
+  --button-danger-hover: #ba1b23;
+  --button-danger-active: #750e13;
+  --button-disabled: var(--gray-30);
+  --button-separator: var(--gray-20);
+
+  /* Support / status */
+  --support-error: var(--red-60);
+  --support-success: var(--green-50);
+  --support-warning: var(--yellow-30);
+  --support-info: var(--blue-70);
+  --support-error-inverse: var(--red-50);
+  --support-success-inverse: var(--green-40);
+  --support-warning-inverse: var(--yellow-30);
+  --support-info-inverse: var(--blue-50);
+  --support-caution-major: var(--orange-40);
+  --support-caution-minor: var(--yellow-30);
+
+  /* Focus */
+  --focus: var(--blue-60);
+  --focus-inset: var(--white);
+  --focus-inverse: var(--white);
+
+  /* Misc */
+  --overlay: rgba(22, 22, 22, 0.50);
+  --toggle-off: var(--gray-50);
+  --skeleton-background: #e5e5e5;
+  --skeleton-element: var(--gray-30);
+  --highlight: var(--blue-20);
+}
+
+/* ===========================================================================
+   SEMANTIC THEME — Gray 10 (light, elevated)
+   Background is gray-10; layer-01 is white — the inverse of the White theme.
+   All text, icon, border, interactive and status tokens are identical to White.
+   Only surface and field tokens change.
+   =========================================================================== */
+[data-theme="g10"] {
+  /* Backgrounds */
+  --background: var(--gray-10);
+  --background-hover: rgba(141, 141, 141, 0.12);
+  --background-active: rgba(141, 141, 141, 0.50);
+  --background-selected: rgba(141, 141, 141, 0.20);
+  --background-selected-hover: rgba(141, 141, 141, 0.32);
+  --background-inverse: var(--gray-80);
+  --background-inverse-hover: #474747;
+  --background-brand: var(--blue-60);
+
+  /* Layers — inverted vs White */
+  --layer-01: var(--white);
+  --layer-02: var(--gray-10);
+  --layer-03: var(--white);
+  --layer-hover-01: #e8e8e8;
+  --layer-hover-02: #e8e8e8;
+  --layer-active-01: var(--gray-30);
+  --layer-selected-01: var(--gray-20);
+  --layer-accent-01: var(--gray-20);
+  --layer-accent-hover-01: #d1d1d1;
+
+  /* Fields — inverted vs White */
+  --field-01: var(--white);
+  --field-02: var(--gray-10);
+  --field-hover-01: #e8e8e8;
+  --field-hover-02: #e8e8e8;
+
+  /* Text — same as White */
+  --text-primary: var(--gray-100);
+  --text-secondary: var(--gray-70);
+  --text-placeholder: var(--gray-40);
+  --text-helper: var(--gray-60);
+  --text-on-color: var(--white);
+  --text-on-color-disabled: var(--gray-40);
+  --text-disabled: rgba(22, 22, 22, 0.25);
+  --text-inverse: var(--white);
+  --text-error: var(--red-60);
+
+  /* Links — same as White */
+  --link-primary: var(--blue-60);
+  --link-primary-hover: var(--blue-70);
+  --link-secondary: var(--blue-70);
+  --link-inverse: var(--blue-40);
+  --link-visited: var(--purple-60);
+
+  /* Icons — same as White */
+  --icon-primary: var(--gray-100);
+  --icon-secondary: var(--gray-70);
+  --icon-on-color: var(--white);
+  --icon-on-color-disabled: var(--gray-40);
+  --icon-disabled: rgba(22, 22, 22, 0.25);
+  --icon-inverse: var(--white);
+  --icon-interactive: var(--blue-60);
+
+  /* Borders — subtle-00 becomes white (sits on gray-10 background) */
+  --border-subtle-00: var(--white);
+  --border-subtle-01: var(--gray-30);
+  --border-subtle-02: var(--gray-30);
+  --border-subtle-selected-01: var(--gray-30);
+  --border-strong-01: var(--gray-50);
+  --border-strong-02: var(--gray-50);
+  --border-inverse: var(--gray-100);
+  --border-interactive: var(--blue-60);
+  --border-disabled: var(--gray-30);
+
+  /* Interactive / buttons — same as White */
+  --interactive: var(--blue-60);
+  --button-primary: var(--blue-60);
+  --button-primary-hover: #0353e9;
+  --button-primary-active: var(--blue-80);
+  --button-secondary: var(--gray-80);
+  --button-secondary-hover: #4c4c4c;
+  --button-secondary-active: var(--gray-60);
+  --button-tertiary: var(--blue-60);
+  --button-tertiary-hover: var(--blue-70);
+  --button-tertiary-active: var(--blue-80);
+  --button-danger-primary: var(--red-60);
+  --button-danger-secondary: var(--red-60);
+  --button-danger-hover: #ba1b23;
+  --button-danger-active: #750e13;
+  --button-disabled: var(--gray-30);
+  --button-separator: var(--gray-20);
+
+  /* Support / status — same as White */
+  --support-error: var(--red-60);
+  --support-success: var(--green-50);
+  --support-warning: var(--yellow-30);
+  --support-info: var(--blue-70);
+  --support-error-inverse: var(--red-50);
+  --support-success-inverse: var(--green-40);
+  --support-warning-inverse: var(--yellow-30);
+  --support-info-inverse: var(--blue-50);
+  --support-caution-major: var(--orange-40);
+  --support-caution-minor: var(--yellow-30);
+
+  /* Focus — same as White */
+  --focus: var(--blue-60);
+  --focus-inset: var(--white);
+  --focus-inverse: var(--white);
+
+  /* Misc */
+  --overlay: rgba(22, 22, 22, 0.50);
+  --toggle-off: var(--gray-50);
+  --skeleton-background: #e5e5e5;
+  --skeleton-element: var(--gray-30);
+  --highlight: var(--blue-20);
+}
+
+/* ===========================================================================
+   SEMANTIC THEME — Gray 100 (dark)
+   =========================================================================== */
+[data-theme="g100"] {
+  --background: var(--gray-100);
+  --background-hover: rgba(141, 141, 141, 0.16);
+  --background-active: rgba(141, 141, 141, 0.40);
+  --background-selected: rgba(141, 141, 141, 0.24);
+  --background-selected-hover: rgba(141, 141, 141, 0.32);
+  --background-inverse: var(--gray-10);
+  --background-inverse-hover: #e5e5e5;
+  --background-brand: var(--blue-60);
+
+  --layer-01: var(--gray-90);
+  --layer-02: var(--gray-80);
+  --layer-03: var(--gray-70);
+  --layer-hover-01: #333333;
+  --layer-hover-02: #474747;
+  --layer-active-01: var(--gray-60);
+  --layer-selected-01: var(--gray-80);
+  --layer-accent-01: var(--gray-80);
+  --layer-accent-hover-01: #4c4c4c;
+
+  --field-01: var(--gray-90);
+  --field-02: var(--gray-80);
+  --field-hover-01: #333333;
+  --field-hover-02: #474747;
+
+  --text-primary: var(--gray-10);
+  --text-secondary: var(--gray-30);
+  --text-placeholder: var(--gray-60);
+  --text-helper: var(--gray-40);
+  --text-on-color: var(--white);
+  --text-on-color-disabled: var(--gray-60);
+  --text-disabled: rgba(244, 244, 244, 0.25);
+  --text-inverse: var(--gray-100);
+  --text-error: var(--red-40);
+
+  --link-primary: var(--blue-40);
+  --link-primary-hover: var(--blue-30);
+  --link-secondary: var(--blue-30);
+  --link-inverse: var(--blue-60);
+  --link-visited: var(--purple-40);
+
+  --icon-primary: var(--gray-10);
+  --icon-secondary: var(--gray-30);
+  --icon-on-color: var(--white);
+  --icon-on-color-disabled: var(--gray-60);
+  --icon-disabled: rgba(244, 244, 244, 0.25);
+  --icon-inverse: var(--gray-100);
+  --icon-interactive: var(--blue-40);
+
+  --border-subtle-00: var(--gray-80);
+  --border-subtle-01: var(--gray-80);
+  --border-subtle-02: var(--gray-70);
+  --border-subtle-selected-01: var(--gray-70);
+  --border-strong-01: var(--gray-60);
+  --border-strong-02: var(--gray-50);
+  --border-inverse: var(--gray-10);
+  --border-interactive: var(--blue-50);
+  --border-disabled: rgba(244, 244, 244, 0.20);
+
+  --interactive: var(--blue-50);
+  --button-primary: var(--blue-60);
+  --button-primary-hover: #0353e9;
+  --button-primary-active: var(--blue-80);
+  --button-secondary: var(--gray-60);
+  --button-secondary-hover: #5e5e5e;
+  --button-secondary-active: var(--gray-80);
+  --button-tertiary: var(--white);
+  --button-tertiary-hover: var(--gray-10);
+  --button-tertiary-active: var(--gray-20);
+  --button-danger-primary: var(--red-60);
+  --button-danger-secondary: var(--red-50);
+  --button-danger-hover: #ba1b23;
+  --button-danger-active: #750e13;
+  --button-disabled: rgba(244, 244, 244, 0.20);
+  --button-separator: var(--gray-100);
+
+  --support-error: var(--red-50);
+  --support-success: var(--green-40);
+  --support-warning: var(--yellow-30);
+  --support-info: var(--blue-50);
+  --support-error-inverse: var(--red-60);
+  --support-success-inverse: var(--green-50);
+  --support-warning-inverse: var(--yellow-30);
+  --support-info-inverse: var(--blue-70);
+  --support-caution-major: var(--orange-40);
+  --support-caution-minor: var(--yellow-30);
+
+  --focus: var(--white);
+  --focus-inset: var(--gray-100);
+  --focus-inverse: var(--blue-60);
+
+  --overlay: rgba(0, 0, 0, 0.65);
+  --toggle-off: var(--gray-50);
+  --skeleton-background: #353535;
+  --skeleton-element: var(--gray-70);
+  --highlight: var(--blue-90);
+}

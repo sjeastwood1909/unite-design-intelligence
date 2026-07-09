@@ -1,0 +1,2130 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="_ds/unite-design-system-429d7945-291b-4fab-966a-b7099d13f496/tokens/fonts.css">
+  <link rel="stylesheet" href="_ds/unite-design-system-429d7945-291b-4fab-966a-b7099d13f496/tokens/colors.css">
+  <link rel="stylesheet" href="_ds/unite-design-system-429d7945-291b-4fab-966a-b7099d13f496/tokens/typography.css">
+  <link rel="stylesheet" href="_ds/unite-design-system-429d7945-291b-4fab-966a-b7099d13f496/tokens/spacing.css">
+  <link rel="stylesheet" href="_ds/unite-design-system-429d7945-291b-4fab-966a-b7099d13f496/tokens/effects.css">
+  <link rel="stylesheet" href="_ds/unite-design-system-429d7945-291b-4fab-966a-b7099d13f496/tokens/base.css">
+  <link rel="stylesheet" href="_ds/unite-design-system-429d7945-291b-4fab-966a-b7099d13f496/styles.css">
+  <script src="_ds/unite-design-system-429d7945-291b-4fab-966a-b7099d13f496/_ds_bundle.js"></script>
+  <template id="__bundler_thumbnail" data-bg-color="#161616"><svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg"><rect width="1200" height="800" fill="#161616"/><rect x="40" y="40" width="80" height="20" fill="#0f62fe"/><rect x="40" y="76" width="560" height="688" fill="#262626"/><rect x="48" y="84" width="264" height="300" fill="#393939"/><text x="60" y="200" font-family="monospace" font-size="80" fill="#42be65" font-weight="700">47</text><text x="200" y="200" font-family="monospace" font-size="80" fill="#4589ff" font-weight="700">48</text><rect x="316" y="84" width="264" height="300" fill="#393939"/><text x="328" y="200" font-family="monospace" font-size="80" fill="#42be65" font-weight="700">45</text><rect x="616" y="76" width="360" height="688" fill="#262626"/><rect x="984" y="76" width="256" height="688" fill="#262626"/><rect x="40" y="720" width="1120" height="44" fill="#262626"/></svg></template>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { overflow: hidden; background: var(--background); }
+    ::-webkit-scrollbar { width: 4px; height: 4px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: #525252; border-radius: 0; }
+    ::-webkit-scrollbar-thumb:hover { background: #6f6f6f; }
+    @keyframes priceBid { 0% { background: rgba(66,190,101,0.22); } 100% { background: transparent; } }
+    @keyframes priceOffer { 0% { background: rgba(69,137,255,0.22); } 100% { background: transparent; } }
+    @keyframes flashNewRow { 0% { background: rgba(241,194,27,0.30); } 100% { background: transparent; } }
+    .flash-bid { animation: priceBid 0.4s ease-out forwards; }
+    .flash-offer { animation: priceOffer 0.4s ease-out forwards; }
+    .ag-row-flash-new { animation: flashNewRow 1.2s ease-out forwards; }
+    .fx-search-item { transition: background 70ms cubic-bezier(0.2,0,0.38,0.9); }
+    .fx-search-item:hover { background: #333333 !important; }
+    .fx-search-item.in-grid:hover { background: transparent !important; cursor: default !important; }
+    .fx-global-search .unite-search { height: 24px !important; }
+    .fx-global-search .unite-search .unite-field { height: 24px !important; min-height: 24px !important; background: var(--field-02) !important; font-size: 11px !important; padding-left: 28px !important; }
+    .fx-global-search .unite-search__icon { left: 8px !important; top: 50% !important; transform: translateY(-50%) !important; }
+    .fx-global-search .unite-search__clear { height: 24px !important; width: 24px !important; }
+    /* Replace search icon with + (add) icon */
+    .fx-pair-search .unite-search__icon svg { display: none !important; }
+    .fx-pair-search .unite-search__icon::after { content: '+'; font-size: 16px; font-weight: 300; color: currentColor; line-height: 1; display: block; }
+    .fx-pair-search .unite-search .unite-field { height: 24px !important; min-height: 24px !important; background: var(--field-02) !important; font-size: 11px !important; padding-left: 28px !important; }
+    .fx-pair-search .unite-search__icon { left: 8px !important; top: 50% !important; transform: translateY(-50%) !important; }
+    .fx-pair-search .unite-search__clear { height: 24px !important; width: 24px !important; }
+    .fx-sidebar-search .unite-search { height: 24px !important; border-bottom: none !important; }
+    .fx-sidebar-search .unite-field { border-bottom: none !important; }
+    .fx-sidebar-search .unite-search .unite-field { height: 24px !important; min-height: 24px !important; background: var(--field-01) !important; font-size: 11px !important; }
+    .fx-sidebar-search .unite-search__icon { top: 50% !important; transform: translateY(-50%) !important; }
+    .fx-sidebar-search .unite-search__clear { height: 24px !important; width: 24px !important; }
+    .fx-blotter-search .unite-search { height: 32px !important; border-bottom: none !important; }
+    .fx-blotter-search .unite-field { border-bottom: none !important; }
+    .fx-blotter-search .unite-search .unite-field { height: 32px !important; min-height: 32px !important; background: var(--field-01) !important; font-size: 12px !important; }
+    .fx-blotter-search .unite-search__icon { top: 50% !important; transform: translateY(-50%) !important; }
+    .fx-blotter-search .unite-search__clear { height: 32px !important; width: 32px !important; }
+    /* Unite Grid — dark overrides on top of ag-theme-alpine-dark */
+    .unite-grid.ag-theme-alpine-dark {
+      --ag-background-color: #262626;
+      --ag-odd-row-background-color: #262626;
+      --ag-row-even-background-color: #262626;
+      --ag-foreground-color: #f4f4f4;
+      --ag-secondary-foreground-color: #a8a8a8;
+      --ag-header-background-color: #393939;
+      --ag-header-foreground-color: #a8a8a8;
+      --ag-row-hover-color: rgba(255,255,255,0.04);
+      --ag-selected-row-background-color: rgba(69,137,255,0.12);
+      --ag-border-color: #525252;
+      --ag-secondary-border-color: #393939;
+    --ag-value-change-value-highlight-background-color: rgba(241,194,27,0.30);
+      --ag-row-border-color: #393939;
+      --ag-font-family: 'IBM Plex Sans', sans-serif;
+      --ag-font-size: 12px;
+      --ag-row-height: 24px;
+      --ag-header-height: 32px;
+      --ag-cell-horizontal-padding: 4px;
+      --ag-icon-size: 12px;
+      --ag-header-column-separator-display: none;
+      --ag-cell-horizontal-border: none;
+      --ag-borders: none;
+      --ag-borders-critical: none;
+    }
+    .unite-grid .ag-root-wrapper { border: none !important; }
+    .unite-grid .ag-header { border-bottom: none !important; height: 32px !important; min-height: 32px !important; }
+    .unite-grid .ag-header-row { height: 32px !important; }
+    .unite-grid .ag-header-cell { height: 32px !important; }
+    .unite-grid .ag-header-cell-label { overflow: visible; }
+    .unite-grid .ag-header-cell-text { font-size: 9px; letter-spacing: 0.5px; font-weight: 600; white-space: nowrap; overflow: visible; }
+    .unite-grid .ag-row { border-bottom: 1px solid #393939 !important; border-top: none !important; min-width: 100%; }
+    .unite-grid .ag-row-odd,
+    .unite-grid .ag-row-even { background-color: #262626 !important; }
+    .unite-grid .ag-cell { border-right: none !important; border-left: none !important; }
+    .unite-grid .ag-cell-focus { border: none !important; box-shadow: none !important; }
+    .unite-grid .ag-body-viewport,
+    .unite-grid .ag-center-cols-container,
+    .unite-grid .ag-center-cols-clipper { background: #262626; }
+    .unite-grid .ag-center-cols-container { min-width: 100%; }
+    .unite-grid .ag-sort-ascending-icon .ag-icon,
+    .unite-grid .ag-sort-descending-icon .ag-icon { color: #4589ff; }
+    .unite-grid .ag-header-cell-resize::after {
+      background-color: #6f6f6f !important;
+      width: 1px !important;
+      height: 60% !important;
+      display: block !important;
+      content: '' !important;
+      position: absolute !important;
+      top: 50% !important;
+      transform: translateY(-50%) !important;
+    }
+  </style>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ag-grid-community@31.3.4/styles/ag-grid.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ag-grid-community@31.3.4/styles/ag-theme-alpine.css">
+  <script src="https://cdn.jsdelivr.net/npm/ag-grid-community@31.3.4/dist/ag-grid-community.min.js"></script>
+</helmet>
+
+<div data-theme="{{ currentTheme }}" data-screen-label="Trading Workstation" style="position:fixed;inset:0;background:var(--background);display:flex;flex-direction:column;font-family:var(--font-sans);color:var(--text-primary);">
+
+  <!-- ─── HEADER ─── -->
+  <header data-screen-label="Header" style="height:48px;flex:none;display:flex;align-items:center;padding:0 16px;gap:0;border-bottom:1px solid var(--border-subtle-01);background:var(--layer-01);z-index:20;">
+    <!-- Logo -->
+    <div style="display:flex;align-items:center;gap:12px;margin-right:20px;flex:none;">
+      <img src="assets/unite-logo.svg" alt="Unite" style="height:18px;width:auto;display:block;flex:none;">
+      <div style="width:1px;height:18px;background:var(--border-subtle-01);flex:none;"></div>
+      <span style="font-size:11px;font-weight:500;color:var(--text-secondary);letter-spacing:1.5px;">FX</span>
+    </div>
+    <!-- Workspace tabs -->
+    <div style="display:flex;height:48px;flex:none;">
+      <button style="padding:0 16px;height:48px;border:none;background:transparent;border-bottom:2px solid #4589ff;color:var(--text-primary);font-size:11px;font-weight:600;cursor:pointer;letter-spacing:0.5px;">SPOT FX</button>
+      <button style="padding:0 14px;height:48px;border:none;background:transparent;color:var(--text-secondary);font-size:11px;cursor:pointer;letter-spacing:0.5px;">OPTIONS</button>
+      <button style="padding:0 14px;height:48px;border:none;background:transparent;color:var(--text-secondary);font-size:11px;cursor:pointer;letter-spacing:0.5px;">NDF</button>
+      <button style="padding:0 12px;height:48px;border:none;background:transparent;color:var(--text-secondary);font-size:14px;cursor:pointer;">+</button>
+    </div>
+    <!-- Spacer -->
+    <div style="flex:1;"></div>
+    <!-- Search placeholder (moved to tile toolbar) -->
+    <div style="min-width:160px;"></div>
+    <!-- Market status + clock + user -->
+    <div style="display:flex;align-items:center;gap:16px;margin-left:16px;flex:none;">
+      <button onClick="{{ onFeedToggle }}" title="Click to simulate feed status (demo)" style="display:flex;align-items:center;gap:5px;background:none;border:none;cursor:pointer;padding:2px 4px;">
+        <div style="width:6px;height:6px;background:{{ feedDotColor }};border-radius:50%;transition:background 0.3s;"></div>
+        <span style="font-size:10px;color:var(--text-secondary);letter-spacing:0.5px;">{{ feedLabel }}</span>
+      </button>
+      <span style="font-size:11px;font-family:var(--font-mono);color:var(--text-secondary);min-width:72px;">{{ timeStr }}</span>
+      <div style="width:1px;height:20px;background:var(--border-subtle-01);"></div>
+      <!-- Theme toggle -->
+      <button onClick="{{ onThemeToggle }}" title="Toggle theme" style="width:24px;height:24px;display:flex;align-items:center;justify-content:center;background:none;border:none;cursor:pointer;color:var(--text-secondary);padding:0;border-radius:50%;" style-hover="background:var(--background-hover);">
+        <svg width="20" height="20" viewBox="0 0 32 32" fill="currentColor">
+          <path d="M16 4a12 12 0 1 0 0 24A12 12 0 0 0 16 4zm0 2v20a10 10 0 0 1 0-20z"/>
+        </svg>
+      </button>
+      <!-- Avatar -->
+      <div style="width:20px;height:20px;background:#0f62fe;border-radius:50%;display:flex;align-items:center;justify-content:center;flex:none;cursor:pointer;">
+        <span style="color:#fff;font-size:11px;font-weight:600;font-family:var(--font-sans);line-height:1;">S</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Feed disconnection banner -->
+  <sc-if value="{{ feedBannerVisible }}" hint-placeholder-val="{{ false }}">
+    <div role="alert" aria-live="assertive" style="flex:none;display:flex;align-items:center;gap:10px;padding:0 16px;height:36px;background:{{ feedBannerBg }};border-bottom:1px solid {{ feedBannerBorder }};">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="{{ feedBannerIconColor }}" style="flex:none;"><path d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1zm-.75 3.5h1.5v4.5h-1.5V4.5zm0 5.5h1.5v1.5h-1.5V10z"/></svg>
+      <span style="font-size:12px;color:{{ feedBannerTextColor }};font-family:var(--font-sans);">{{ feedBannerMsg }}</span>
+    </div>
+  </sc-if>
+
+  <!-- ─── MAIN CONTENT ─── -->
+  <div style="flex:1;display:flex;min-height:0;gap:1px;background:var(--border-subtle-01);">
+
+    <!-- ── LEFT COLUMN (tile grid + analytics + blotter) ── -->
+    <div style="flex:1;min-width:0;display:flex;flex-direction:column;min-height:0;">
+    <div style="flex:1;display:flex;min-height:0;gap:1px;background:var(--border-subtle-01);">
+
+    <!-- ── LEFT: TILE GRID ── -->
+    <div id="fx-tile-grid" data-screen-label="Tile Grid" style="--card-min-width:{{ cardMinWidth }};--card-row-height:{{ cardRowHeight }};--price-pips:{{ cardPipSize }};--price-frac:{{ cardFracSize }};--price-big:{{ cardBigSize }};flex:1;min-width:0;display:flex;flex-direction:column;background:var(--background);overflow:hidden;">
+      <!-- Card size toolbar -->
+      <div style="height:36px;flex:none;display:flex;align-items:center;padding:0 10px;gap:8px;background:var(--layer-01);border-bottom:1px solid var(--border-subtle-01);">
+        <!-- Pair add search -->
+        <div class="fx-pair-search" style="position:relative;flex:none;width:180px;">
+          <x-import component-from-global-scope="UniteDesignSystem_429d79.Search" value="{{ searchQuery }}" on-change="{{ onSearchInput }}" on-focus="{{ onSearchFocus }}" on-blur="{{ onSearchBlur }}" placeholder="Search pair… (e.g. EUR)" size="sm" hint-size="100%,32px"></x-import>
+          <!-- Dropdown — Unite DS overlay style -->
+          <sc-if value="{{ searchOpen }}" hint-placeholder-val="{{ false }}">
+            <div style="position:absolute;top:calc(100% + 2px);left:0;min-width:200px;background:var(--layer-01);border:1px solid var(--border-strong-01);z-index:200;box-shadow:var(--shadow-overlay);">
+              <sc-for list="{{ searchResults }}" as="result" hint-placeholder-count="0" hint-size="100%,28px">
+                <div onMouseDown="{{ result.onAdd }}" class="{{ result.itemClass }}" style="height:32px;display:flex;align-items:center;padding:0 var(--spacing-04);gap:var(--spacing-03);cursor:{{ result.cursor }};border-bottom:1px solid var(--border-subtle-01);transition:background 70ms cubic-bezier(0.2,0,0.38,0.9);">
+                  <span style="font-family:var(--font-mono);font-size:12px;font-weight:600;color:{{ result.color }};flex:1;letter-spacing:0.3px;">{{ result.pair }}</span>
+                  <span style="font-size:9px;color:{{ result.labelColor }};letter-spacing:0.8px;font-weight:600;">{{ result.label }}</span>
+                </div>
+              </sc-for>
+            </div>
+          </sc-if>
+        </div>
+        <!-- Global filter search -->
+        <div class="fx-global-search" style="position:relative;flex:none;width:180px;">
+          <x-import component-from-global-scope="UniteDesignSystem_429d79.Search" value="{{ globalSearch }}" on-change="{{ onGlobalSearch }}" on-clear="{{ onGlobalSearchClear }}" placeholder="Filter pairs…" size="sm" hint-size="100%,32px"></x-import>
+        </div>
+        <!-- Spacer -->
+        <div style="flex:1;"></div>
+        <!-- Card size + count — far right -->
+        <span style="font-size:9px;color:var(--text-secondary);letter-spacing:0.8px;flex:none;">CARD SIZE</span>
+        <div style="display:flex;gap:1px;background:var(--border-subtle-01);flex:none;">
+          <button onClick="{{ onCardSizeS }}" style="width:28px;height:20px;border:none;background:{{ cardSizeBgS }};color:{{ cardSizeColorS }};font-size:10px;font-weight:600;cursor:pointer;letter-spacing:0.5px;transition:background 0.1s;">S</button>
+          <button onClick="{{ onCardSizeM }}" style="width:28px;height:20px;border:none;background:{{ cardSizeBgM }};color:{{ cardSizeColorM }};font-size:10px;font-weight:600;cursor:pointer;letter-spacing:0.5px;transition:background 0.1s;">M</button>
+          <button onClick="{{ onCardSizeL }}" style="width:28px;height:20px;border:none;background:{{ cardSizeBgL }};color:{{ cardSizeColorL }};font-size:10px;font-weight:600;cursor:pointer;letter-spacing:0.5px;transition:background 0.1s;">L</button>
+        </div>
+        <div style="width:1px;height:16px;background:var(--border-subtle-01);flex:none;"></div>
+        <span style="font-size:9px;color:var(--text-secondary);flex:none;">{{ tilesCount }} pairs</span>
+      </div>
+      <!-- Inner grid -->
+      <div onMouseUp="{{ onTileGridMouseUp }}" style="flex:1;overflow-y:auto;display:grid;grid-template-columns:repeat(auto-fill,minmax(var(--card-min-width,320px),1fr));grid-auto-rows:var(--card-row-height,240px);gap:4px;padding:4px;align-content:start;">
+      <sc-for list="{{ tiles }}" as="tile" hint-placeholder-count="8" hint-size="100%,280px">
+        <div data-screen-label="{{ tile.pair }}" data-tile-pair="{{ tile.pair }}" onClick="{{ tile.onSelect }}" style="background:{{ tile.tileBg }};outline:{{ tile.tileRing }};outline-offset:-1px;display:flex;flex-direction:column;cursor:{{ tile.tileCursor }};overflow:hidden;transition:background 0.12s,opacity 0.12s,outline 0.12s;opacity:{{ tile.tileOpacity }};position:relative;user-select:none;-webkit-user-select:none;">
+          <!-- Tile header — full strip is drag handle -->
+          <div onPointerDown="{{ tile.onGripPointerDown }}" style="height:32px;flex:none;display:flex;align-items:center;padding:0 8px 0 6px;gap:6px;border-bottom:1px solid var(--border-subtle-01);cursor:grab;background:{{ tile.tileHeaderBg }};transition:background 0.12s;touch-action:none;user-select:none;">
+            <sc-if value="{{ tile.showDropLabel }}" hint-placeholder-val="{{ false }}">
+              <div style="position:absolute;top:6px;left:50%;transform:translateX(-50%);z-index:10;background:#4589ff;color:#fff;font-size:9px;font-weight:700;padding:2px 8px;letter-spacing:1px;pointer-events:none;">DROP HERE</div>
+            </sc-if>
+            <sc-if value="{{ tile.showDragLabel }}" hint-placeholder-val="{{ false }}">
+              <div style="position:absolute;top:6px;left:50%;transform:translateX(-50%);z-index:10;background:rgba(69,137,255,0.3);color:#4589ff;font-size:9px;font-weight:700;padding:2px 8px;letter-spacing:1px;pointer-events:none;border:1px dashed #4589ff;">MOVING…</div>
+            </sc-if>
+            <!-- Drag grip icon (visual only — whole header is the hit target) -->
+            <div title="Drag to reorder" style="flex:none;width:16px;height:24px;display:flex;align-items:center;justify-content:center;cursor:grab;margin-left:-4px;pointer-events:none;">
+            <svg width="10" height="14" viewBox="0 0 10 14" fill="none" style="pointer-events:none;">
+              <circle cx="3" cy="2.5" r="1.2" fill="#c6c6c6"></circle><circle cx="7" cy="2.5" r="1.2" fill="#c6c6c6"></circle>
+              <circle cx="3" cy="7" r="1.2" fill="#c6c6c6"></circle><circle cx="7" cy="7" r="1.2" fill="#c6c6c6"></circle>
+              <circle cx="3" cy="11.5" r="1.2" fill="#c6c6c6"></circle><circle cx="7" cy="11.5" r="1.2" fill="#c6c6c6"></circle>
+            </svg></div>
+            <span style="font-size:12px;font-weight:600;color:var(--text-primary);font-family:var(--font-mono);letter-spacing:0.3px;">{{ tile.pair }}</span>
+            <span style="font-size:9px;color:var(--text-secondary);background:var(--layer-02);padding:1px 5px;letter-spacing:0.5px;">{{ tile.venue }}</span>
+
+            <div style="display:flex;align-items:center;gap:6px;margin-left:auto;">
+              <div style="display:flex;align-items:center;gap:3px;">
+                <div style="width:5px;height:5px;background:#42be65;border-radius:50%;"></div>
+                <span style="font-size:9px;color:var(--text-secondary);letter-spacing:0.5px;">{{ tile.marketState }}</span>
+              </div>
+              <button onClick="{{ tile.onRemove }}" style="width:16px;height:16px;flex:none;background:transparent;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--text-secondary);padding:0;opacity:0.6;transition:opacity 0.1s;" style-hover="opacity:1;color:var(--text-primary)">
+                <svg width="10" height="10" viewBox="0 0 10 10" fill="currentColor"><path d="M5 4.293L8.646.646l.708.708L5.707 5l3.647 3.646-.708.708L5 5.707 1.354 9.354l-.708-.708L4.293 5 .646 1.354 1.354.646z"></path></svg>
+              </button>
+            </div>
+          </div>
+          <!-- Price area -->
+          <div style="flex:1;display:flex;min-height:0;">
+            <!-- BID -->
+            <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:8px 6px;background:{{ tile.bidFlash }};transition:background 0.4s;">
+              <span style="font-family:var(--font-mono);font-size:var(--price-big,11px);color:var(--text-secondary);letter-spacing:0.5px;margin-bottom:2px;">{{ tile.bidBig }}</span>
+              <div style="display:flex;align-items:baseline;gap:1px;line-height:1;">
+                <span style="font-family:var(--font-mono);font-size:var(--price-pips,60px);line-height:0.88;font-weight:700;color:#42be65;">{{ tile.bidPips }}</span>
+                <span style="font-family:var(--font-mono);font-size:var(--price-frac,20px);font-weight:600;color:#42be65;align-self:flex-end;padding-bottom:4px;">{{ tile.bidFrac }}</span>
+              </div>
+              <span style="font-size:9px;color:var(--text-secondary);letter-spacing:1px;margin-top:5px;">SELL {{ tile.base }}</span>
+            </div>
+            <!-- Spread column -->
+            <div style="flex:0 0 44px;display:flex;flex-direction:column;align-items:center;justify-content:center;border-left:1px solid var(--border-subtle-01);border-right:1px solid var(--border-subtle-01);gap:3px;">
+              <span style="font-size:8px;color:var(--text-secondary);letter-spacing:0.5px;">SPD</span>
+              <span style="font-family:var(--font-mono);font-size:12px;font-weight:600;color:var(--text-primary);">{{ tile.spread }}</span>
+              <span style="font-size:12px;color:{{ tile.trendColor }};">{{ tile.trendArrow }}</span>
+            </div>
+            <!-- OFFER -->
+            <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:8px 6px;background:{{ tile.offerFlash }};transition:background 0.4s;">
+              <span style="font-family:var(--font-mono);font-size:var(--price-big,11px);color:var(--text-secondary);letter-spacing:0.5px;margin-bottom:2px;">{{ tile.offerBig }}</span>
+              <div style="display:flex;align-items:baseline;gap:1px;line-height:1;">
+                <span style="font-family:var(--font-mono);font-size:var(--price-pips,60px);line-height:0.88;font-weight:700;color:#4589ff;">{{ tile.offerPips }}</span>
+                <span style="font-family:var(--font-mono);font-size:var(--price-frac,20px);font-weight:600;color:#4589ff;align-self:flex-end;padding-bottom:4px;">{{ tile.offerFrac }}</span>
+              </div>
+              <span style="font-size:9px;color:var(--text-secondary);letter-spacing:1px;margin-top:5px;">BUY {{ tile.base }}</span>
+            </div>
+          </div>
+          <!-- Indicators row -->
+          <div style="height:32px;flex:none;display:flex;align-items:center;padding:0 10px;gap:10px;border-top:1px solid var(--border-subtle-01);border-bottom:1px solid var(--border-subtle-01);">
+            <span style="font-size:9px;color:var(--text-secondary);">LIQ: <span style="color:#42be65;">FULL</span></span>
+            <span style="font-size:9px;color:var(--text-secondary);">VOL: <span style="color:#f1c21b;">MED</span></span>
+            <div style="flex:1;"></div>
+            <button onClick="{{ tile.onSizeDown }}" style="width:16px;height:16px;background:var(--layer-02);border:1px solid var(--border-subtle-01);color:var(--text-secondary);cursor:pointer;font-size:11px;display:flex;align-items:center;justify-content:center;flex:none;">−</button>
+            <span style="font-family:var(--font-mono);font-size:10px;color:var(--text-primary);min-width:24px;text-align:center;">{{ tile.size }}</span>
+            <button onClick="{{ tile.onSizeUp }}" style="width:16px;height:16px;background:var(--layer-02);border:1px solid var(--border-subtle-01);color:var(--text-secondary);cursor:pointer;font-size:11px;display:flex;align-items:center;justify-content:center;flex:none;">+</button>
+          </div>
+          <!-- Action buttons -->
+          <div style="height:32px;flex:none;display:flex;gap:1px;background:var(--border-subtle-01);">
+            <button onClick="{{ tile.onSell }}" title="Sell (S)" style="flex:1;background:#42be65;color:#fff;border:none;cursor:pointer;font-size:10px;font-weight:700;letter-spacing:1.5px;transition:background 0.1s;" style-hover="background:#143626">SELL</button>
+            <button onClick="{{ tile.onRfq }}" title="Request for Quote" style="flex:0 0 44px;background:var(--layer-02);color:var(--text-secondary);border:none;cursor:pointer;font-size:9px;letter-spacing:0.5px;transition:color 0.1s;" style-hover="color:var(--text-primary)">RFQ</button>
+            <button onClick="{{ tile.onBuy }}" title="Buy (B)" style="flex:1;background:#4589ff;color:#fff;border:none;cursor:pointer;font-size:10px;font-weight:700;letter-spacing:1.5px;transition:background 0.1s;" style-hover="background:#132240">BUY</button>
+          </div>
+        </div>
+      </sc-for>
+      </div>
+    </div>
+
+    <!-- Tile grid resize handle -->
+    <div onMouseDown="{{ onTileGridResizeStart }}" style="width:4px;flex:none;cursor:col-resize;background:var(--border-subtle-01);transition:background 0.15s;z-index:5;" style-hover="background:var(--interactive)ff"></div>
+
+    <!-- ── CENTER: ANALYTICS ── -->
+    <div data-screen-label="Analytics Panel" style="flex:1;min-width:260px;display:flex;flex-direction:column;background:var(--layer-01);overflow:hidden;">
+      <!-- Panel header -->
+      <div style="height:36px;flex:none;display:flex;align-items:center;padding:0 12px;border-bottom:1px solid var(--border-subtle-01);">
+        <span style="font-size:13px;font-weight:600;font-family:var(--font-mono);color:var(--text-primary);">{{ selectedPair }}</span>
+        <span style="font-size:9px;color:var(--text-secondary);margin-left:8px;letter-spacing:0.5px;">MARKET DEPTH</span>
+        <div style="flex:1;"></div>
+        <div style="display:flex;align-items:center;gap:4px;">
+          <div style="width:5px;height:5px;background:#42be65;border-radius:50%;"></div>
+          <span style="font-size:9px;color:var(--text-secondary);">LIVE</span>
+        </div>
+      </div>
+      <!-- Large bid/offer display -->
+      <div style="flex:none;display:flex;padding:10px 12px;border-bottom:1px solid var(--border-subtle-01);gap:0;">
+        <div style="flex:1;display:flex;flex-direction:column;align-items:center;">
+          <span style="font-size:9px;color:#42be65;letter-spacing:1px;margin-bottom:3px;">BID</span>
+          <div style="display:flex;align-items:baseline;gap:1px;">
+            <span style="font-family:var(--font-mono);font-size:10px;color:var(--text-secondary);">{{ sBidBig }}</span>
+            <span style="font-family:var(--font-mono);font-size:32px;line-height:0.9;font-weight:700;color:#42be65;">{{ sBidPips }}</span>
+            <span style="font-family:var(--font-mono);font-size:14px;font-weight:600;color:#42be65;padding-bottom:2px;">{{ sBidFrac }}</span>
+          </div>
+        </div>
+        <div style="flex:0 0 44px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;">
+          <span style="font-size:8px;color:var(--text-secondary);letter-spacing:0.5px;">SPD</span>
+          <span style="font-family:var(--font-mono);font-size:13px;font-weight:600;color:var(--text-primary);">{{ sSpread }}</span>
+        </div>
+        <div style="flex:1;display:flex;flex-direction:column;align-items:center;">
+          <span style="font-size:9px;color:#4589ff;letter-spacing:1px;margin-bottom:3px;">OFFER</span>
+          <div style="display:flex;align-items:baseline;gap:1px;">
+            <span style="font-family:var(--font-mono);font-size:10px;color:var(--text-secondary);">{{ sOfferBig }}</span>
+            <span style="font-family:var(--font-mono);font-size:32px;line-height:0.9;font-weight:700;color:#4589ff;">{{ sOfferPips }}</span>
+            <span style="font-family:var(--font-mono);font-size:14px;font-weight:600;color:#4589ff;padding-bottom:2px;">{{ sOfferFrac }}</span>
+          </div>
+        </div>
+      </div>
+      <!-- Session metrics -->
+      <div style="flex:none;display:flex;padding:6px 12px;gap:0;border-bottom:1px solid var(--border-subtle-01);">
+        <div style="flex:1;text-align:center;">
+          <div style="font-size:8px;color:var(--text-secondary);letter-spacing:0.5px;margin-bottom:2px;">HIGH</div>
+          <div style="font-family:var(--font-mono);font-size:10px;color:#42be65;">{{ sessionHigh }}</div>
+        </div>
+        <div style="flex:1;text-align:center;">
+          <div style="font-size:8px;color:var(--text-secondary);letter-spacing:0.5px;margin-bottom:2px;">LOW</div>
+          <div style="font-family:var(--font-mono);font-size:10px;color:#ff8389;">{{ sessionLow }}</div>
+        </div>
+        <div style="flex:1;text-align:center;">
+          <div style="font-size:8px;color:var(--text-secondary);letter-spacing:0.5px;margin-bottom:2px;">VWAP</div>
+          <div style="font-family:var(--font-mono);font-size:10px;color:var(--text-primary);">{{ vwap }}</div>
+        </div>
+        <div style="flex:1;text-align:center;">
+          <div style="font-size:8px;color:var(--text-secondary);letter-spacing:0.5px;margin-bottom:2px;">SPREAD</div>
+          <div style="font-family:var(--font-mono);font-size:10px;color:var(--text-primary);">{{ sSpread }}</div>
+        </div>
+        <div style="flex:1;text-align:center;">
+          <div style="font-size:8px;color:var(--text-secondary);letter-spacing:0.5px;margin-bottom:2px;">VOL</div>
+          <div style="font-family:var(--font-mono);font-size:10px;color:var(--text-primary);">{{ sessionVol }}</div>
+        </div>
+      </div>
+      <!-- Intraday chart -->
+      <div style="flex:none;padding:8px 12px 6px;border-bottom:1px solid var(--border-subtle-01);">
+        <div style="font-size:8px;color:var(--text-secondary);letter-spacing:0.5px;margin-bottom:4px;">INTRADAY</div>
+        {{ miniChart }}
+      </div>
+      <!-- Day range bar -->
+      <div style="flex:none;padding:6px 12px 8px;border-bottom:1px solid var(--border-subtle-01);">
+        <div style="display:flex;justify-content:space-between;margin-bottom:4px;">
+          <span style="font-size:8px;font-family:var(--font-mono);color:var(--text-secondary);">{{ sessionLow }}</span>
+          <span style="font-size:8px;color:var(--text-secondary);letter-spacing:0.3px;">DAY RANGE</span>
+          <span style="font-size:8px;font-family:var(--font-mono);color:var(--text-secondary);">{{ sessionHigh }}</span>
+        </div>
+        <div style="height:4px;background:var(--layer-02);position:relative;">
+          <div style="position:absolute;top:0;bottom:0;width:2px;background:#4589ff;transform:translateX(-50%);left:{{ posPct }};"></div>
+        </div>
+      </div>
+      <!-- Depth ladder header -->
+      <div style="height:22px;flex:none;display:flex;align-items:center;padding:0 10px;background:var(--layer-02);">
+        <div style="flex:1;display:flex;justify-content:flex-end;gap:4px;">
+          <span style="font-size:8px;color:#42be65;letter-spacing:0.5px;">SIZE</span>
+          <span style="min-width:52px;"></span>
+          <span style="font-size:8px;color:#42be65;letter-spacing:0.5px;min-width:66px;text-align:right;">BID</span>
+        </div>
+        <div style="flex:0 0 8px;"></div>
+        <div style="flex:1;display:flex;gap:4px;">
+          <span style="font-size:8px;color:#4589ff;letter-spacing:0.5px;min-width:66px;">OFFER</span>
+          <span style="min-width:52px;"></span>
+          <span style="font-size:8px;color:#4589ff;letter-spacing:0.5px;">SIZE</span>
+        </div>
+      </div>
+      <!-- Depth rows -->
+      <div style="flex:1;overflow-y:auto;min-height:0;">
+        <sc-for list="{{ depthRows }}" as="row" hint-placeholder-count="8" hint-size="100%,22px">
+          <div style="height:22px;display:flex;align-items:center;padding:0 10px;border-bottom:1px solid var(--border-subtle-01);">
+            <!-- Bid side: right-aligned -->
+            <div style="flex:1;display:flex;align-items:center;justify-content:flex-end;gap:4px;">
+              <span style="font-family:var(--font-mono);font-size:10px;color:var(--text-secondary);min-width:26px;text-align:right;">{{ row.bidSize }}</span>
+              <div style="width:50px;height:4px;background:var(--layer-02);overflow:hidden;display:flex;justify-content:flex-end;">
+                <div style="height:100%;background:rgba(66,190,101,0.5);width:{{ row.bidBarWidth }};"></div>
+              </div>
+              <span style="font-family:var(--font-mono);font-size:11px;color:#42be65;min-width:62px;text-align:right;">{{ row.bidPrice }}</span>
+            </div>
+            <!-- Center -->
+            <div style="flex:0 0 8px;height:14px;border-left:1px solid var(--border-subtle-01);margin:0 0;"></div>
+            <!-- Offer side: left-aligned -->
+            <div style="flex:1;display:flex;align-items:center;gap:4px;">
+              <span style="font-family:var(--font-mono);font-size:11px;color:#4589ff;min-width:62px;">{{ row.offerPrice }}</span>
+              <div style="width:50px;height:4px;background:var(--layer-02);overflow:hidden;">
+                <div style="height:100%;background:rgba(69,137,255,0.5);width:{{ row.offerBarWidth }};"></div>
+              </div>
+              <span style="font-family:var(--font-mono);font-size:10px;color:var(--text-secondary);min-width:26px;">{{ row.offerSize }}</span>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+
+    <!-- end upper panels row -->
+    </div>
+  <!-- ─── BOTTOM BLOTTER ─── -->
+  <div data-screen-label="Blotter" style="flex:0 0 {{ blotterHeight }}px;display:flex;flex-direction:column;border-top:1px solid var(--border-subtle-01);overflow:hidden;">
+    <!-- Drag handle -->
+    <div onMouseDown="{{ onResizeStart }}" style="height:4px;flex:none;cursor:row-resize;background:var(--border-subtle-01);transition:background 0.15s;" style-hover="background:#4589ff"></div>
+    <!-- Blotter tabs -->
+    <div style="height:30px;flex:none;display:flex;align-items:center;background:var(--layer-01);border-bottom:1px solid var(--border-subtle-01);">
+      <button onClick="{{ onTabDeals }}"     style="padding:0 16px;height:30px;border:none;background:transparent;border-bottom:{{ tabBorderDeals }};color:{{ tabColorDeals }};font-size:10px;font-weight:600;cursor:pointer;letter-spacing:0.5px;">TRADES <span style="margin-left:4px;background:rgba(69,137,255,0.2);color:#4589ff;font-size:9px;padding:1px 5px;font-weight:700;">{{ gridKpiDeals }}</span></button>
+      <button onClick="{{ onTabPositions }}" style="padding:0 14px;height:30px;border:none;background:transparent;border-bottom:{{ tabBorderPositions }};color:{{ tabColorPositions }};font-size:10px;font-weight:600;cursor:pointer;letter-spacing:0.5px;">POSITIONS</button>
+      <button onClick="{{ onTabOrders }}"    style="padding:0 14px;height:30px;border:none;background:transparent;border-bottom:{{ tabBorderOrders }};color:{{ tabColorOrders }};font-size:10px;font-weight:600;cursor:pointer;letter-spacing:0.5px;">ORDERS</button>
+      <div style="flex:1;"></div>
+      <button onClick="{{ onExportCsv }}" style="height:22px;padding:0 10px;background:var(--layer-02);border:1px solid var(--border-subtle-01);color:var(--text-secondary);font-size:9px;cursor:pointer;letter-spacing:0.5px;" style-hover="color:var(--text-primary)">↓ CSV</button>
+      <div style="width:1px;height:16px;background:var(--border-subtle-01);margin:0 8px;"></div>
+      <span style="font-size:9px;color:var(--text-secondary);padding:0 8px 0 0;">B/S ←/→</span>
+      <div style="width:1px;height:16px;background:var(--border-subtle-01);margin:0 8px 0 0;"></div>
+      <span style="font-size:9px;color:var(--text-secondary);padding:0 12px 0 0;white-space:nowrap;"><span style="font-family:var(--font-mono);font-weight:600;color:var(--text-primary);">{{ gridKpiDeals }}</span> trades</span>
+    </div>
+    <!-- Blotter quick filter -->
+    <div style="flex:none;display:flex;align-items:center;background:var(--layer-01);">
+      <div class="fx-blotter-search" style="flex:1;position:relative;">
+        <x-import component-from-global-scope="UniteDesignSystem_429d79.Search" value="{{ blotterSearch }}" on-change="{{ onBlotterSearch }}" on-clear="{{ onBlotterSearchClear }}" placeholder="Search trades, pairs, venues, traders…" size="sm" hint-size="100%,32px"></x-import>
+      </div>
+    </div>
+
+    <!-- Tab panes — stacked absolutely so AG Grid always has dimensions -->
+    <div style="flex:1;min-height:0;position:relative;">
+      <div id="fx-blotter-grid" style="position:absolute;inset:0;visibility:{{ dealsVisibility }};" class="ag-theme-alpine-dark unite-grid"></div>
+      <!-- POSITIONS tab -->
+      <div style="position:absolute;inset:0;overflow-y:auto;visibility:{{ positionsVisibility }};flex-direction:column;display:flex;background:var(--layer-01);">
+        <div style="height:32px;display:flex;align-items:center;padding:0 12px;background:var(--layer-02);border-bottom:1px solid var(--border-subtle-01);">
+          <span style="width:110px;font-size:9px;color:var(--text-secondary);letter-spacing:0.5px;font-weight:600;">PAIR</span>
+          <span style="width:90px;font-size:9px;color:var(--text-secondary);letter-spacing:0.5px;font-weight:600;">NET NOTIONAL</span>
+          <span style="width:80px;font-size:9px;color:var(--text-secondary);letter-spacing:0.5px;font-weight:600;">SIDE</span>
+          <span style="width:70px;font-size:9px;color:var(--text-secondary);letter-spacing:0.5px;font-weight:600;">BUYS</span>
+          <span style="width:70px;font-size:9px;color:var(--text-secondary);letter-spacing:0.5px;font-weight:600;">SELLS</span>
+          <span style="font-size:9px;color:var(--text-secondary);letter-spacing:0.5px;font-weight:600;">UNREALISED P&amp;L</span>
+        </div>
+        <sc-for list="{{ positionsRows }}" as="pos" hint-placeholder-count="6" hint-size="100%,24px">
+          <div style="height:24px;display:flex;align-items:center;padding:0 12px;border-bottom:1px solid var(--border-subtle-01);background:var(--layer-01);">
+            <span style="width:110px;font-family:var(--font-mono);font-size:12px;font-weight:600;color:var(--text-primary);">{{ pos.pair }}</span>
+            <span style="width:90px;font-family:var(--font-mono);font-size:12px;color:{{ pos.netColor }};">{{ pos.net }}</span>
+            <span style="width:80px;font-size:11px;font-weight:700;color:{{ pos.netColor }};letter-spacing:0.8px;">{{ pos.netLabel }}</span>
+            <span style="width:70px;font-family:var(--font-mono);font-size:12px;color:#4589ff;">{{ pos.buys }}</span>
+            <span style="width:70px;font-family:var(--font-mono);font-size:12px;color:#42be65;">{{ pos.sells }}</span>
+            <span style="font-family:var(--font-mono);font-size:12px;font-weight:600;color:{{ pos.pnlColor }};">{{ pos.pnl }}</span>
+          </div>
+        </sc-for>
+      </div>
+      <!-- ORDERS tab -->
+      <div style="position:absolute;inset:0;overflow-y:auto;visibility:{{ ordersVisibility }};flex-direction:column;display:flex;background:var(--layer-01);">
+        <div style="height:32px;display:flex;align-items:center;padding:0 12px;background:var(--layer-02);border-bottom:1px solid var(--border-subtle-01);">
+          <span style="width:110px;font-size:9px;color:var(--text-secondary);letter-spacing:0.5px;font-weight:600;">PAIR</span>
+          <span style="width:80px;font-size:9px;color:var(--text-secondary);letter-spacing:0.5px;font-weight:600;">SIDE</span>
+          <span style="width:90px;font-size:9px;color:var(--text-secondary);letter-spacing:0.5px;font-weight:600;">QUANTITY</span>
+          <span style="width:110px;font-size:9px;color:var(--text-secondary);letter-spacing:0.5px;font-weight:600;">PRICE</span>
+          <span style="width:80px;font-size:9px;color:var(--text-secondary);letter-spacing:0.5px;font-weight:600;">VENUE</span>
+          <span style="width:90px;font-size:9px;color:var(--text-secondary);letter-spacing:0.5px;font-weight:600;">STATUS</span>
+          <span style="font-size:9px;color:var(--text-secondary);letter-spacing:0.5px;font-weight:600;">FILL</span>
+        </div>
+        <sc-for list="{{ ordersWithFill }}" as="order" hint-placeholder-count="4" hint-size="100%,24px">
+          <div style="height:24px;display:flex;align-items:center;padding:0 12px;border-bottom:1px solid var(--border-subtle-01);background:var(--layer-01);">
+            <span style="width:110px;font-family:var(--font-mono);font-size:12px;font-weight:600;color:var(--text-primary);">{{ order.pair }}</span>
+            <span style="width:80px;font-size:11px;font-weight:700;color:{{ order.sideColor }};letter-spacing:0.8px;">{{ order.side }}</span>
+            <span style="width:90px;font-family:var(--font-mono);font-size:12px;color:var(--text-primary);">{{ order.qty }}</span>
+            <span style="width:110px;font-family:var(--font-mono);font-size:12px;color:var(--text-primary);">{{ order.price }}</span>
+            <span style="width:80px;font-size:11px;color:var(--text-secondary);">{{ order.venue }}</span>
+            <span style="width:90px;font-size:11px;font-weight:600;color:{{ order.statusColor }};">{{ order.status }}</span>
+            <div style="flex:1;display:flex;align-items:center;gap:6px;">
+              <div style="flex:1;height:3px;background:var(--layer-02);overflow:hidden;max-width:120px;">
+                <div style="height:100%;background:{{ order.fillColor }};width:{{ order.fillBar }};"></div>
+              </div>
+              <span style="font-size:10px;font-family:var(--font-mono);color:var(--text-secondary);">{{ order.fill }}%</span>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+    <!-- BLOTTER FOOTER / KPI BAR -->
+    <div style="height:40px;flex:none;display:flex;align-items:stretch;border-top:1px solid var(--border-subtle-01);background:var(--layer-02);">
+      <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;border-right:1px solid var(--border-subtle-01);padding:0 8px;">
+        <span style="font-size:8px;color:var(--text-secondary);letter-spacing:0.8px;">TRADES</span>
+        <span style="font-family:var(--font-mono);font-size:11px;font-weight:600;color:var(--text-primary);">{{ kpiDeals }}</span>
+      </div>
+      <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;border-right:1px solid var(--border-subtle-01);padding:0 8px;">
+        <span style="font-size:8px;color:var(--text-secondary);letter-spacing:0.8px;">BUYS</span>
+        <span style="font-family:var(--font-mono);font-size:11px;font-weight:600;color:#4589ff;">{{ kpiBuys }}</span>
+      </div>
+      <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;border-right:1px solid var(--border-subtle-01);padding:0 8px;">
+        <span style="font-size:8px;color:var(--text-secondary);letter-spacing:0.8px;">SELLS</span>
+        <span style="font-family:var(--font-mono);font-size:11px;font-weight:600;color:#42be65;">{{ kpiSells }}</span>
+      </div>
+      <div style="flex:0 0 1px;background:var(--border-subtle-01);"></div>
+      <div style="flex:2;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;border-right:1px solid var(--border-subtle-01);padding:0 12px;">
+        <span style="font-size:8px;color:var(--text-secondary);letter-spacing:0.8px;">TOTAL NOTIONAL</span>
+        <span style="font-family:var(--font-mono);font-size:11px;font-weight:600;color:var(--text-primary);">{{ kpiNotional }}</span>
+      </div>
+      <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;border-right:1px solid var(--border-subtle-01);padding:0 8px;">
+        <span style="font-size:8px;color:var(--text-secondary);letter-spacing:0.8px;">AVG SIZE</span>
+        <span style="font-family:var(--font-mono);font-size:11px;font-weight:600;color:var(--text-primary);">{{ kpiAvgSize }}</span>
+      </div>
+      <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;border-right:1px solid var(--border-subtle-01);padding:0 8px;">
+        <span style="font-size:8px;color:var(--text-secondary);letter-spacing:0.8px;">BUY RATIO</span>
+        <span style="font-family:var(--font-mono);font-size:11px;font-weight:600;color:#4589ff;">{{ kpiBuyPct }}</span>
+      </div>
+      <div style="flex:0 0 1px;background:var(--border-subtle-01);"></div>
+      <div style="flex:2;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;border-right:1px solid var(--border-subtle-01);padding:0 12px;">
+        <span style="font-size:8px;color:var(--text-secondary);letter-spacing:0.8px;">SESSION VOLUME</span>
+        <span style="font-family:var(--font-mono);font-size:11px;font-weight:600;color:var(--text-primary);">{{ kpiVolume }}</span>
+      </div>
+      <div style="flex:2;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;border-right:1px solid var(--border-subtle-01);padding:0 12px;">
+        <span style="font-size:8px;color:var(--text-secondary);letter-spacing:0.8px;">SESSION P&L</span>
+        <span title="{{ kpiPnlTitle }}" style="font-family:var(--font-mono);font-size:11px;font-weight:600;color:{{ kpiPnlColor }};">{{ kpiPnl }}</span>
+      </div>
+      <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;padding:0 8px;">
+        <span style="font-size:8px;color:var(--text-secondary);letter-spacing:0.8px;">AVG SPREAD</span>
+        <span style="font-family:var(--font-mono);font-size:11px;font-weight:600;color:var(--text-primary);">{{ kpiSpreadAvg }}</span>
+      </div>
+    </div>
+  </div>
+
+    </div><!-- end left column -->
+
+    <!-- Sidebar resize handle -->
+    <div onMouseDown="{{ onSidebarResizeStart }}" style="width:4px;flex:none;cursor:col-resize;background:var(--border-subtle-01);transition:background 0.15s;z-index:5;" style-hover="background:#4589ff"></div>
+
+    <!-- ── RIGHT: SIDEBAR ── -->
+    <div data-screen-label="Order Management" style="flex:none;width:{{ sidebarWidth }}px;min-width:180px;display:flex;flex-direction:column;background:var(--layer-01);overflow:hidden;">
+      <!-- Sidebar header -->
+      <div style="height:36px;flex:none;display:flex;align-items:center;padding:0 12px;border-bottom:1px solid var(--border-subtle-01);">
+        <span style="font-size:11px;font-weight:600;color:var(--text-primary);letter-spacing:0.3px;">Order Management</span>
+      </div>
+      <!-- Active Orders section -->
+      <div style="flex:{{ ordersHeight }};min-height:0;display:flex;flex-direction:column;border-bottom:1px solid var(--border-subtle-01);overflow:hidden;">
+        <button onClick="{{ onToggleOrders }}" style="height:26px;flex:none;display:flex;align-items:center;padding:0 12px;background:var(--layer-02);border:none;cursor:pointer;width:100%;text-align:left;" style-hover="background:var(--layer-hover-01)">
+          <span style="font-size:9px;font-weight:600;color:var(--text-secondary);letter-spacing:0.8px;flex:1;">ACTIVE ORDERS</span>
+          <div style="background:rgba(69,137,255,0.18);padding:1px 7px;margin-right:6px;">
+            <span style="font-size:9px;color:#4589ff;">{{ ordersCount }}</span>
+          </div>
+          <span style="font-size:10px;color:var(--text-secondary);">{{ ordersChevron }}</span>
+        </button>
+        <div class="fx-sidebar-search" style="flex:none;border-bottom:1px solid var(--border-subtle-01);">
+          <x-import component-from-global-scope="UniteDesignSystem_429d79.Search" value="{{ ordersSearch }}" on-change="{{ onOrdersSearch }}" on-clear="{{ onOrdersSearchClear }}" placeholder="Filter orders…" size="sm" hint-size="100%,24px"></x-import>
+        </div>
+        <div style="flex:1;overflow-y:auto;min-height:0;">
+        <sc-for list="{{ ordersWithFill }}" as="order" hint-placeholder-count="4" hint-size="100%,66px">
+          <div style="padding:7px 12px;border-bottom:1px solid var(--border-subtle-01);animation:{{ order.orderAnim }};">
+            <div style="display:flex;align-items:center;margin-bottom:3px;">
+              <span style="font-family:var(--font-mono);font-size:11px;font-weight:600;color:var(--text-primary);">{{ order.pair }}</span>
+              <span style="margin-left:6px;font-size:9px;font-weight:700;color:{{ order.sideColor }};letter-spacing:0.8px;">{{ order.side }}</span>
+              <span style="margin-left:auto;font-size:9px;color:{{ order.statusColor }};letter-spacing:0.5px;">{{ order.status }}</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:6px;margin-bottom:5px;">
+              <span style="font-family:var(--font-mono);font-size:10px;color:var(--text-secondary);">{{ order.qty }}</span>
+              <span style="font-size:9px;color:var(--text-secondary);">@</span>
+              <span style="font-family:var(--font-mono);font-size:10px;color:var(--text-secondary);">{{ order.price }}</span>
+              <span style="margin-left:auto;font-size:9px;color:var(--text-secondary);background:var(--layer-02);padding:0 4px;">{{ order.venue }}</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:6px;">
+              <div style="flex:1;height:3px;background:var(--layer-02);overflow:hidden;">
+                <div style="height:100%;background:{{ order.fillColor }};width:{{ order.fillBar }};transition:width 0.5s ease;"></div>
+              </div>
+              <span style="font-size:9px;font-family:var(--font-mono);color:var(--text-secondary);min-width:28px;text-align:right;">{{ order.fill }}%</span>
+            </div>
+          </div>
+        </sc-for>
+        </div>
+      </div>
+      <!-- Alerts section -->
+      <div style="flex:{{ alertsHeight }};min-height:0;display:flex;flex-direction:column;border-bottom:1px solid var(--border-subtle-01);overflow:hidden;">
+        <button onClick="{{ onToggleAlerts }}" style="height:26px;flex:none;display:flex;align-items:center;padding:0 12px;background:var(--layer-02);border:none;cursor:pointer;width:100%;text-align:left;" style-hover="background:var(--layer-hover-01)">
+          <span style="font-size:9px;font-weight:600;color:var(--text-secondary);letter-spacing:0.8px;flex:1;">ALERTS</span>
+          <div style="background:rgba(69,137,255,0.18);padding:1px 7px;margin-right:6px;">
+            <span style="font-size:9px;color:#4589ff;">{{ alertsCount }}</span>
+          </div>
+          <span style="font-size:10px;color:var(--text-secondary);">{{ alertsChevron }}</span>
+        </button>
+        <div class="fx-sidebar-search" style="flex:none;border-bottom:1px solid var(--border-subtle-01);">
+          <x-import component-from-global-scope="UniteDesignSystem_429d79.Search" value="{{ alertsSearch }}" on-change="{{ onAlertsSearch }}" on-clear="{{ onAlertsSearchClear }}" placeholder="Filter alerts…" size="sm" hint-size="100%,24px"></x-import>
+        </div>
+        <div style="flex:1;overflow-y:auto;min-height:0;">
+        <sc-for list="{{ alertsWithStyle }}" as="alert" hint-placeholder-count="3" hint-size="100%,52px">
+          <div style="display:flex;align-items:flex-start;gap:7px;padding:7px 12px;border-bottom:1px solid var(--border-subtle-01);animation:{{ alert.alertAnim }};">
+            <div style="width:18px;height:18px;flex:none;background:{{ alert.iconBg }};display:flex;align-items:center;justify-content:center;margin-top:1px;">
+              <span style="font-size:10px;font-weight:700;color:{{ alert.iconColor }};">{{ alert.icon }}</span>
+            </div>
+            <div style="flex:1;min-width:0;">
+              <div style="font-size:10px;color:var(--text-primary);line-height:1.35;text-wrap:pretty;">{{ alert.msg }}</div>
+              <div style="font-family:var(--font-mono);font-size:9px;color:var(--text-secondary);margin-top:2px;">{{ alert.time }}</div>
+            </div>
+          </div>
+        </sc-for>
+        </div>
+      </div>
+      <!-- Activity feed -->
+      <div style="flex:{{ activityHeight }};min-height:0;display:flex;flex-direction:column;overflow:hidden;">
+        <button onClick="{{ onToggleActivity }}" style="height:26px;flex:none;display:flex;align-items:center;padding:0 12px;background:var(--layer-02);border:none;cursor:pointer;width:100%;text-align:left;" style-hover="background:var(--layer-hover-01)">
+          <span style="font-size:9px;font-weight:600;color:var(--text-secondary);letter-spacing:0.8px;flex:1;">ACTIVITY</span>
+          <div style="background:rgba(69,137,255,0.18);padding:1px 7px;margin-right:6px;">
+            <span style="font-size:9px;color:#4589ff;">{{ activityCount }}</span>
+          </div>
+          <span style="font-size:10px;color:var(--text-secondary);">{{ activityChevron }}</span>
+        </button>
+        <div class="fx-sidebar-search" style="flex:none;border-bottom:1px solid var(--border-subtle-01);">
+          <x-import component-from-global-scope="UniteDesignSystem_429d79.Search" value="{{ activitySearch }}" on-change="{{ onActivitySearch }}" on-clear="{{ onActivitySearchClear }}" placeholder="Filter activity…" size="sm" hint-size="100%,24px"></x-import>
+        </div>
+        <div style="flex:1;overflow-y:auto;min-height:0;">
+        <sc-for list="{{ recentActivity }}" as="act" hint-placeholder-count="5" hint-size="100%,28px">
+          <div style="display:flex;flex-direction:column;padding:5px 12px;gap:2px;border-bottom:1px solid var(--border-subtle-01);">
+            <div style="display:flex;align-items:center;gap:5px;">
+              <span style="font-family:var(--font-mono);font-size:9px;color:var(--text-secondary);flex:none;">{{ act.time }}</span>
+              <span style="font-family:var(--font-mono);font-size:10px;color:var(--text-primary);font-weight:600;flex:none;">{{ act.pair }}</span>
+              <span style="font-size:9px;font-weight:700;color:{{ act.sideColor }};flex:none;letter-spacing:0.5px;">{{ act.side }}</span>
+              <span style="font-size:9px;font-weight:600;color:{{ act.statusColor }};margin-left:auto;flex:none;letter-spacing:0.3px;">{{ act.status }}</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:5px;">
+              <span style="font-size:9px;color:var(--text-secondary);flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">{{ act.counterparty }}</span>
+              <span style="font-family:var(--font-mono);font-size:9px;color:var(--text-secondary);flex:none;">{{ act.price }}</span>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+
+  </div>
+
+  </div>
+
+
+  <!-- ─── RFQ MODAL ─── -->
+  <sc-if value="{{ rfqOpen }}" hint-placeholder-val="{{ false }}">
+    <!-- Scrim -->
+    <div onClick="{{ onRfqClose }}" style="position:fixed;inset:0;background:rgba(0,0,0,0.65);z-index:100;"></div>
+    <!-- Modal panel — always g100 dark -->
+    <div data-theme="g100" style="position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);width:440px;background:var(--layer-01);border:1px solid var(--border-subtle-01);z-index:101;display:flex;flex-direction:column;">
+      <!-- Modal header — coloured by direction -->
+      <div style="height:48px;flex:none;display:flex;align-items:center;padding:0 16px;border-bottom:1px solid {{ rfqHeaderBorderColor }};background:{{ rfqHeaderBg }};">
+        <div style="flex:1;">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:2px;">
+            <span style="font-size:9px;color:{{ rfqHeaderAccentColor }};letter-spacing:0.8px;opacity:0.8;">REQUEST FOR QUOTE</span>
+            <span style="font-size:9px;font-family:var(--font-mono);color:{{ rfqCountdownColor }};font-weight:700;margin-left:auto;">{{ rfqCountdownLabel }}</span>
+          </div>
+          <div style="font-size:14px;font-weight:600;font-family:var(--font-mono);color:var(--text-primary);">{{ rfqPair }}</div>
+        </div>
+        <button onClick="{{ onRfqClose }}" style="width:32px;height:32px;background:transparent;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--text-secondary);" style-hover="background:var(--layer-01)">
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor"><path d="M6 5.293L10.646.646l.708.708L6.707 6l4.647 4.646-.708.708L6 6.707 1.354 11.354l-.708-.708L5.293 6 .646 1.354 1.354.646z"/></svg>
+        </button>
+      </div>
+      <!-- Modal body -->
+      <div style="padding:20px 16px;display:flex;flex-direction:column;gap:16px;">
+        <!-- Mid price indicator -->
+        <div style="display:flex;align-items:center;padding:8px 12px;background:var(--layer-02);border-left:2px solid var(--button-primary);">
+          <span style="font-size:11px;color:var(--text-secondary);">Mid price</span>
+          <span style="margin-left:auto;font-family:var(--font-mono);font-size:16px;font-weight:700;color:var(--text-primary);">{{ rfqMid }}</span>
+        </div>
+        <!-- Direction -->
+        <div>
+          <div style="font-size:11px;color:var(--text-secondary);margin-bottom:6px;letter-spacing:0.3px;">Direction</div>
+          <div style="display:flex;gap:1px;background:var(--border-subtle-01);">
+            <button onClick="{{ onRfqBuy }}" style="flex:1;height:40px;border:none;background:{{ rfqBuyBg }};color:{{ rfqBuyColor }};font-size:12px;font-weight:700;cursor:pointer;letter-spacing:1.5px;transition:background 0.1s;">BUY</button>
+            <button onClick="{{ onRfqSell }}" style="flex:1;height:40px;border:none;background:{{ rfqSellBg }};color:{{ rfqSellColor }};font-size:12px;font-weight:700;cursor:pointer;letter-spacing:1.5px;transition:background 0.1s;">SELL</button>
+          </div>
+        </div>
+        <!-- Quantity -->
+        <div>
+          <div style="font-size:11px;color:var(--text-secondary);margin-bottom:6px;letter-spacing:0.3px;">Notional amount</div>
+          <div style="position:relative;">
+            <input type="text" value="{{ rfqQty }}" onInput="{{ onRfqQty }}" style="width:100%;height:40px;background:var(--field-01);border:none;border-bottom:1px solid var(--border-strong-01);color:var(--text-primary);font-family:var(--font-mono);font-size:14px;padding:0 12px;outline:none;box-sizing:border-box;" style-focus="border-bottom:2px solid var(--focus)">
+            <span style="position:absolute;right:12px;top:50%;transform:translateY(-50%);font-size:11px;color:var(--text-secondary);">USD</span>
+          </div>
+        </div>
+        <!-- Time in force -->
+        <div>
+          <div style="font-size:11px;color:var(--text-secondary);margin-bottom:6px;letter-spacing:0.3px;">Time in force</div>
+          <div style="display:flex;gap:1px;background:var(--border-subtle-01);">
+            <button onClick="{{ onRfqTifGtc }}" style="flex:1;height:32px;background:{{ rfqTifBgGtc }};border:{{ rfqTifBorderGtc }};color:{{ rfqTifColorGtc }};font-size:11px;font-weight:600;cursor:pointer;letter-spacing:0.8px;transition:all 0.1s;">GTC</button>
+            <button onClick="{{ onRfqTifIoc }}" style="flex:1;height:32px;background:{{ rfqTifBgIoc }};border:{{ rfqTifBorderIoc }};color:{{ rfqTifColorIoc }};font-size:11px;font-weight:600;cursor:pointer;letter-spacing:0.8px;transition:all 0.1s;">IOC</button>
+            <button onClick="{{ onRfqTifFok }}" style="flex:1;height:32px;background:{{ rfqTifBgFok }};border:{{ rfqTifBorderFok }};color:{{ rfqTifColorFok }};font-size:11px;font-weight:600;cursor:pointer;letter-spacing:0.8px;transition:all 0.1s;">FOK</button>
+          </div>
+        </div>
+        <!-- Venue -->
+        <div>
+          <div style="font-size:11px;color:var(--text-secondary);margin-bottom:6px;letter-spacing:0.3px;">Venue</div>
+          <div style="display:flex;gap:8px;">
+            <button onClick="{{ onRfqVenueDrct }}" style="flex:1;height:32px;background:{{ rfqVenueBgDrct }};border:{{ rfqVenueBorderDrct }};color:{{ rfqVenueColorDrct }};font-size:11px;font-weight:600;cursor:pointer;letter-spacing:0.8px;transition:all 0.1s;">DRCT</button>
+            <button onClick="{{ onRfqVenueEcn }}" style="flex:1;height:32px;background:{{ rfqVenueBgEcn }};border:{{ rfqVenueBorderEcn }};color:{{ rfqVenueColorEcn }};font-size:11px;font-weight:600;cursor:pointer;letter-spacing:0.8px;transition:all 0.1s;">ECN</button>
+            <button onClick="{{ onRfqVenueMkt }}" style="flex:1;height:32px;background:{{ rfqVenueBgMkt }};border:{{ rfqVenueBorderMkt }};color:{{ rfqVenueColorMkt }};font-size:11px;font-weight:600;cursor:pointer;letter-spacing:0.8px;transition:all 0.1s;">MKT</button>
+          </div>
+        </div>
+      </div>
+      <!-- Modal footer -->
+      <div style="height:48px;flex:none;display:flex;align-items:center;gap:1px;background:var(--border-subtle-01);">
+        <button onClick="{{ onRfqClose }}" style="flex:1;height:48px;background:var(--layer-02);border:none;cursor:pointer;font-size:12px;color:var(--text-secondary);letter-spacing:0.5px;transition:background 0.1s;" style-hover="background:var(--layer-01)">Cancel</button>
+        <button onClick="{{ onRfqSubmit }}" style="flex:1;height:48px;background:{{ rfqSubmitBg }};border:none;cursor:pointer;font-size:12px;font-weight:700;color:#fff;letter-spacing:1px;transition:background 0.1s;" style-hover="background:{{ rfqSubmitHoverBg }}">{{ rfqSubmitLabel }}</button>
+      </div>
+    </div>
+  </sc-if>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1920,&quot;height&quot;:1080}}">
+class Component extends DCLogic {
+  _PAIRS = ['EUR/USD','USD/JPY','GBP/USD','EUR/JPY','AUD/USD','USD/CAD','EUR/GBP','GBP/CHF','NZD/USD','USD/CHF','EUR/AUD','GBP/JPY','USD/SGD','EUR/CHF'];
+  _SIZES = ['500K','1M','2M','3M','5M','10M','25M','50M'];
+  _history = {};
+  _intervals = [];
+  _pendingTileW = null;
+  _gridApi = null;
+  _newRowIds = new Set();
+  _newAlertIds = new Set();
+  _newOrderIds = new Set();
+  _orderSeq = 100;
+  _rfqTimer = null;
+  _NOTIONALS = {'500K':500000,'1M':1000000,'2M':2000000,'3M':3000000,'5M':5000000,'10M':10000000,'25M':25000000,'50M':50000000};
+
+  state = {
+    selectedPair: localStorage.getItem('fx_selected_pair') || 'EUR/USD',
+    time: new Date(),
+    gridKpi: null,
+    theme: localStorage.getItem('fx_theme') || 'g100',
+    sidebarWidth: parseInt(localStorage.getItem('fx_sidebar_width') || '320'),
+    sidebarExpanded: (() => { try { return JSON.parse(localStorage.getItem('fx_sidebar_expanded') || 'null') || { orders: true, alerts: true, activity: true }; } catch(e) { return { orders: true, alerts: true, activity: true }; } })(),
+    ordersSearch: '',
+    alertsSearch: '',
+    activitySearch: '',
+    feedStatus: 'connected',
+    blotterHeight: parseInt(localStorage.getItem('fx_blotter_height') || '300'),
+    blotterTab: localStorage.getItem('fx_blotter_tab') || 'DEALS',
+    globalSearch: localStorage.getItem('fx_global_search') || '',
+    blotterSearch: localStorage.getItem('fx_blotter_search') || '',
+    rfqOpen: false,
+    rfqPair: null,
+    rfqSide: localStorage.getItem('fx_rfq_side') || 'BUY',
+    rfqQty: '5,000,000',
+    rfqTif: localStorage.getItem('fx_rfq_tif') || 'IOC',
+    rfqVenue: localStorage.getItem('fx_rfq_venue') || 'DRCT',
+    rfqSubmitting: false,
+    tileGridWidth: parseInt(localStorage.getItem('fx_tile_width') || '0') || null,
+    cardSize: localStorage.getItem('fx_card_size') || 'M',
+    pairOrder: (() => {
+      const all = ['EUR/USD','USD/JPY','GBP/USD','EUR/JPY','AUD/USD','USD/CAD','EUR/GBP','GBP/CHF','NZD/USD','USD/CHF','EUR/AUD','GBP/JPY','USD/SGD','EUR/CHF'];
+      try {
+        const saved = JSON.parse(localStorage.getItem('fx_pair_order') || 'null');
+        if (!saved) return all;
+        // Allow ALL saved pairs (including ones added via search), append any default pairs not present
+        const missing = all.filter(p => !saved.includes(p));
+        return [...saved, ...missing];
+      } catch(e) { return all; }
+    })(),
+    draggingPair: null,
+    dragOverPair: null,
+    searchQuery: '',
+    searchOpen: false,
+    prices: {
+      'EUR/USD': { bid:1.08473, offer:1.08491, dec:5, jpy:false, trend:'up' },
+      'USD/JPY': { bid:149.325, offer:149.348, dec:3, jpy:true,  trend:'down' },
+      'GBP/USD': { bid:1.26453, offer:1.26471, dec:5, jpy:false, trend:'up' },
+      'EUR/JPY': { bid:161.892, offer:161.917, dec:3, jpy:true,  trend:'up' },
+      'AUD/USD': { bid:0.65231, offer:0.65249, dec:5, jpy:false, trend:'down' },
+      'USD/CAD': { bid:1.36124, offer:1.36141, dec:5, jpy:false, trend:'up' },
+      'EUR/GBP': { bid:0.85742, offer:0.85758, dec:5, jpy:false, trend:'down' },
+      'GBP/CHF': { bid:1.13425, offer:1.13461, dec:5, jpy:false, trend:'up' },
+      'NZD/USD': { bid:0.60312, offer:0.60328, dec:5, jpy:false, trend:'up' },
+      'USD/CHF': { bid:0.90124, offer:0.90139, dec:5, jpy:false, trend:'down' },
+      'EUR/AUD': { bid:1.63847, offer:1.63868, dec:5, jpy:false, trend:'up' },
+      'GBP/JPY': { bid:188.423, offer:188.451, dec:3, jpy:true,  trend:'down' },
+      'USD/SGD': { bid:1.34712, offer:1.34731, dec:5, jpy:false, trend:'up' },
+      'EUR/CHF': { bid:0.97324, offer:0.97341, dec:5, jpy:false, trend:'down' },
+    },
+    flashing: {},
+    sizes: { 'EUR/USD':'5M','USD/JPY':'3M','GBP/USD':'2M','EUR/JPY':'5M','AUD/USD':'1M','USD/CAD':'1M','EUR/GBP':'2M','GBP/CHF':'1M','NZD/USD':'1M','USD/CHF':'1M','EUR/AUD':'2M','GBP/JPY':'1M','USD/SGD':'1M','EUR/CHF':'1M' },
+    activeOrders: [
+      { id:1, pair:'EUR/JPY', side:'BUY',  qty:'5M',  status:'ACTIVE',  fill:62, price:'161.917', venue:'DRCT' },
+      { id:2, pair:'USD/JPY', side:'SELL', qty:'10M', status:'ACTIVE',  fill:35, price:'149.325', venue:'DRCT' },
+      { id:3, pair:'EUR/USD', side:'BUY',  qty:'25M', status:'PARTIAL', fill:80, price:'1.08491', venue:'ECN'  },
+      { id:4, pair:'GBP/USD', side:'SELL', qty:'3M',  status:'WORKING', fill:0,  price:'1.26453', venue:'DRCT' },
+    ],
+    blotter: [
+      { time:'16:50:47', pair:'EUR/JPY', side:'SELL', notional:'25,000,000', price:'161.892', ccy:'EUR', spread:'2.1', counterparty:'BlackRock',         valueDate:this._valueDate('EUR/JPY'), tradeId:this._tradeId(6), trader:'A. Chen',  venue:'DRCT', status:'DONE' },
+      { time:'16:50:31', pair:'EUR/USD', side:'BUY',  notional:'50,000,000', price:'1.08491', ccy:'EUR', spread:'1.3', counterparty:'Fidelity',           valueDate:this._valueDate('EUR/USD'), tradeId:this._tradeId(5), trader:'A. Chen',  venue:'ECN',  status:'DONE' },
+      { time:'16:50:18', pair:'USD/JPY', side:'BUY',  notional:'10,000,000', price:'149.348', ccy:'USD', spread:'1.6', counterparty:'Schroders',          valueDate:this._valueDate('USD/JPY'), tradeId:this._tradeId(4), trader:'R. Patel', venue:'DRCT', status:'DONE' },
+      { time:'16:49:55', pair:'USD/JPY', side:'SELL', notional:'15,000,000', price:'149.325', ccy:'USD', spread:'1.8', counterparty:'Aviva Investors',    valueDate:this._valueDate('USD/JPY'), tradeId:this._tradeId(3), trader:'A. Chen',  venue:'MKT',  status:'DONE' },
+      { time:'16:49:32', pair:'EUR/USD', side:'BUY',  notional:'5,000,000',  price:'1.08473', ccy:'EUR', spread:'1.2', counterparty:'Legal & General',    valueDate:this._valueDate('EUR/USD'), tradeId:this._tradeId(2), trader:'R. Patel', venue:'ECN',  status:'DONE' },
+      { time:'16:48:11', pair:'GBP/USD', side:'SELL', notional:'20,000,000', price:'1.26453', ccy:'GBP', spread:'1.5', counterparty:'Citadel',            valueDate:this._valueDate('GBP/USD'), tradeId:this._tradeId(1), trader:'S. Müller', venue:'DRCT', status:'DONE' },
+    ],
+    alerts: [
+      { id:1, type:'fill',   msg:'EUR/JPY — 3M SELL filled @ 161.892',        time:'16:50:47' },
+      { id:2, type:'spread', msg:'EUR/GBP spread widening: 1.6 → 2.8 pips',  time:'16:50:12' },
+      { id:3, type:'risk',   msg:'USD/JPY net short > threshold: −$52.3M',    time:'16:49:55' },
+    ],
+  };
+
+  componentDidMount() {
+    // Plain DOM mousedown on tile grid — bypasses React synthetic events entirely
+    // This works identically in all browsers and file:// contexts
+    const tileGrid = document.getElementById('fx-tile-grid');
+    if (tileGrid) {
+      tileGrid.addEventListener('mousedown', (e) => {
+        // Find the tile card and header containing the clicked element
+        let node = e.target, tilePair = null, inHeader = false;
+        while (node && node !== tileGrid) {
+          if (node.dataset && node.dataset.tilePair) tilePair = node.dataset.tilePair;
+          // Header has cursor:grab
+          if (node.style && node.style.cursor === 'grab') inHeader = true;
+          node = node.parentElement;
+        }
+        if (!tilePair || !inHeader) return;
+        e.stopPropagation();
+        this._startTileDrag(tilePair, e);
+      });
+    }
+
+    // Seed prices for any extra pairs restored from localStorage
+    const { pairOrder, prices } = this.state;
+    const extraPrices = {};
+    pairOrder.forEach(pair => {
+      if (!prices[pair] && this._ALL_PAIRS[pair]) {
+        const p = this._ALL_PAIRS[pair];
+        const spread = p.jpy ? 0.025 : 0.00018;
+        extraPrices[pair] = { bid: p.bid, offer: parseFloat((p.bid + spread).toFixed(p.dec)), dec: p.dec, jpy: p.jpy, trend: 'up' };
+      }
+    });
+    if (Object.keys(extraPrices).length) this.setState(s => ({ prices: { ...s.prices, ...extraPrices } }));
+
+    // Auto-trade feed — inserts a realistic trade every 8-15s
+    const scheduleAutoTrade = () => {
+      const delay = 8000 + Math.random() * 7000;
+      const t = setTimeout(() => {
+        if (!this._gridApi) { scheduleAutoTrade(); return; }
+        const pair = this._PAIRS[Math.floor(Math.random()*this._PAIRS.length)];
+        const p = this.state.prices[pair];
+        if (!p) { scheduleAutoTrade(); return; }
+        const side = Math.random() > 0.5 ? 'BUY' : 'SELL';
+        const price = (side === 'BUY' ? p.offer : p.bid).toFixed(p.dec);
+        const notionals = [500000,1000000,2000000,3000000,5000000,10000000,25000000,50000000];
+        const notional = notionals[Math.floor(Math.random()*notionals.length)];
+        const traders = ['A. Chen','R. Patel','S. Müller'];
+        const venues = ['DRCT','ECN','MKT','EBS','360T'];
+        const id = Date.now();
+        const gridRow = {
+          id, time: this._nowStr(), pair, side, notional, price,
+          ccy: pair.slice(0,3),
+          spread: this._spreadBps(pair, parseFloat(price)),
+          counterparty: this._counterparties[Math.floor(Math.random()*this._counterparties.length)],
+          valueDate: this._valueDate(pair),
+          tradeId: this._tradeId(id % 1000000),
+          trader: traders[Math.floor(Math.random()*traders.length)],
+          venue: venues[Math.floor(Math.random()*venues.length)],
+          status: Math.random() < 0.88 ? 'DONE' : (['PARTIAL','WORKING','REJECTED','CANCELLED','EXPIRED','PENDING','FAILED','AFFIRMED'][Math.floor(Math.random()*8)])
+        };
+        this._gridApi.applyTransaction({ add: [gridRow], addIndex: 0 });
+        this._flashNewRow(id);
+        // Cap grid at 600 rows — purge oldest
+        const rowCount = this._gridApi.getDisplayedRowCount();
+        if (rowCount > 600) {
+          const oldest = [];
+          this._gridApi.forEachNode((node, i) => { if (i >= 600) oldest.push(node.data); });
+          if (oldest.length) this._gridApi.applyTransaction({ remove: oldest });
+        }
+        scheduleAutoTrade();
+      }, delay);
+      this._intervals.push(t);
+    };
+    scheduleAutoTrade();
+
+    // Periodic order generator — new working order every 25s
+    this._intervals.push(setInterval(() => {
+      const pair = this._PAIRS[Math.floor(Math.random()*this._PAIRS.length)];
+      const p = this.state.prices[pair];
+      if (!p) return;
+      const side = Math.random() > 0.5 ? 'BUY' : 'SELL';
+      const price = (side === 'BUY' ? p.offer : p.bid).toFixed(p.dec);
+      const sizes = ['5M','10M','25M'];
+      const qty = sizes[Math.floor(Math.random()*sizes.length)];
+      const venues = ['DRCT','ECN','EBS'];
+      const venue = venues[Math.floor(Math.random()*venues.length)];
+      const statuses = ['ACTIVE','WORKING','PARTIAL'];
+      const status = statuses[Math.floor(Math.random()*statuses.length)];
+      const id = ++this._orderSeq;
+      this._newOrderIds.add(id);
+      setTimeout(() => { this._newOrderIds.delete(id); this.forceUpdate(); }, 1200);
+      this.setState(prev => ({
+        activeOrders: [{ id, pair, side, qty, status, fill: Math.floor(Math.random()*60), price, venue }, ...prev.activeOrders]
+      }));
+    }, 25000));
+
+    // Periodic alert generator — fires every 20s
+    const alertTypes = [
+      () => {
+        const pair = this._PAIRS[Math.floor(Math.random()*this._PAIRS.length)];
+        const p = this.state.prices[pair];
+        const price = p ? p.bid.toFixed(p.dec) : '0';
+        const size = ['5M','10M','25M','50M'][Math.floor(Math.random()*4)];
+        const side = Math.random() > 0.5 ? 'BUY' : 'SELL';
+        return { type:'fill', msg:`${pair} — ${size} ${side} filled @ ${price}` };
+      },
+      () => {
+        const pair = this._PAIRS[Math.floor(Math.random()*this._PAIRS.length)];
+        const spd = (1.2 + Math.random()*3).toFixed(1);
+        const prev = (parseFloat(spd) * 0.6).toFixed(1);
+        return { type:'spread', msg:`${pair} spread widening: ${prev} → ${spd} pips` };
+      },
+      () => {
+        const pair = this._PAIRS[Math.floor(Math.random()*this._PAIRS.length)];
+        const notional = ['$28.5M','$42.1M','$61.3M','$15.8M'][Math.floor(Math.random()*4)];
+        const direction = Math.random() > 0.5 ? 'long' : 'short';
+        return { type:'risk', msg:`${pair} net ${direction} > threshold: ${notional}` };
+      },
+      () => {
+        const counterparties = this._counterparties;
+        const cp = counterparties[Math.floor(Math.random()*counterparties.length)];
+        const pair = this._PAIRS[Math.floor(Math.random()*this._PAIRS.length)];
+        const size = ['10M','25M','50M','100M'][Math.floor(Math.random()*4)];
+        return { type:'fill', msg:`RFQ received — ${cp}: ${size} ${pair}` };
+      },
+    ];
+    this._intervals.push(setInterval(() => {
+      const gen = alertTypes[Math.floor(Math.random()*alertTypes.length)];
+      const alert = gen();
+      const now = new Date();
+      const timeStr = [now.getHours(), now.getMinutes(), now.getSeconds()].map(n => String(n).padStart(2,'0')).join(':');
+      const newId = Date.now();
+      this._newAlertIds.add(newId);
+      setTimeout(() => { this._newAlertIds.delete(newId); this.forceUpdate(); }, 1200);
+      this.setState(prev => ({
+        alerts: [{ id: newId, ...alert, time: timeStr }, ...prev.alerts].slice(0, 50)
+      }));
+    }, 20000));
+
+    // Watch inner panels row for resize — clamp tile grid so analytics always visible
+    const innerRow = document.getElementById('fx-tile-grid')?.parentElement;
+    if (innerRow && window.ResizeObserver) {
+      this._resizeObserver = new ResizeObserver(() => this._clampTileGrid());
+      this._resizeObserver.observe(innerRow);
+    }
+
+    // Seed price history (60 bars of intraday movement)
+    this._PAIRS.forEach(pair => {
+      const p = this.state.prices[pair];
+      let price = p.bid - (p.jpy ? 0.25 : 0.0025);
+      const hist = [];
+      for (let i = 0; i < 60; i++) {
+        price += p.jpy ? (Math.random()*0.09-0.04) : (Math.random()*0.0009-0.0004);
+        hist.push(price);
+      }
+      this._history[pair] = hist;
+    });
+
+    // Price tick — iterate ALL pairs in state.prices (includes dynamically added pairs)
+    this._intervals.push(setInterval(() => {
+      this.setState(prev => {
+        const prices = { ...prev.prices };
+        const flashing = {};
+        Object.keys(prev.prices).forEach(pair => {
+          const p = prev.prices[pair];
+          if (!p) return;
+          if (Math.random() > 0.38) {
+            const spread = parseFloat((p.offer - p.bid).toFixed(p.dec + 2));
+            const tick = p.jpy
+              ? (Math.random() * 0.016 - 0.008)
+              : (Math.random() * 0.00016 - 0.00008);
+            const newBid = parseFloat((p.bid + tick).toFixed(p.dec));
+            const newOffer = parseFloat((newBid + Math.max(spread, 0.00001)).toFixed(p.dec));
+            prices[pair] = { ...p, bid: newBid, offer: newOffer, trend: tick > 0 ? 'up' : 'down' };
+            flashing[pair] = true;
+            const hist = this._history[pair] || [];
+            this._history[pair] = [...hist.slice(1), newBid];
+          }
+        });
+        return { prices, flashing };
+      });
+      setTimeout(() => this.setState({ flashing: {} }), 380);
+    }, 680));
+
+    // Clock
+    this._intervals.push(setInterval(() => this.setState({ time: new Date() }), 1000));
+
+    // Keyboard shortcuts
+    this._keyHandler = (e) => {
+      if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.isContentEditable) return;
+      const { pairOrder, selectedPair } = this.state;
+      const idx = pairOrder.indexOf(selectedPair);
+      switch(e.key.toLowerCase()) {
+        case 'b': e.preventDefault(); this.buy(selectedPair); break;
+        case 's': e.preventDefault(); this.sell(selectedPair); break;
+        case 'arrowleft': e.preventDefault(); if (idx > 0) this.setState({ selectedPair: pairOrder[idx-1] }); break;
+        case 'arrowright': e.preventDefault(); if (idx < pairOrder.length-1) this.setState({ selectedPair: pairOrder[idx+1] }); break;
+      }
+    };
+    document.addEventListener('keydown', this._keyHandler);
+
+    // Restore saved tile grid width
+    setTimeout(() => {
+      const tg = this._getTileGrid();
+      if (this.state.tileGridWidth && tg) {
+        const w = this.state.tileGridWidth;
+        tg.style.flex = `0 0 ${w}px`;
+        tg.style.minWidth = `${w}px`;
+        tg.style.maxWidth = `${w}px`;
+      }
+    }, 50);
+
+    // Init AG Grid — retry until element + agGrid are both available
+    const tryGrid = (attempts) => {
+      const el = this._getBlotterGrid();
+      if (window.agGrid && el) {
+        this._setupGrid();
+      } else if (attempts < 40) {
+        setTimeout(() => tryGrid(attempts + 1), 150);
+      }
+    };
+    setTimeout(() => tryGrid(0), 300);
+  }
+
+
+
+  componentDidUpdate(_, prev) {
+    const s = this.state;
+    if (s.selectedPair !== prev.selectedPair) localStorage.setItem('fx_selected_pair', s.selectedPair);
+    if (s.theme !== prev.theme) localStorage.setItem('fx_theme', s.theme);
+    if (s.blotterTab !== prev.blotterTab) localStorage.setItem('fx_blotter_tab', s.blotterTab);
+    if (s.globalSearch !== prev.globalSearch) localStorage.setItem('fx_global_search', s.globalSearch);
+    if (s.blotterSearch !== prev.blotterSearch) localStorage.setItem('fx_blotter_search', s.blotterSearch);
+    if (s.rfqSide !== prev.rfqSide) localStorage.setItem('fx_rfq_side', s.rfqSide);
+    if (s.rfqTif !== prev.rfqTif) localStorage.setItem('fx_rfq_tif', s.rfqTif);
+    if (s.rfqVenue !== prev.rfqVenue) localStorage.setItem('fx_rfq_venue', s.rfqVenue);
+    if (s.sidebarExpanded !== prev.sidebarExpanded) localStorage.setItem('fx_sidebar_expanded', JSON.stringify(s.sidebarExpanded));
+  }
+
+  _saveColState() {
+    const COL_VERSION = 'v4';
+    localStorage.setItem('fx_grid_cols', JSON.stringify(this._gridApi.getColumnState()));
+    localStorage.setItem('fx_grid_col_version', COL_VERSION);
+  }
+
+  _clampTileGrid() {
+    const tg = document.getElementById('fx-tile-grid');
+    if (!tg || !tg.parentElement) return;
+    const hasFlex = tg.style.flex && tg.style.flex !== '1' && tg.style.flex !== '';
+    if (!hasFlex) return;
+    const innerW = tg.parentElement.offsetWidth;
+    const MAX_TG = innerW - 280 - 4; // reserve 280px for analytics + 4px handle
+    if (MAX_TG < 200) return;
+    const curW = tg.offsetWidth;
+    if (curW > MAX_TG) {
+      tg.style.flex = `0 0 ${MAX_TG}px`;
+      tg.style.minWidth = `${MAX_TG}px`;
+      localStorage.setItem('fx_tile_width', MAX_TG);
+    }
+  }
+
+  componentWillUnmount() {
+    this._liveDragOver = null;
+    if (this._resizeObserver) this._resizeObserver.disconnect();
+    this._intervals.forEach(clearInterval);
+    if (this._gridApi) { try { this._gridApi.destroy(); } catch(e) {} }
+    if (this._keyHandler) document.removeEventListener('keydown', this._keyHandler);
+  }
+
+  _fmt(pair, side) {
+    const p = this.state.prices[pair];
+    if (!p) return { big:'—', pips:'--', frac:'' };
+    const price = side === 'bid' ? p.bid : p.offer;
+    const str = price.toFixed(p.dec);
+    if (p.jpy) {
+      const [i, d] = str.split('.');
+      const dec = (d || '000').padEnd(3, '0');
+      return { big: i + '.', pips: dec.slice(0,2), frac: dec.slice(2,3) };
+    } else {
+      const [i, d] = str.split('.');
+      const dec = (d || '00000').padEnd(5, '0');
+      return { big: i + '.' + dec.slice(0,2), pips: dec.slice(2,4), frac: dec.slice(4,5) };
+    }
+  }
+
+  _spread(pair) {
+    const p = this.state.prices[pair];
+    if (!p) return '—';
+    const s = Math.abs(p.offer - p.bid);
+    return p.jpy ? (s * 100).toFixed(1) : (s * 10000).toFixed(1);
+  }
+
+  _buildChart(pair) {
+    const hist = this._history[pair];
+    if (!hist || hist.length < 2) return null;
+    const W = 334, H = 64;
+    const min = Math.min(...hist), max = Math.max(...hist);
+    const range = (max - min) || 0.0001;
+    const pts = hist.map((v, i) => [
+      (i / (hist.length - 1)) * W,
+      H - ((v - min) / range) * (H - 6) - 3
+    ]);
+    const d = pts.map(([x,y], i) => `${i === 0 ? 'M' : 'L'}${x.toFixed(1)},${y.toFixed(1)}`).join(' ');
+    const isUp = pts[pts.length-1][1] <= pts[0][1];
+    const lineColor = isUp ? '#42be65' : '#ff8389';
+    const uid = 'cg' + pair.replace('/', '_');
+    return React.createElement('svg', {
+      width: '100%', height: H, viewBox: `0 0 ${W} ${H}`,
+      preserveAspectRatio: 'none', style: { display: 'block' }
+    }, [
+      React.createElement('defs', { key: 'defs' },
+        React.createElement('linearGradient', { key: 'grad', id: uid, x1:'0', y1:'0', x2:'0', y2:'1' }, [
+          React.createElement('stop', { key: 's1', offset: '0%', stopColor: lineColor, stopOpacity: 0.28 }),
+          React.createElement('stop', { key: 's2', offset: '100%', stopColor: lineColor, stopOpacity: 0 }),
+        ])
+      ),
+      React.createElement('path', { key: 'area', d: d + ` L${W},${H} L0,${H} Z`, fill: `url(#${uid})` }),
+      React.createElement('path', { key: 'line', d, fill: 'none', stroke: lineColor, strokeWidth: 1.5, strokeLinejoin: 'round' }),
+    ]);
+  }
+
+  _buildDepth(pair) {
+    const p = this.state.prices[pair];
+    if (!p) return [];
+    const step = p.jpy ? 0.005 : 0.00005;
+    const MAX = 120;
+    return Array.from({ length: 8 }, (_, i) => {
+      const bS = Math.max(8, Math.round(MAX - i * 14 + (Math.random() * 18 - 9)));
+      const oS = Math.max(8, Math.round(MAX - i * 13 + (Math.random() * 18 - 9)));
+      return {
+        id: i,
+        bidPrice: (p.bid - i * step).toFixed(p.dec),
+        bidSize: bS + 'M',
+        bidBarWidth: Math.round((bS / MAX) * 100) + '%',
+        offerPrice: (p.offer + i * step).toFixed(p.dec),
+        offerSize: oS + 'M',
+        offerBarWidth: Math.round((oS / MAX) * 100) + '%',
+      };
+    });
+  }
+
+  _fmtNotional(size) {
+    const map = {
+      '500K':'500,000','1M':'1,000,000','2M':'2,000,000','3M':'3,000,000',
+      '5M':'5,000,000','10M':'10,000,000','25M':'25,000,000','50M':'50,000,000'
+    };
+    return map[size] || size;
+  }
+
+  _nowStr() {
+    const t = new Date();
+    return [t.getHours(), t.getMinutes(), t.getSeconds()]
+      .map(n => String(n).padStart(2, '0')).join(':');
+  }
+
+  buy(pair) {
+    const p = this.state.prices[pair];
+    const price = p.offer.toFixed(p.dec);
+    const size = this.state.sizes[pair];
+    const notional = this._NOTIONALS[size] || 1000000;
+    const gridRow = { id: Date.now(), time: this._nowStr(), pair, side:'BUY', notional, price,
+      ccy: pair.slice(0, 3),
+      spread: this._spreadBps(pair, parseFloat(price)),
+      counterparty: this._counterparties[Math.floor(Math.random()*this._counterparties.length)],
+      valueDate: this._valueDate(pair),
+      tradeId: this._tradeId(Date.now() % 1000000),
+      trader: 'A. Chen', venue: 'DRCT', status:'DONE' };
+    if (this._gridApi) {
+      this._gridApi.applyTransaction({ add: [gridRow], addIndex: 0 });
+      this._flashNewRow(gridRow.id);
+    }
+    const stateRow = { ...gridRow, notional: notional.toLocaleString() };
+    this.setState(prev => ({
+      blotter: [stateRow, ...prev.blotter.slice(0, 11)],
+      alerts: [{ id: gridRow.id, type:'fill', msg:`${pair} ${size} BUY filled @ ${price}`, time: gridRow.time, _new: true }, ...prev.alerts].slice(0, 50),
+    }));
+  }
+
+  sell(pair) {
+    const p = this.state.prices[pair];
+    const price = p.bid.toFixed(p.dec);
+    const size = this.state.sizes[pair];
+    const notional = this._NOTIONALS[size] || 1000000;
+    const gridRow = { id: Date.now(), time: this._nowStr(), pair, side:'SELL', notional, price,
+      ccy: pair.slice(0, 3),
+      spread: this._spreadBps(pair, parseFloat(price)),
+      counterparty: this._counterparties[Math.floor(Math.random()*this._counterparties.length)],
+      valueDate: this._valueDate(pair),
+      tradeId: this._tradeId(Date.now() % 1000000),
+      trader: 'A. Chen', venue: 'DRCT', status:'DONE' };
+    if (this._gridApi) {
+      this._gridApi.applyTransaction({ add: [gridRow], addIndex: 0 });
+      this._flashNewRow(gridRow.id);
+    }
+    const stateRow = { ...gridRow, notional: notional.toLocaleString() };
+    this.setState(prev => ({
+      blotter: [stateRow, ...prev.blotter.slice(0, 11)],
+      alerts: [{ id: gridRow.id, type:'fill', msg:`${pair} ${size} SELL filled @ ${price}`, time: gridRow.time, _new: true }, ...prev.alerts].slice(0, 50),
+    }));
+  }
+
+  setSize(pair, size) {
+    this.setState(prev => ({ sizes: { ...prev.sizes, [pair]: size } }));
+  }
+
+  _ALL_PAIRS = {
+    'EUR/USD':{bid:1.0847,dec:5,jpy:false}, 'USD/JPY':{bid:149.33,dec:3,jpy:true},
+    'GBP/USD':{bid:1.2645,dec:5,jpy:false}, 'EUR/JPY':{bid:161.90,dec:3,jpy:true},
+    'AUD/USD':{bid:0.6524,dec:5,jpy:false}, 'USD/CAD':{bid:1.3613,dec:5,jpy:false},
+    'EUR/GBP':{bid:0.8574,dec:5,jpy:false}, 'GBP/CHF':{bid:1.1343,dec:5,jpy:false},
+    'NZD/USD':{bid:0.6031,dec:5,jpy:false}, 'USD/CHF':{bid:0.9012,dec:5,jpy:false},
+    'EUR/AUD':{bid:1.6385,dec:5,jpy:false}, 'GBP/JPY':{bid:188.43,dec:3,jpy:true},
+    'USD/SGD':{bid:1.3471,dec:5,jpy:false}, 'EUR/CHF':{bid:0.9732,dec:5,jpy:false},
+    'EUR/CAD':{bid:1.4923,dec:5,jpy:false}, 'EUR/NZD':{bid:1.7993,dec:5,jpy:false},
+    'GBP/AUD':{bid:2.0148,dec:5,jpy:false}, 'GBP/CAD':{bid:1.8956,dec:5,jpy:false},
+    'GBP/NZD':{bid:2.1043,dec:5,jpy:false}, 'AUD/JPY':{bid:97.423,dec:3,jpy:true},
+    'CAD/JPY':{bid:109.62,dec:3,jpy:true},  'CHF/JPY':{bid:165.74,dec:3,jpy:true},
+    'NZD/JPY':{bid:90.124,dec:3,jpy:true},  'AUD/CAD':{bid:0.8948,dec:5,jpy:false},
+    'AUD/CHF':{bid:0.5887,dec:5,jpy:false}, 'AUD/NZD':{bid:1.0812,dec:5,jpy:false},
+    'CAD/CHF':{bid:0.6623,dec:5,jpy:false}, 'NZD/CAD':{bid:0.8278,dec:5,jpy:false},
+    'NZD/CHF':{bid:0.5443,dec:5,jpy:false}, 'USD/HKD':{bid:7.8231,dec:4,jpy:false},
+    'USD/CNH':{bid:7.2413,dec:4,jpy:false}, 'USD/MXN':{bid:17.432,dec:4,jpy:false},
+    'USD/ZAR':{bid:18.743,dec:4,jpy:false}, 'USD/TRY':{bid:32.143,dec:4,jpy:false},
+    'USD/SEK':{bid:10.543,dec:4,jpy:false}, 'USD/NOK':{bid:10.723,dec:4,jpy:false},
+    'USD/DKK':{bid:6.9341,dec:4,jpy:false}, 'USD/PLN':{bid:3.9723,dec:4,jpy:false},
+    'EUR/SEK':{bid:11.432,dec:4,jpy:false}, 'EUR/NOK':{bid:11.634,dec:4,jpy:false},
+    'EUR/PLN':{bid:4.2341,dec:4,jpy:false},
+  };
+
+  _CARD_SIZES = {
+    S: { minWidth: '240px', rowHeight: '220px', pipSize: '36px', fracSize: '13px', bigSize: '9px' },
+    M: { minWidth: '340px', rowHeight: '260px', pipSize: '60px', fracSize: '20px', bigSize: '11px' },
+    L: { minWidth: '500px', rowHeight: '360px', pipSize: '80px', fracSize: '28px', bigSize: '13px' },
+  };
+
+  _getTileGrid()    { return document.getElementById('fx-tile-grid'); }
+
+  _openRfq(pair, side) {
+    if (this._rfqTimer) clearInterval(this._rfqTimer);
+    this.setState({ rfqOpen: true, rfqPair: pair, rfqSide: side || 'BUY', rfqCountdown: 30 });
+    this._rfqTimer = setInterval(() => {
+      this.setState(s => {
+        if (!s.rfqOpen || s.rfqCountdown <= 1) { clearInterval(this._rfqTimer); this._rfqTimer = null; return { rfqOpen: false, rfqCountdown: 30 }; }
+        return { rfqCountdown: s.rfqCountdown - 1 };
+      });
+    }, 1000);
+  }
+  _closeRfq() { if (this._rfqTimer) { clearInterval(this._rfqTimer); this._rfqTimer = null; } this.setState({ rfqOpen: false, rfqSubmitting: false, rfqCountdown: 30 }); }
+  _submitRfq() {
+    const { rfqPair, rfqSide } = this.state;
+    this.setState({ rfqSubmitting: true });
+    setTimeout(() => {
+      if (rfqSide === 'BUY') this.buy(rfqPair);
+      else this.sell(rfqPair);
+      this.setState({ rfqOpen: false, rfqSubmitting: false });
+    }, 900);
+  }
+
+  _pairHash(pair) {
+    return pair.split('').reduce((a, c) => a + c.charCodeAt(0), 0);
+  }
+
+  _exportCsv() {
+    if (this._gridApi) this._gridApi.exportDataAsCsv({ fileName: 'blotter-' + new Date().toISOString().slice(0,10) + '.csv' });
+  }
+
+  _computePositions(blotter, prices) {
+    const map = {};
+    blotter.forEach(r => {
+      const not = typeof r.notional === 'number' ? r.notional : parseInt((r.notional||'').replace(/,/g,'')) || 0;
+      if (!map[r.pair]) map[r.pair] = { pair: r.pair, buyNot: 0, sellNot: 0, buys: 0, sells: 0, totalFill: 0, fillCount: 0 };
+      const m = map[r.pair];
+      const px = parseFloat(r.price) || 1;
+      if (r.side === 'BUY')  { m.buyNot  += not; m.buys++;  m.totalFill += px * not; m.fillCount += not; }
+      if (r.side === 'SELL') { m.sellNot += not; m.sells++; }
+    });
+    return Object.values(map).map(m => {
+      const net = m.buyNot - m.sellNot;
+      const avgFill = m.fillCount > 0 ? m.totalFill / m.fillCount : 0;
+      const p = prices[m.pair];
+      const mid = p ? (p.bid + p.offer) / 2 : avgFill;
+      const pnl = avgFill > 0 ? (mid - avgFill) * (m.buyNot / mid) : 0;
+      const fmtM = n => n === 0 ? '—' : (Math.abs(n) >= 1e6 ? (n/1e6).toFixed(1)+'M' : (n/1e3).toFixed(0)+'K');
+      const sign = pnl >= 0 ? '+' : '';
+      return {
+        pair: m.pair,
+        net: fmtM(net),
+        netColor: net > 0 ? '#4589ff' : net < 0 ? '#42be65' : 'var(--text-secondary)',
+        netLabel: net > 0 ? 'LONG' : net < 0 ? 'SHORT' : 'FLAT',
+        buys: m.buys, sells: m.sells,
+        pnl: sign + '$' + Math.abs(Math.round(pnl)).toLocaleString(),
+        pnlColor: pnl >= 0 ? '#42be65' : '#ff8389',
+      };
+    }).sort((a,b) => a.pair.localeCompare(b.pair));
+  }
+  _ensurePairData(pair) {
+    if (this.state.prices[pair]) return;
+    const d = this._ALL_PAIRS[pair];
+    if (!d) return;
+    const spread = d.jpy ? 0.02 : (d.dec <= 4 ? 0.002 : 0.0002);
+    const offer = parseFloat((d.bid + spread).toFixed(d.dec));
+    let p = d.bid;
+    const hist = [];
+    for (let i = 0; i < 60; i++) { p += d.jpy ? (Math.random()*0.09-0.04) : (Math.random()*0.0009-0.0004); hist.push(p); }
+    this._history[pair] = hist;
+    this.setState(prev => ({ prices: { ...prev.prices, [pair]: { bid: d.bid, offer, dec: d.dec, jpy: d.jpy, trend: 'up' } }, sizes: { ...prev.sizes, [pair]: '1M' } }));
+  }
+  _onSearchSelect(pair) {
+    const updates = {};
+    if (!this.state.prices[pair]) {
+      const d = this._ALL_PAIRS[pair];
+      if (d) {
+        const spread = d.jpy ? 0.02 : (d.dec <= 4 ? 0.002 : 0.0002);
+        const offer = parseFloat((d.bid + spread).toFixed(d.dec));
+        let p = d.bid;
+        const hist = [];
+        for (let i = 0; i < 60; i++) { p += d.jpy ? (Math.random()*0.09-0.04) : (Math.random()*0.0009-0.0004); hist.push(p); }
+        this._history[pair] = hist;
+        updates.prices = { ...this.state.prices, [pair]: { bid: d.bid, offer, dec: d.dec, jpy: d.jpy, trend: 'up' } };
+        updates.sizes  = { ...this.state.sizes,  [pair]: '1M' };
+      }
+    }
+    const order = [pair, ...this.state.pairOrder.filter(p => p !== pair)];
+    localStorage.setItem('fx_pair_order', JSON.stringify(order));
+    this.setState({ ...updates, pairOrder: order, searchQuery: '', searchOpen: false });
+  }
+  _onSearchBlur() { setTimeout(() => this.setState({ searchOpen: false }), 180); }
+  _getBlotterGrid() { return document.getElementById('fx-blotter-grid'); }
+
+  _onTileGridResizeStart(e) {
+    e.preventDefault();
+    const grid = this._getTileGrid();
+    if (!grid) return;
+    const startX = e.clientX;
+    const startW = grid.offsetWidth;
+    const onMove = ev => {
+      const newW = Math.max(280, startW + (ev.clientX - startX));
+      grid.style.flex = `0 0 ${newW}px`;
+      grid.style.minWidth = `${newW}px`;
+      grid.style.maxWidth = `${newW}px`;
+      this._pendingTileW = newW;
+    };
+    const onUp = () => {
+      window.removeEventListener('mousemove', onMove);
+      window.removeEventListener('mouseup', onUp);
+      if (this._pendingTileW) {
+        localStorage.setItem('fx_tile_width', this._pendingTileW);
+        this.setState({ tileGridWidth: this._pendingTileW });
+        this._pendingTileW = null;
+      }
+    };
+    window.addEventListener('mousemove', onMove);
+    window.addEventListener('mouseup', onUp);
+  }
+
+  _startTileDrag(pair, e) {
+    this._liveDragOver = null;
+    const srcTile = document.querySelector(`[data-tile-pair="${pair}"]`);
+    if (!srcTile) return;
+    const r = srcTile.getBoundingClientRect();
+    const offX = e.clientX - r.left, offY = e.clientY - r.top;
+
+    // Full-screen overlay captures all subsequent mouse events
+    const overlay = document.createElement('div');
+    overlay.style.cssText = 'position:fixed;inset:0;z-index:9998;cursor:grabbing;';
+    document.body.appendChild(overlay);
+
+    // Ghost block
+    const ghost = document.createElement('div');
+    ghost.style.cssText = `position:fixed;left:${r.left}px;top:${r.top}px;width:${r.width}px;height:${r.height}px;background:#1a2a3a;border:2px solid #4589ff;opacity:0.88;pointer-events:none;z-index:9999;box-shadow:0 8px 32px rgba(0,0,0,0.55);display:flex;align-items:center;justify-content:center;transition:none;will-change:left,top;`;
+    ghost.innerHTML = `<span style="font-family:IBM Plex Mono,monospace;font-size:14px;font-weight:700;color:#4589ff;letter-spacing:1px;">${pair}</span>`;
+    document.body.appendChild(ghost);
+    this._dragGhost = ghost;
+    this.setState({ draggingPair: pair, dragOverPair: null });
+
+    const onMove = (ev) => {
+      const cx = ev.clientX, cy = ev.clientY;
+      ghost.style.left = (cx - offX) + 'px';
+      ghost.style.top  = (cy - offY) + 'px';
+      const allTiles = document.querySelectorAll('[data-tile-pair]');
+      let found = null;
+      for (const t of allTiles) {
+        const p = t.dataset.tilePair;
+        if (!p || p === pair) continue;
+        const tr = t.getBoundingClientRect();
+        if (cx >= tr.left && cx <= tr.right && cy >= tr.top && cy <= tr.bottom) { found = p; break; }
+      }
+      if (found !== this._liveDragOver) {
+        this._liveDragOver = found;
+        this.setState({ dragOverPair: found });
+      }
+    };
+
+    const onUp = () => {
+      overlay.removeEventListener('mousemove', onMove);
+      overlay.removeEventListener('mouseup', onUp);
+      if (overlay.parentNode) overlay.parentNode.removeChild(overlay);
+      const target = this._liveDragOver;
+      this._liveDragOver = null;
+      if (target) {
+        const tel = document.querySelector(`[data-tile-pair="${target}"]`);
+        if (tel) {
+          const tr = tel.getBoundingClientRect();
+          ghost.style.transition = 'left 0.12s,top 0.12s,opacity 0.12s';
+          ghost.style.left = tr.left + 'px'; ghost.style.top = tr.top + 'px'; ghost.style.opacity = '0';
+        }
+      } else {
+        ghost.style.transition = 'opacity 0.12s'; ghost.style.opacity = '0';
+      }
+      setTimeout(() => { if (ghost.parentNode) ghost.parentNode.removeChild(ghost); }, 130);
+      this._dragGhost = null;
+      if (target && target !== pair) this._reorderPairs(pair, target);
+      else this.setState({ draggingPair: null, dragOverPair: null });
+    };
+
+    overlay.addEventListener('mousemove', onMove);
+    overlay.addEventListener('mouseup', onUp);
+  }
+
+  _onGripPointerDown() {} // drag now handled by plain DOM mousedown in componentDidMount
+
+  _onGripPointerMove() {} // no-op — handled by document listener in _onGripPointerDown
+  _onGripPointerUp()   {} // no-op — handled by document listener in _onGripPointerDown
+
+  _onGripMouseDown(pair, e) {
+    e.preventDefault();
+    e.stopPropagation();
+    this._liveDragOver = null;
+    this.setState({ draggingPair: pair, dragOverPair: null });
+
+    const onMove = (ev) => {
+      // Find which tile the mouse is over by checking bounding rects
+      const allTiles = document.querySelectorAll('[data-tile-pair]');
+      for (const tileEl of allTiles) {
+        const p = tileEl.dataset.tilePair;
+        if (!p || p === pair) continue;
+        const r = tileEl.getBoundingClientRect();
+        if (ev.clientX >= r.left && ev.clientX <= r.right &&
+            ev.clientY >= r.top  && ev.clientY <= r.bottom) {
+          if (p !== this._liveDragOver) {
+            this._liveDragOver = p;
+            this.setState({ dragOverPair: p });
+          }
+          return;
+        }
+      }
+    };
+
+    const onUp = () => {
+      document.removeEventListener('mousemove', onMove);
+      document.removeEventListener('mouseup', onUp);
+      const target = this._liveDragOver;
+      this._liveDragOver = null;
+      if (target && target !== pair) {
+        this._reorderPairs(pair, target);
+      } else {
+        this.setState({ draggingPair: null, dragOverPair: null });
+      }
+    };
+
+    document.addEventListener('mousemove', onMove);
+    document.addEventListener('mouseup', onUp);
+  }
+
+  _onTileEnter(pair) {
+    // Kept for compatibility — primary tracking now via pointermove in _onGripMouseDown
+    if (this.state.draggingPair && pair !== this.state.draggingPair) {
+      this.setState({ dragOverPair: pair });
+    }
+  }
+
+  _onTileGridMouseUp() {
+    const { draggingPair, dragOverPair } = this.state;
+    if (draggingPair && dragOverPair) this._reorderPairs(draggingPair, dragOverPair);
+    else this.setState({ draggingPair: null, dragOverPair: null });
+  }
+
+  _onDragStart(pair, e) {
+    this.setState({ draggingPair: pair });
+    try { e.dataTransfer.setData('text/plain', pair); e.dataTransfer.effectAllowed = 'move'; } catch(_) {}
+  }
+
+  _onDragOver(pair, e) {
+    e.preventDefault();
+    try { e.dataTransfer.dropEffect = 'move'; } catch(_) {}
+    if (pair !== this.state.draggingPair) this.setState({ dragOverPair: pair });
+  }
+
+  _onDragLeave(pair, e) {
+    if (this.state.dragOverPair === pair) {
+      this.setState({ dragOverPair: null });
+    }
+  }
+
+  _onDrop(pair, e) {
+    e.preventDefault();
+    const from = this.state.draggingPair;
+    if (!from || from === pair) { this.setState({ draggingPair: null, dragOverPair: null }); return; }
+    const order = [...this.state.pairOrder];
+    const fromIdx = order.indexOf(from);
+    const toIdx = order.indexOf(pair);
+    if (fromIdx === -1 || toIdx === -1) return;
+    order.splice(fromIdx, 1);
+    order.splice(toIdx, 0, from);
+    localStorage.setItem('fx_pair_order', JSON.stringify(order));
+    this.setState({ pairOrder: order, draggingPair: null, dragOverPair: null });
+  }
+
+  _reorderPairs(from, to) {
+    const order = [...this.state.pairOrder];
+    const fromIdx = order.indexOf(from);
+    const toIdx = order.indexOf(to);
+    if (fromIdx === -1 || toIdx === -1) { this.setState({ draggingPair: null, dragOverPair: null }); return; }
+    order.splice(fromIdx, 1);
+    order.splice(toIdx, 0, from);
+    localStorage.setItem('fx_pair_order', JSON.stringify(order));
+    this.setState({ pairOrder: order, draggingPair: null, dragOverPair: null });
+  }
+
+  _onDragEnd() {
+    this.setState({ draggingPair: null, dragOverPair: null });
+  }
+
+  _onResizeStart(e) {
+    e.preventDefault();
+    const startY = e.clientY;
+    const startH = this.state.blotterHeight;
+    const onMove = ev => {
+      const newH = Math.max(120, Math.min(600, startH - (ev.clientY - startY)));
+      this.setState({ blotterHeight: newH });
+      localStorage.setItem('fx_blotter_height', newH);
+    };
+    const onUp = () => {
+      window.removeEventListener('mousemove', onMove);
+      window.removeEventListener('mouseup', onUp);
+    };
+    window.addEventListener('mousemove', onMove);
+    window.addEventListener('mouseup', onUp);
+  }
+
+  _flashNewRow(id) {
+    setTimeout(() => {
+      if (!this._gridApi) return;
+      const node = this._gridApi.getRowNode(String(id));
+      if (node) {
+        this._gridApi.flashCells({ rowNodes: [node], flashDuration: 900, fadeDuration: 400 });
+      }
+    }, 60);
+  }
+
+  _computeKpiFromGrid() {
+    if (!this._gridApi) return;
+    let deals = 0, buys = 0, sells = 0, totalNot = 0;
+    const gridActivity = [];
+    this._gridApi.forEachNodeAfterFilterAndSort(node => {
+      if (!node.data) return;
+      deals++;
+      const not = typeof node.data.notional === 'number' ? node.data.notional : parseInt((node.data.notional||'').replace(/,/g,'')) || 0;
+      totalNot += not;
+      if (node.data.side === 'BUY') buys++; else sells++;
+      gridActivity.push(node.data);
+    });
+    const avgSize = deals > 0 ? totalNot / deals : 0;
+    const buyPct = deals > 0 ? Math.round(buys / deals * 100) : 0;
+    const fmtM = n => n >= 1e9 ? '$' + (n/1e9).toFixed(2)+'B' : '$' + (n/1e6).toFixed(1)+'M';
+    const pnl = 24350 + deals * 3750;
+    const fmtFull = n => '$' + Math.round(n).toLocaleString();
+    let totalSpread = 0, spreadCount = 0;
+    this._gridApi.forEachNodeAfterFilter(node => {
+      if (!node.data) return;
+      const s = parseFloat(node.data.spread);
+      if (!isNaN(s)) { totalSpread += s; spreadCount++; }
+    });
+    const avgSpread = spreadCount > 0 ? (totalSpread / spreadCount).toFixed(1) : '—';
+    this.setState({ gridKpi: {
+      kpiDeals: deals, kpiBuys: buys, kpiSells: sells,
+      kpiNotional: fmtM(totalNot), kpiAvgSize: fmtM(avgSize),
+      kpiBuyPct: buyPct + '%', kpiVolume: fmtM(totalNot * 4.2),
+      kpiPnl: (pnl >= 0 ? '+$' : '-$') + Math.abs(pnl).toLocaleString(),
+      kpiPnlColor: pnl >= 0 ? '#42be65' : '#ff8389',
+      kpiSpreadAvg: avgSpread,
+      // Raw for tooltips + activity
+      _totalNot: totalNot, _avgSize: avgSize, _vol: totalNot * 4.2, _pnl: pnl,
+      gridActivity,
+    }});
+  }
+
+  _counterparties = ['BlackRock','Fidelity','Schroders','Legal & General','Aviva Investors','Citadel','Man Group','Goldman Sachs','JPMorgan','Barclays','Deutsche Bank','BNP Paribas'];
+
+  _valueDate(pair) {
+    const d = new Date();
+    const days = (pair === 'USD/CAD' || pair === 'CAD/USD') ? 1 : 2;
+    let n = 0;
+    while (n < days) {
+      d.setDate(d.getDate() + 1);
+      if (d.getDay() !== 0 && d.getDay() !== 6) n++;
+    }
+    return `${d.getDate().toString().padStart(2,'0')} ${['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][d.getMonth()]} ${d.getFullYear()}`;
+  }
+
+  _spreadBps(pair, price) {
+    // Typical FX spot spread capture: 1-3 bps majors, 2-5 bps minors
+    const isJpy = pair.includes('JPY');
+    const isMajor = ['EUR/USD','GBP/USD','USD/JPY','EUR/JPY','AUD/USD','USD/CHF'].includes(pair);
+    const base = isMajor ? (isJpy ? 1.5 : 1.2) : (isJpy ? 2.5 : 2.1);
+    return (base + Math.random() * 1.5).toFixed(1);
+  }
+
+  _tradeId(seq) {
+    const d = new Date();
+    const ds = `${d.getFullYear()}${(d.getMonth()+1).toString().padStart(2,'0')}${d.getDate().toString().padStart(2,'0')}`;
+    return `FX-${ds}-${String(seq).padStart(6,'0')}`;
+  }
+
+  _generate400Deals() {
+    const pairs = this._PAIRS;
+    const traders = ['A. Chen','R. Patel','S. Müller','A. Chen','R. Patel'];
+    const venues = ['DRCT','DRCT','ECN','ECN','MKT','EBS','360T'];
+    const pickStatus = () => {
+      const r = Math.random() * 100;
+      if (r < 85) return 'DONE';
+      if (r < 90) return 'PARTIAL';
+      if (r < 94) return 'WORKING';
+      if (r < 96) return 'REJECTED';
+      if (r < 98) return 'CANCELLED';
+      if (r < 99) return 'EXPIRED';
+      if (r < 99.5) return 'PENDING';
+      if (r < 99.8) return 'FAILED';
+      return 'AFFIRMED';
+    };
+    const notionals = [500000,1000000,2000000,3000000,5000000,10000000,25000000,50000000];
+    const basePx = { 'EUR/USD':1.0847,'USD/JPY':149.33,'GBP/USD':1.2647,'EUR/JPY':161.90,'AUD/USD':0.6524,'USD/CAD':1.3613,'EUR/GBP':0.8575,'GBP/CHF':1.1344,'NZD/USD':0.6031,'USD/CHF':0.9012,'EUR/AUD':1.6385,'GBP/JPY':188.43,'USD/SGD':1.3471,'EUR/CHF':0.9732 };
+    const decs = { 'EUR/USD':5,'USD/JPY':3,'GBP/USD':5,'EUR/JPY':3,'AUD/USD':5,'USD/CAD':5,'EUR/GBP':5,'GBP/CHF':5,'NZD/USD':5,'USD/CHF':5,'EUR/AUD':5,'GBP/JPY':3,'USD/SGD':5,'EUR/CHF':5 };
+    const deals = [];
+    let t = Date.now();
+    for (let i = 0; i < 400; i++) {
+      t -= Math.floor(Math.random() * 85000 + 5000);
+      const dt = new Date(t);
+      const pair = pairs[Math.floor(Math.random() * pairs.length)];
+      const side = Math.random() > 0.5 ? 'BUY' : 'SELL';
+      const notional = notionals[Math.floor(Math.random() * notionals.length)];
+      const dec = decs[pair];
+      const jpy = pair.includes('JPY');
+      const variation = jpy ? (Math.random()*0.6-0.3) : (Math.random()*0.006-0.003);
+      const price = (basePx[pair] + variation).toFixed(dec);
+      const timeStr = [dt.getHours(), dt.getMinutes(), dt.getSeconds()].map(n => String(n).padStart(2,'0')).join(':');
+      const cp = this._counterparties[Math.floor(Math.random()*this._counterparties.length)];
+      deals.push({ id: i, time: timeStr, pair, side, notional, price,
+        ccy: pair.slice(0, 3),
+        spread: this._spreadBps(pair, parseFloat(price)),
+        counterparty: cp,
+        valueDate: this._valueDate(pair),
+        tradeId: this._tradeId(400 - i),
+        trader: traders[Math.floor(Math.random()*traders.length)], venue: venues[Math.floor(Math.random()*venues.length)],
+        status: pickStatus() });
+    }
+    return deals;
+  }
+
+  _setupGrid() {
+    const el = this._getBlotterGrid();
+    if (!window.agGrid || !el) return;
+    // Destroy any stale grid before re-creating
+    if (this._gridApi) { try { this._gridApi.destroy(); } catch(e) {} this._gridApi = null; el.innerHTML = ''; }
+    const mono = { fontFamily: 'IBM Plex Mono, monospace' };
+    const columnDefs = [
+      { field:'time',         headerName:'TIME',         width:90,  cellStyle:{ ...mono, color:'#8d8d8d' }, menuTabs:[] },
+      { field:'tradeId',      headerName:'TRADE ID',     width:165, filter:'agTextColumnFilter', cellStyle:{ ...mono, color:'#6f6f6f', fontSize:'11px' } },
+      { field:'pair',         headerName:'PAIR',         width:90,  cellStyle:{ ...mono, color:'#f4f4f4', fontWeight:'600' }, filter:'agTextColumnFilter' },
+      { field:'side',         headerName:'SIDE',         width:70,  filter:'agTextColumnFilter', menuTabs:['filterMenuTab'],
+        cellStyle: p => ({ color: p.value==='BUY'?'#4589ff':'#42be65', fontWeight:'700', fontFamily:'IBM Plex Mono, monospace', letterSpacing:'0.5px' }) },
+      { field:'notional',     headerName:'NOTIONAL',     width:150, filter:'agNumberColumnFilter', type:'numericColumn',
+        valueFormatter: p => typeof p.value==='number' ? p.value.toLocaleString() : p.value,
+        cellStyle:{ ...mono, color:'#f4f4f4', textAlign:'right' } },
+      { field:'ccy',          headerName:'CCY',          width:60,  filter:'agTextColumnFilter', cellStyle:{ ...mono, color:'#8d8d8d', fontWeight:'600' } },
+      { field:'price',        headerName:'RATE',         width:110, type:'numericColumn', cellStyle:{ ...mono, color:'#f4f4f4', textAlign:'right' }, menuTabs:[] },
+      { field:'spread',       headerName:'SPREAD (bps)', width:110, type:'numericColumn', cellStyle:{ ...mono, color:'#a8a8a8', textAlign:'right' }, menuTabs:[] },
+      { field:'counterparty', headerName:'COUNTERPARTY', width:160, filter:'agTextColumnFilter', cellStyle:{ color:'#f4f4f4' } },
+      { field:'valueDate',    headerName:'VALUE DATE',   width:100, filter:'agTextColumnFilter', cellStyle:{ ...mono, color:'#8d8d8d' } },
+      { field:'trader',       headerName:'TRADER',       width:100, filter:'agTextColumnFilter', cellStyle:{ color:'#8d8d8d' } },
+      { field:'venue',        headerName:'VENUE',        width:80,  filter:'agTextColumnFilter', cellStyle:{ color:'#8d8d8d' } },
+      { field:'status',       headerName:'STATUS',       flex:1, minWidth:90, menuTabs:[],
+        cellStyle: p => {
+          const c = { DONE:'#42be65', AFFIRMED:'#24a148', PARTIAL:'#f1c21b', WORKING:'#4589ff',
+                      PENDING:'#f1c21b', REJECTED:'#ff8389', FAILED:'#ff8389', CANCELLED:'#ff8389', EXPIRED:'#ff832b' };
+          return { ...mono, color: c[p.value] || '#a8a8a8', fontWeight:'600' };
+        } },
+    ];
+    this._gridApi = agGrid.createGrid(el, {
+      columnDefs,
+      rowData: this._generate400Deals(),
+      rowHeight: 24,
+      headerHeight: 32,
+      animateRows: false,
+      overlayNoRowsTemplate: '<div style="text-align:center;padding:24px"><p style="color:#f4f4f4;font-size:12px;font-family:IBM Plex Sans,sans-serif;font-weight:600;margin:0 0 4px">No results</p><p style="color:#a8a8a8;font-size:11px;font-family:IBM Plex Sans,sans-serif;margin:0">No orders match your filter. Clear the filter to see all orders.</p></div>',
+      suppressCellFocus: true,
+      rowSelection: 'single',
+      defaultColDef: { resizable: true, sortable: true },
+      suppressColumnVirtualisation: false,
+      suppressMenuHide: true,
+      getRowId: p => String(p.data.id),
+      onFilterChanged: () => { this._computeKpiFromGrid(); if (this._gridApi) localStorage.setItem('fx_grid_filter', JSON.stringify(this._gridApi.getFilterModel())); },
+      onSortChanged: () => { if (this._gridApi) this._saveColState(); },
+      onColumnResized: p => { if (p.finished && this._gridApi) this._saveColState(); },
+      onColumnMoved: () => { if (this._gridApi) this._saveColState(); },
+      onColumnVisible: () => { if (this._gridApi) this._saveColState(); },
+      onModelUpdated: () => this._computeKpiFromGrid(),
+      onGridReady: p => {
+        // Column schema version — bump when columns are added/removed/reordered
+        const COL_VERSION = 'v4'; // TIME,TRADEID,PAIR,SIDE,NOTIONAL,CCY,RATE,SPREAD,CPTY,VALDATE,TRADER,VENUE,STATUS
+        const savedVersion = localStorage.getItem('fx_grid_col_version');
+        const savedCols = (() => { try { return JSON.parse(localStorage.getItem('fx_grid_cols') || 'null'); } catch(e) { return null; } })();
+        if (savedCols && savedVersion === COL_VERSION) {
+          p.api.applyColumnState({ state: savedCols, applyOrder: true });
+        } else {
+          // New column schema — reset to default order and sort
+          localStorage.removeItem('fx_grid_cols');
+          localStorage.setItem('fx_grid_col_version', COL_VERSION);
+          p.api.applyColumnState({ state: [{ colId:'time', sort:'desc' }] });
+        }
+        // Restore persisted filter model
+        const savedFilter = (() => { try { return JSON.parse(localStorage.getItem('fx_grid_filter') || 'null'); } catch(e) { return null; } })();
+        if (savedFilter && Object.keys(savedFilter).length) { p.api.setFilterModel(savedFilter); }
+        // Restore quick filter text
+        const savedQ = localStorage.getItem('fx_blotter_search');
+        if (savedQ) { p.api.setGridOption('quickFilterText', savedQ); }
+        setTimeout(() => this._computeKpiFromGrid(), 100);
+        // Inject overrides AFTER AG Grid's own dynamic styles (remove stale copy first)
+        const stale = document.getElementById('ag-overrides');
+        if (stale) stale.remove();
+        const s = document.createElement('style');
+        s.id = 'ag-overrides';
+        s.textContent = `
+          .unite-grid .ag-cell { border-right:none!important; border-left:none!important; }
+          .unite-grid .ag-cell-focus { border:none!important; box-shadow:none!important; }
+          .unite-grid .ag-row { border-bottom:1px solid #393939!important; }
+          .unite-grid .ag-row-odd,
+          .unite-grid .ag-row-even { background-color:#262626!important; }
+        `;
+        document.head.appendChild(s);
+      },
+    });
+  }
+
+  renderVals() {
+    const { selectedPair, time, prices, flashing, sizes, activeOrders, blotter, alerts } = this.state;
+    const SIZES = this._SIZES;
+
+    const h = String(time.getHours()).padStart(2,'0');
+    const m = String(time.getMinutes()).padStart(2,'0');
+    const s = String(time.getSeconds()).padStart(2,'0');
+    const timeStr = `${h}:${m}:${s} UTC`;
+
+    // Build tile data
+    const gq = (this.state.globalSearch || '').toUpperCase().replace(/[^A-Z/]/g, '');
+    const { pairOrder, draggingPair, dragOverPair } = this.state;
+    const tiles = pairOrder.map(pair => {
+      const p = prices[pair];
+      if (!p) return null;
+      // Hide tiles that don't match global search
+      if (gq && !pair.replace('/','').includes(gq.replace('/','')) && !pair.includes(gq)) return null;
+      const bid = this._fmt(pair, 'bid');
+      const offer = this._fmt(pair, 'offer');
+      const isSelected = pair === selectedPair;
+      const isFlashing = !!flashing[pair];
+      const isDragging = pair === draggingPair;
+      const isDragOver = pair === dragOverPair;
+      const base = pair.split('/')[0];
+      const sIdx = SIZES.indexOf(sizes[pair]);
+      return {
+        pair, base,
+        venue: 'DRCT', marketState: 'LIVE',
+        bidBig: bid.big, bidPips: bid.pips, bidFrac: bid.frac,
+        offerBig: offer.big, offerPips: offer.pips, offerFrac: offer.frac,
+        spread: this._spread(pair),
+        trend: p.trend,
+        trendArrow: p.trend === 'up' ? '▲' : '▼',
+        trendColor: p.trend === 'up' ? '#42be65' : '#ff8389',
+        size: sizes[pair] || '1M',
+        tileBg: isDragOver ? '#0d2040' : isDragging ? '#0a1628' : isSelected ? '#101e33' : 'var(--layer-01)',
+        tileOutline: 'none',
+        tileRing: isDragOver ? '3px solid #4589ff' : isSelected ? '1px solid #4589ff' : '1px solid transparent',
+        tileOpacity: isDragging ? '0.28' : '1',
+        tileCursor: isDragging ? 'grabbing' : 'pointer',
+        tileHeaderBg: isDragOver ? 'rgba(69,137,255,0.22)' : 'transparent',
+        showDropLabel: isDragOver,
+        showDragLabel: isDragging,
+        bidFlash: isFlashing ? 'rgba(66,190,101,0.16)' : 'transparent',
+        offerFlash: isFlashing ? 'rgba(69,137,255,0.16)' : 'transparent',
+        onSelect: () => this.setState({ selectedPair: pair }),
+        onBuy: (e) => { if (e) e.stopPropagation(); this.buy(pair); },
+        onSell: (e) => { if (e) e.stopPropagation(); this.sell(pair); },
+        onSizeUp: (e) => { if (e) e.stopPropagation(); if (sIdx < SIZES.length-1) this.setSize(pair, SIZES[sIdx+1]); },
+        onSizeDown: (e) => { if (e) e.stopPropagation(); if (sIdx > 0) this.setSize(pair, SIZES[sIdx-1]); },
+        onRfq: (e) => { if (e) e.stopPropagation(); this._openRfq(pair, null); },
+        // Vol / liq state (deterministic per pair)
+        volState: ['LOW','MED','HIGH','MED','HIGH'][this._pairHash(pair) % 5],
+        volTagType: ['teal','teal','yellow'][this._pairHash(pair) % 3],
+        showVolTag: ['MED','HIGH'].includes(['LOW','MED','HIGH','MED','HIGH'][this._pairHash(pair) % 5]),
+        showLiqTag: false,
+        onDragStart: (e) => this._onDragStart(pair, e),
+        onDragOver:  (e) => this._onDragOver(pair, e),
+        onDragLeave: (e) => this._onDragLeave(pair, e),
+        onDrop:      (e) => this._onDrop(pair, e),
+        onDragEnd:      ()  => this._onDragEnd(),
+        onGripMouseDown:   e => this._onGripMouseDown(pair, e),
+        onGripPointerDown: e => this._onGripPointerDown(pair, e),
+        onGripPointerMove: e => this._onGripPointerMove(pair, e),
+        onGripPointerUp:   e => this._onGripPointerUp(pair, e),
+        onTileEnter:       () => this._onTileEnter(pair),
+        onRemove: (e) => {
+          if (e) e.stopPropagation();
+          const order = this.state.pairOrder.filter(p => p !== pair);
+          localStorage.setItem('fx_pair_order', JSON.stringify(order));
+          const newSelected = pair === selectedPair ? (order[0] || 'EUR/USD') : selectedPair;
+          this.setState({ pairOrder: order, selectedPair: newSelected });
+        },
+      };
+    }).filter(Boolean);
+
+    // Selected pair data
+    const sp = prices[selectedPair];
+    const sBid = this._fmt(selectedPair, 'bid');
+    const sOffer = this._fmt(selectedPair, 'offer');
+    // Compute HIGH/LOW/VWAP from blotter data for selected pair
+    const pairTrades = blotter.filter(r => r.pair === selectedPair);
+    let sHigh = sp.bid + (sp.jpy ? 0.52 : 0.0052);
+    let sLow  = sp.bid - (sp.jpy ? 0.38 : 0.0038);
+    let vwapNum = sp.bid + (sp.jpy ? 0.07 : 0.0007);
+    if (pairTrades.length >= 2) {
+      const prices = pairTrades.map(r => parseFloat(r.price)).filter(p => !isNaN(p));
+      const notionals = pairTrades.map(r => typeof r.notional === 'number' ? r.notional : parseInt((r.notional||'').replace(/,/g,'')) || 0);
+      sHigh = Math.max(...prices);
+      sLow  = Math.min(...prices);
+      const sumPxNot = prices.reduce((s, p, i) => s + p * notionals[i], 0);
+      const sumNot   = notionals.reduce((s, n) => s + n, 0);
+      vwapNum = sumNot > 0 ? sumPxNot / sumNot : vwapNum;
+    }
+    const sessionHigh = sHigh.toFixed(sp.dec);
+    const sessionLow  = sLow.toFixed(sp.dec);
+    const vwap        = vwapNum.toFixed(sp.dec);
+
+    const lo = parseFloat(sessionLow), hi = parseFloat(sessionHigh);
+    const mid = (sp.bid + sp.offer) / 2;
+    const posPct = Math.max(4, Math.min(96, Math.round((mid - lo) / (hi - lo) * 100))) + '%';
+
+    const depthRows = this._buildDepth(selectedPair);
+    const miniChart = this._buildChart(selectedPair);
+
+    // Section search filters
+    const oq = this.state.ordersSearch.toLowerCase();
+    const aq = this.state.alertsSearch.toLowerCase();
+    const acq = this.state.activitySearch.toLowerCase();
+
+    const ordersWithFill = activeOrders.filter(o => !oq || o.pair.toLowerCase().includes(oq) || o.side.toLowerCase().includes(oq) || o.venue.toLowerCase().includes(oq) || o.status.toLowerCase().includes(oq)).map(o => ({
+      orderAnim: this._newOrderIds.has(o.id) ? 'flashNewRow 1.2s ease-out forwards' : 'none',
+      ...o,
+      fillBar: `${o.fill}%`,
+      fillColor: o.fill >= 100 ? '#42be65' : '#4589ff',
+      sideColor: o.side === 'BUY' ? '#4589ff' : '#42be65',
+      statusColor: o.status === 'ACTIVE' ? '#f1c21b' : o.status === 'PARTIAL' ? '#4589ff' : '#c6c6c6',
+    }));
+
+    const filteredAlerts = aq ? alerts.filter(a => a.msg.toLowerCase().includes(aq) || (a.type||'').toLowerCase().includes(aq)) : alerts;
+    const alertsWithStyle = filteredAlerts.map(a => ({
+      ...a,
+      alertAnim: (this._newAlertIds.has(a.id) || a._new) ? 'flashNewRow 1.2s ease-out forwards' : 'none',
+      icon: a.type === 'fill' ? '✓' : a.type === 'risk' ? '!' : '~',
+      iconColor: a.type === 'fill' ? '#42be65' : a.type === 'risk' ? '#ff8389' : '#f1c21b',
+      iconBg: a.type === 'fill' ? 'rgba(66,190,101,0.12)' : a.type === 'risk' ? 'rgba(255,131,137,0.12)' : 'rgba(241,194,27,0.12)',
+    }));
+
+    const blotterRows = blotter.map(r => ({
+      ...r,
+      sideColor: r.side === 'BUY' ? '#4589ff' : '#42be65',
+      statusColor: '#42be65',
+    }));
+
+    const activitySource = (this.state.gridKpi && this.state.gridKpi.gridActivity)
+      ? this.state.gridKpi.gridActivity
+      : blotter;
+    const statusColors = { DONE:'#42be65', AFFIRMED:'#24a148', PARTIAL:'#f1c21b', WORKING:'#4589ff',
+      PENDING:'#f1c21b', REJECTED:'#ff8389', FAILED:'#ff8389', CANCELLED:'#ff8389', EXPIRED:'#ff832b' };
+    const filteredActivity = acq ? activitySource.filter(r => (r.pair||'').toLowerCase().includes(acq) || (r.side||'').toLowerCase().includes(acq) || (r.counterparty||'').toLowerCase().includes(acq) || (r.status||'').toLowerCase().includes(acq)) : activitySource;
+    const recentActivity = filteredActivity.map(r => ({
+      ...r,
+      notional: typeof r.notional === 'number' ? r.notional.toLocaleString() : r.notional,
+      sideColor: r.side === 'BUY' ? '#4589ff' : '#42be65',
+      statusColor: statusColors[r.status] || '#a8a8a8',
+    }));
+
+    return {
+      tiles, timeStr, selectedPair,
+      sBidBig: sBid.big, sBidPips: sBid.pips, sBidFrac: sBid.frac,
+      sOfferBig: sOffer.big, sOfferPips: sOffer.pips, sOfferFrac: sOffer.frac,
+      sSpread: this._spread(selectedPair),
+      sessionHigh, sessionLow, vwap, sessionVol: '24.7B',
+      posPct, depthRows, miniChart,
+      ordersWithFill, ordersCount: activeOrders.length,
+      alertsWithStyle, recentActivity,
+      blotterCount: blotter.length,
+      gridKpiDeals: this.state.gridKpi ? this.state.gridKpi.kpiDeals : blotter.length,
+      blotterTab: this.state.blotterTab,
+      onTabDeals:     () => this.setState({ blotterTab: 'DEALS' }),
+      onTabPositions: () => this.setState({ blotterTab: 'POSITIONS' }),
+      onTabOrders:    () => this.setState({ blotterTab: 'ORDERS' }),
+      tabBorderDeals:     this.state.blotterTab === 'DEALS'     ? '2px solid #4589ff' : '2px solid transparent',
+      tabBorderPositions: this.state.blotterTab === 'POSITIONS' ? '2px solid #4589ff' : '2px solid transparent',
+      tabBorderOrders:    this.state.blotterTab === 'ORDERS'    ? '2px solid #4589ff' : '2px solid transparent',
+      tabColorDeals:     this.state.blotterTab === 'DEALS'     ? 'var(--text-primary)' : 'var(--text-secondary)',
+      tabColorPositions: this.state.blotterTab === 'POSITIONS' ? 'var(--text-primary)' : 'var(--text-secondary)',
+      tabColorOrders:    this.state.blotterTab === 'ORDERS'    ? 'var(--text-primary)' : 'var(--text-secondary)',
+      showDeals:     this.state.blotterTab === 'DEALS',
+      showPositions: this.state.blotterTab === 'POSITIONS',
+      showOrders:    this.state.blotterTab === 'ORDERS',
+      dealsDisplay:     this.state.blotterTab === 'DEALS'     ? 'flex' : 'none',
+      positionsDisplay: this.state.blotterTab === 'POSITIONS' ? 'flex' : 'none',
+      ordersDisplay:    this.state.blotterTab === 'ORDERS'    ? 'flex' : 'none',
+      dealsVisibility:     this.state.blotterTab === 'DEALS'     ? 'visible' : 'hidden',
+      positionsVisibility: this.state.blotterTab === 'POSITIONS' ? 'visible' : 'hidden',
+      ordersVisibility:    this.state.blotterTab === 'ORDERS'    ? 'visible' : 'hidden',
+      positionsRows: this._computePositions(blotter, prices),
+      onExportCsv: () => this._exportCsv(),
+      blotterHeight: this.state.blotterHeight,
+      onResizeStart: this._onResizeStart.bind(this),
+      onTileGridResizeStart: this._onTileGridResizeStart.bind(this),
+      tilesCount: tiles.length,
+      globalSearch: this.state.globalSearch,
+      onGlobalSearch: e => this.setState({ globalSearch: e.target.value }),
+      onGlobalSearchClear: () => this.setState({ globalSearch: '' }),
+      blotterSearch: this.state.blotterSearch,
+      onBlotterSearch: e => {
+        const v = e.target.value;
+        this.setState({ blotterSearch: v });
+        if (this._gridApi) this._gridApi.setGridOption('quickFilterText', v);
+      },
+      onBlotterSearchClear: () => {
+        this.setState({ blotterSearch: '' });
+        if (this._gridApi) this._gridApi.setGridOption('quickFilterText', '');
+      },
+      currentTheme: this.state.theme,
+      // Feed status
+      feedStatus: this.state.feedStatus,
+      feedDotColor: this.state.feedStatus === 'connected' ? '#42be65' : this.state.feedStatus === 'reconnecting' ? '#f1c21b' : '#da1e28',
+      feedLabel: this.state.feedStatus === 'connected' ? 'LONDON' : this.state.feedStatus === 'reconnecting' ? 'RECONNECTING…' : 'DISCONNECTED',
+      feedBannerVisible: this.state.feedStatus !== 'connected',
+      feedBannerKind: this.state.feedStatus === 'disconnected' ? 'error' : 'warning',
+      feedBannerMsg: this.state.feedStatus === 'disconnected'
+        ? 'Live feed disconnected. Prices are not updating. Reconnecting…'
+        : 'Feed reconnecting. Price data may be stale.',
+      feedBannerBg: this.state.feedStatus === 'disconnected' ? 'rgba(218,30,40,0.12)' : 'rgba(241,194,27,0.10)',
+      feedBannerBorder: this.state.feedStatus === 'disconnected' ? 'rgba(218,30,40,0.4)' : 'rgba(241,194,27,0.4)',
+      feedBannerIconColor: this.state.feedStatus === 'disconnected' ? '#ff8389' : '#f1c21b',
+      feedBannerTextColor: this.state.feedStatus === 'disconnected' ? '#ff8389' : '#f1c21b',
+      sidebarWidth: this.state.sidebarWidth,
+      ordersSearch: this.state.ordersSearch,
+      alertsSearch: this.state.alertsSearch,
+      activitySearch: this.state.activitySearch,
+      onOrdersSearch: e => this.setState({ ordersSearch: e.target.value }),
+      onOrdersSearchClear: () => this.setState({ ordersSearch: '' }),
+      onAlertsSearch: e => this.setState({ alertsSearch: e.target.value }),
+      onAlertsSearchClear: () => this.setState({ alertsSearch: '' }),
+      onActivitySearch: e => this.setState({ activitySearch: e.target.value }),
+      onActivitySearchClear: () => this.setState({ activitySearch: '' }),
+      // Sidebar expansion
+      ordersExpanded:   this.state.sidebarExpanded.orders,
+      alertsExpanded:   this.state.sidebarExpanded.alerts,
+      activityExpanded: this.state.sidebarExpanded.activity,
+      ordersChevron:   this.state.sidebarExpanded.orders   ? '▾' : '▸',
+      alertsChevron:   this.state.sidebarExpanded.alerts   ? '▾' : '▸',
+      activityChevron: this.state.sidebarExpanded.activity ? '▾' : '▸',
+      alertsCount: alerts.length,
+      activityCount: recentActivity.length,
+      ordersHeight:   this.state.sidebarExpanded.orders   ? '1 1 0' : '0 0 26px',
+      alertsHeight:   this.state.sidebarExpanded.alerts   ? '1 1 0' : '0 0 26px',
+      activityHeight: this.state.sidebarExpanded.activity ? '1 1 0' : '0 0 26px',
+      onToggleOrders:   () => this.setState(s => ({ sidebarExpanded: { ...s.sidebarExpanded, orders:   !s.sidebarExpanded.orders   } })),
+      onToggleAlerts:   () => this.setState(s => ({ sidebarExpanded: { ...s.sidebarExpanded, alerts:   !s.sidebarExpanded.alerts   } })),
+      onToggleActivity: () => this.setState(s => ({ sidebarExpanded: { ...s.sidebarExpanded, activity: !s.sidebarExpanded.activity } })),
+      onSidebarResizeStart: e => {
+        e.preventDefault();
+        const startX = e.clientX;
+        const startW = this.state.sidebarWidth;
+        // Capture tile grid ratio at drag start
+        const tg = document.getElementById('fx-tile-grid');
+        const innerRow = tg && tg.parentElement;
+        // Capture tile grid ratio at drag start (only if it has a fixed flex)
+        const hasFlex = tg && tg.style.flex && tg.style.flex !== '1' && tg.style.flex !== '';
+        const startTgRatio = (hasFlex && innerRow && innerRow.offsetWidth > 0)
+          ? tg.offsetWidth / innerRow.offsetWidth : null;
+        const onMove = ev => {
+          const newW = Math.max(180, Math.min(600, startW - (ev.clientX - startX)));
+          this.setState({ sidebarWidth: newW });
+          localStorage.setItem('fx_sidebar_width', newW);
+          // Keep tile grid proportional so analytics panel always stays visible
+          if (startTgRatio && tg && innerRow) {
+            requestAnimationFrame(() => {
+              const newInnerRowW = innerRow.offsetWidth;
+              if (newInnerRowW <= 0) return;
+              // Clamp: tile grid can use at most 75% of available space
+              const newTgW = Math.round(Math.min(startTgRatio, 0.75) * newInnerRowW);
+              tg.style.flex = `0 0 ${newTgW}px`;
+              tg.style.minWidth = `${newTgW}px`;
+              localStorage.setItem('fx_tile_width', newTgW);
+              this._pendingTileW = newTgW;
+            });
+          }
+        };
+        const onUp = () => { document.removeEventListener('mousemove', onMove); document.removeEventListener('mouseup', onUp); };
+        document.addEventListener('mousemove', onMove);
+        document.addEventListener('mouseup', onUp);
+      },
+      onTileGridMouseUp: () => this._onTileGridMouseUp(),
+      onFeedToggle: () => {
+        const next = { connected: 'reconnecting', reconnecting: 'disconnected', disconnected: 'connected' };
+        this.setState({ feedStatus: next[this.state.feedStatus] });
+      },
+      onThemeToggle: () => {
+        const next = this.state.theme === 'g100' ? 'g10' : 'g100';
+        this.setState({ theme: next });
+      },
+      globalSearchActive: !!this.state.globalSearch,
+      kbdOpacity: this.state.globalSearch ? '0' : '1',
+      cardMinWidth:  (this._CARD_SIZES[this.state.cardSize] || this._CARD_SIZES.M).minWidth,
+      cardRowHeight: (this._CARD_SIZES[this.state.cardSize] || this._CARD_SIZES.M).rowHeight,
+      cardPipSize:   (this._CARD_SIZES[this.state.cardSize] || this._CARD_SIZES.M).pipSize,
+      cardFracSize:  (this._CARD_SIZES[this.state.cardSize] || this._CARD_SIZES.M).fracSize,
+      cardBigSize:   (this._CARD_SIZES[this.state.cardSize] || this._CARD_SIZES.M).bigSize,
+      // Search
+      searchQuery: this.state.searchQuery,
+      searchOpen: this.state.searchOpen && this.state.searchQuery.length > 0,
+      onSearchInput: e => this.setState({ searchQuery: e.target.value, searchOpen: true }),
+      onSearchFocus: () => this.setState({ searchOpen: true }),
+      onSearchBlur: () => this._onSearchBlur(),
+      searchResults: (() => {
+        const q = this.state.searchQuery.toUpperCase().replace(/[^A-Z/]/g,'');
+        if (!q) return [];
+        return Object.keys(this._ALL_PAIRS)
+          .filter(p => p.replace('/','').includes(q.replace('/','')) || p.includes(q))
+          .slice(0, 10)
+          .map(p => ({
+            pair: p,
+            inGrid: this.state.pairOrder.includes(p),
+            label: this.state.pairOrder.includes(p) ? 'in grid' : '+ add',
+            color: this.state.pairOrder.includes(p) ? 'var(--text-secondary)' : 'var(--text-primary)',
+            labelColor: this.state.pairOrder.includes(p) ? 'var(--text-disabled)' : 'var(--link-primary)',
+            onAdd: e => { e.preventDefault(); if (!this.state.pairOrder.includes(p)) this._onSearchSelect(p); },
+            cursor: this.state.pairOrder.includes(p) ? 'default' : 'pointer',
+            itemClass: 'fx-search-item' + (this.state.pairOrder.includes(p) ? ' in-grid' : ''),
+          }));
+      })(),
+      onCardSizeS: () => { localStorage.setItem('fx_card_size','S'); this.setState({ cardSize:'S' }); },
+      onCardSizeM: () => { localStorage.setItem('fx_card_size','M'); this.setState({ cardSize:'M' }); },
+      onCardSizeL: () => { localStorage.setItem('fx_card_size','L'); this.setState({ cardSize:'L' }); },
+      cardSizeBgS: this.state.cardSize==='S' ? '#0f62fe' : 'var(--layer-02)',
+      cardSizeBgM: this.state.cardSize==='M' ? '#0f62fe' : 'var(--layer-02)',
+      cardSizeBgL: this.state.cardSize==='L' ? '#0f62fe' : 'var(--layer-02)',
+      cardSizeColorS: this.state.cardSize==='S' ? '#ffffff' : 'var(--text-secondary)',
+      cardSizeColorM: this.state.cardSize==='M' ? '#ffffff' : 'var(--text-secondary)',
+      cardSizeColorL: this.state.cardSize==='L' ? '#ffffff' : 'var(--text-secondary)',
+      // RFQ modal
+      rfqOpen: this.state.rfqOpen,
+      rfqTitle: `RFQ — ${this.state.rfqPair || ''}`,
+      rfqPair: this.state.rfqPair || '',
+      rfqSide: this.state.rfqSide,
+      rfqQty: this.state.rfqQty,
+      rfqTif: this.state.rfqTif,
+      rfqVenue: this.state.rfqVenue,
+      rfqSubmitting: this.state.rfqSubmitting,
+      rfqSubmitLabel: this.state.rfqSubmitting ? 'Sending…' : `Submit ${this.state.rfqSide}`,
+      rfqSideIsBuy: this.state.rfqSide === 'BUY',
+      rfqSideIsSell: this.state.rfqSide === 'SELL',
+      rfqHeaderBg: this.state.rfqSide === 'BUY' ? 'rgba(69,137,255,0.18)' : 'rgba(66,190,101,0.18)',
+      rfqHeaderBorderColor: this.state.rfqSide === 'BUY' ? 'rgba(69,137,255,0.35)' : 'rgba(66,190,101,0.35)',
+      rfqHeaderAccentColor: this.state.rfqSide === 'BUY' ? '#4589ff' : '#42be65',
+      rfqSubmitBg: this.state.rfqSide === 'BUY' ? '#4589ff' : '#42be65',
+      rfqSubmitHoverBg: this.state.rfqSide === 'BUY' ? '#0353e9' : '#24a148',
+      rfqBuyBg:  this.state.rfqSide === 'BUY'  ? '#4589ff' : 'var(--layer-02)',
+      rfqSellBg: this.state.rfqSide === 'SELL' ? '#42be65' : 'var(--layer-02)',
+      rfqBuyColor:  this.state.rfqSide === 'BUY'  ? '#fff' : 'var(--text-secondary)',
+      rfqSellColor: this.state.rfqSide === 'SELL' ? '#fff' : 'var(--text-secondary)',
+      onRfqClose:       () => this._closeRfq(),
+      onRfqSubmit:      () => this._submitRfq(),
+      onRfqBuy:         () => this.setState({ rfqSide: 'BUY' }),
+      onRfqSell:        () => this.setState({ rfqSide: 'SELL' }),
+      onRfqQty:         e  => this.setState({ rfqQty: e.target.value }),
+      onRfqTifGtc:      () => this.setState({ rfqTif: 'GTC' }),
+      onRfqTifIoc:      () => this.setState({ rfqTif: 'IOC' }),
+      onRfqTifFok:      () => this.setState({ rfqTif: 'FOK' }),
+      rfqTifBgGtc:      this.state.rfqTif === 'GTC' ? '#4d4d4d' : '#393939',
+      rfqTifBgIoc:      this.state.rfqTif === 'IOC' ? '#4d4d4d' : '#393939',
+      rfqTifBgFok:      this.state.rfqTif === 'FOK' ? '#4d4d4d' : '#393939',
+      rfqTifBorderGtc:  this.state.rfqTif === 'GTC' ? '1px solid #4589ff' : '1px solid #525252',
+      rfqTifBorderIoc:  this.state.rfqTif === 'IOC' ? '1px solid #4589ff' : '1px solid #525252',
+      rfqTifBorderFok:  this.state.rfqTif === 'FOK' ? '1px solid #4589ff' : '1px solid #525252',
+      rfqTifColorGtc:   this.state.rfqTif === 'GTC' ? '#4589ff' : '#8d8d8d',
+      rfqTifColorIoc:   this.state.rfqTif === 'IOC' ? '#4589ff' : '#8d8d8d',
+      rfqTifColorFok:   this.state.rfqTif === 'FOK' ? '#4589ff' : '#8d8d8d',
+      onRfqVenueDrct:   () => this.setState({ rfqVenue: 'DRCT' }),
+      onRfqVenueEcn:    () => this.setState({ rfqVenue: 'ECN' }),
+      onRfqVenueMkt:    () => this.setState({ rfqVenue: 'MKT' }),
+      rfqVenueBgDrct:   this.state.rfqVenue === 'DRCT' ? '#4d4d4d' : '#393939',
+      rfqVenueBgEcn:    this.state.rfqVenue === 'ECN'  ? '#4d4d4d' : '#393939',
+      rfqVenueBgMkt:    this.state.rfqVenue === 'MKT'  ? '#4d4d4d' : '#393939',
+      rfqVenueBorderDrct: this.state.rfqVenue === 'DRCT' ? '1px solid #4589ff' : '1px solid #525252',
+      rfqVenueBorderEcn:  this.state.rfqVenue === 'ECN'  ? '1px solid #4589ff' : '1px solid #525252',
+      rfqVenueBorderMkt:  this.state.rfqVenue === 'MKT'  ? '1px solid #4589ff' : '1px solid #525252',
+      rfqVenueColorDrct: this.state.rfqVenue === 'DRCT' ? '#4589ff' : '#8d8d8d',
+      rfqVenueColorEcn:  this.state.rfqVenue === 'ECN'  ? '#4589ff' : '#8d8d8d',
+      rfqVenueColorMkt:  this.state.rfqVenue === 'MKT'  ? '#4589ff' : '#8d8d8d',
+      // mid price for rfq panel
+      rfqMid: (() => {
+        const p = prices[this.state.rfqPair];
+        if (!p) return '—';
+        const pr = this.state.rfqPair;
+        return ((p.bid + p.offer) / 2).toFixed(p.dec);
+      })(),
+
+      // RFQ countdown
+      rfqCountdown: this.state.rfqCountdown,
+      rfqCountdownColor: this.state.rfqCountdown <= 10 ? '#ff8389' : this.state.rfqCountdown <= 20 ? '#f1c21b' : '#a8a8a8',
+      rfqCountdownLabel: this.state.rfqCountdown + 's',
+      // KPI footer — use live grid metrics if available, else placeholder
+      ...(this.state.gridKpi || {
+        kpiDeals: '—', kpiBuys: '—', kpiSells: '—',
+        kpiNotional: '—', kpiAvgSize: '—', kpiBuyPct: '—',
+        kpiVolume: '—', kpiPnl: '—', kpiPnlColor: '#a8a8a8', kpiSpreadAvg: '—',
+      }),
+      // Full-precision tooltip values
+      kpiNotionalTitle: this.state.gridKpi ? '$' + Math.round(this.state.gridKpi._totalNot).toLocaleString() : '—',
+      kpiAvgSizeTitle:  this.state.gridKpi ? '$' + Math.round(this.state.gridKpi._avgSize).toLocaleString() : '—',
+      kpiVolumeTitle:   this.state.gridKpi ? '$' + Math.round(this.state.gridKpi._vol).toLocaleString() : '—',
+      kpiPnlTitle:      this.state.gridKpi ? (this.state.gridKpi._pnl >= 0 ? '+$' : '-$') + Math.abs(this.state.gridKpi._pnl).toLocaleString() : '—',
+    };
+  }
+}
+</script>

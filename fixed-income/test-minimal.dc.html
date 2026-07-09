@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<div style="padding:40px;color:#f4f4f4;font-family:sans-serif;background:#161616;min-height:100vh;">
+  <h1 style="font-size:24px;">Runtime test</h1>
+  <p style="color:#c6c6c6;">Count: {{ count }}</p>
+  <button onClick="{{ inc }}" style="padding:8px 16px;background:#0f62fe;color:#fff;border:none;cursor:pointer;">Click</button>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { count: 0 };
+  renderVals() {
+    return {
+      count: this.state.count,
+      inc: () => this.setState(s => ({ count: s.count + 1 }))
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,39 @@
+/* Unite Design System — Effects: elevation, radius, motion
+   Carbon-derived. Unite is a productive, low-chrome system: shadows are subtle
+   and reserved for overlays (menus, popovers, modals); most surfaces are
+   delineated by 1px borders, not shadows. Corner radius is minimal. */
+
+:root {
+  /* ---- Corner radius ---- */
+  --radius-00: 0;          /* default — Unite is a square-cornered system */
+  --radius-sm: 2px;
+  --radius-md: 4px;
+  --radius-lg: 8px;
+  --radius-round: 50%;
+
+  /* ---- Elevation (overlays only) ---- */
+  --shadow-sm: 0 2px 6px rgba(0, 0, 0, 0.20);
+  --shadow-md: 0 2px 6px rgba(0, 0, 0, 0.30);
+  --shadow-lg: 0 4px 8px rgba(0, 0, 0, 0.20);
+  --shadow-overlay: 0 0 0 1px var(--border-subtle-01), 0 2px 6px rgba(0, 0, 0, 0.20);
+
+  /* ---- Border widths ---- */
+  --border-width: 1px;
+  --border-width-interactive: 2px; /* focus / active field underline */
+
+  /* ---- Motion: durations ---- */
+  --duration-fast-01: 70ms;   /* @kind other */
+  --duration-fast-02: 110ms;  /* @kind other */
+  --duration-moderate-01: 150ms; /* @kind other */
+  --duration-moderate-02: 240ms; /* @kind other */
+  --duration-slow-01: 400ms;  /* @kind other */
+  --duration-slow-02: 700ms;  /* @kind other */
+
+  /* ---- Motion: easing ---- */
+  --easing-standard-productive: cubic-bezier(0.2, 0, 0.38, 0.9); /* @kind other */
+  --easing-standard-expressive: cubic-bezier(0.4, 0.14, 0.3, 1); /* @kind other */
+  --easing-entrance-productive: cubic-bezier(0, 0, 0.38, 0.9); /* @kind other */
+  --easing-entrance-expressive: cubic-bezier(0, 0, 0.3, 1); /* @kind other */
+  --easing-exit-productive: cubic-bezier(0.2, 0, 1, 0.9); /* @kind other */
+  --easing-exit-expressive: cubic-bezier(0.4, 0.14, 1, 1); /* @kind other */
+}

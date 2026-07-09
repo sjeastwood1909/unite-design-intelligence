@@ -1,0 +1,20 @@
+/* Unite Design System — global stylesheet entry point.
+   Consumers link THIS file. It is a manifest of @import lines only — every
+   token file, the webfonts, the base reset, and component styling is reached
+   from here. */
+
+/* Foundations */
+@import './tokens/fonts.css';
+@import './tokens/colors.css';
+@import './tokens/typography.css';
+@import './tokens/spacing.css';
+@import './tokens/effects.css';
+@import './tokens/base.css';
+
+/* Component styling (classes consumed by the React components) */
+@import './components/css/buttons.css';
+@import './components/css/forms.css';
+@import './components/css/controls.css';
+@import './components/css/feedback.css';
+@import './components/css/navigation.css';
+@import './components/css/data.css';
