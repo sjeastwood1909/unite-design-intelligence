@@ -1,0 +1,2 @@
+## Standalone export
+After finishing meaningful changes to any dashboard/workspace DC in this project, regenerate its self-contained standalone bundle via `super_inline_html` (output as "<Name> Standalone.html") so downloads work fully offline (no relative-path breakage, e.g. drag/reorder). The source .dc.html needs a `<template id="__bundler_thumbnail">` in its `<head>` for this to work — keep it in place.

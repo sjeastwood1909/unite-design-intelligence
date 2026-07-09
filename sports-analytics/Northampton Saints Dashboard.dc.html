@@ -4,6 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script src="./support.js"></script>
+<template id="__bundler_thumbnail">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 140"><rect width="200" height="140" fill="#006B3C"/><rect x="60" y="40" width="80" height="60" fill="#161616"/><text x="100" y="76" font-family="sans-serif" font-size="22" font-weight="700" fill="#ffffff" text-anchor="middle">NS</text></svg>
+</template>
 </head>
 <body>
 <x-dc>
@@ -35,7 +38,7 @@
       .tile-grid > div > div:nth-child(2):not(.tile-resize-handle) { overflow:visible !important; height:auto !important; max-height:none !important; }
     }
     .tile-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:4px; padding:16px; background:var(--background); align-items:start; }
-    .th { height:32px; background:var(--layer-02); border-bottom:1px solid var(--border-subtle-01); display:flex; align-items:center; padding:0 10px; gap:8px; cursor:grab; user-select:none; }
+    .th { height:32px; background:var(--layer-02); border-bottom:1px solid var(--border-subtle-01); display:flex; align-items:center; padding:0 10px; gap:8px; cursor:grab; user-select:none; touch-action:none; }
     .th:active { cursor:grabbing; }
     .th .unite-search .unite-field { height:24px !important; min-height:24px !important; font-size:11px !important; padding-inline-start:28px !important; }
     .th .unite-search__icon { width:14px !important; height:14px !important; inset-inline-start:8px !important; }
@@ -60,7 +63,20 @@
     .squad-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; align-content:start; }
     .tile-grid > div { display:flex; flex-direction:column; overflow:hidden; transition:opacity 150ms ease; position:relative; }
 
-    .tile-drop-target { outline:2px solid var(--interactive) !important; outline-offset:-2px; background:rgba(15,98,254,0.06) !important; }
+    .tile-drop-target { outline:none !important; }
+    .tile-drop-target::before {
+      content:""; position:absolute; inset:0; z-index:20; pointer-events:none;
+      box-shadow:inset 0 0 0 2px var(--interactive); background:rgba(15,98,254,0.06);
+    }
+    .tile-drop-target::after {
+      content:"Drop here"; position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); z-index:21; pointer-events:none;
+      background:var(--interactive); color:var(--text-on-color); font-size:11px; font-weight:700;
+      letter-spacing:0.4px; text-transform:uppercase; padding:6px 14px; box-shadow:var(--shadow-md);
+    }
+    .tile-dragging > div:nth-child(2):not(.th) { opacity:0.45; }
+    .tile-dragging { box-shadow:var(--shadow-md); }
+    .tile-dragging > .th { background:var(--layer-selected-01) !important; border-bottom:2px solid var(--interactive); }
+    .tile-dragging > .th span { color:var(--interactive) !important; }
     .tile-grid > div > div:nth-child(2):not(.tile-resize-handle) { flex:1; overflow-y:auto; overflow-x:hidden; min-height:0; padding:16px; background:var(--layer-01); }
     .tile-grid > div > div.tile-hero-content { padding:16px !important; overflow-y:visible !important; background:#006B3C !important; }
     .tile-grid > div > div:nth-child(3):not(.tile-resize-handle) { flex-shrink:0; height:32px; display:flex; align-items:center; padding:0 14px; border-top:1px solid var(--border-subtle-01); background:var(--layer-01); font-size:11px; color:var(--text-secondary); }
@@ -109,11 +125,6 @@
         <x-import component-from-global-scope="UniteDesignSystem_429d79.Icon" name="application" size="20" hint-size="20px,20px"></x-import>
       </button>
       <div style="width:1px; height:20px; background:#393939; flex:none;"></div>
-      <!-- Theme toggle -->
-      <button onClick="{{ toggleTheme }}" title="{{ themeLabel }}" style="width:24px; height:24px; display:flex; align-items:center; justify-content:center; background:none; border:none; cursor:pointer; color:var(--text-secondary); padding:0; border-radius:50%; flex:none;" style-hover="background:var(--background-hover);">
-        <svg width="20" height="20" viewBox="0 0 32 32" fill="currentColor"><path d="M16 4a12 12 0 1 0 0 24A12 12 0 0 0 16 4zm0 2v20a10 10 0 0 1 0-20z"></path></svg>
-      </button>
-      <div style="width:1px; height:20px; background:#393939; flex:none;"></div>
       <!-- Avatar -->
       <div style="width:20px; height:20px; border-radius:50%; background:#0f62fe; display:flex; align-items:center; justify-content:center; flex:none; cursor:pointer;">
         <span style="color:#fff; font-size:11px; font-weight:600; font-family:'IBM Plex Sans'; line-height:1;">S</span>
@@ -123,6 +134,15 @@
 
   {{ menuOverlay }}
   {{ playerModal }}
+
+  <!-- DRAG GHOST — follows the cursor while a tile is being dragged, echoing the
+       FX Spot Workspace's floating drag-preview treatment -->
+  <sc-if value="{{ hasDragGhost }}" hint-placeholder-val="{{ false }}">
+    <div style="{{ dragGhostStyle }}">
+      <svg width="10" height="14" viewBox="0 0 10 14" fill="currentColor" style="opacity:0.7; flex-shrink:0;"><circle cx="3" cy="2" r="1.5"></circle><circle cx="7" cy="2" r="1.5"></circle><circle cx="3" cy="7" r="1.5"></circle><circle cx="7" cy="7" r="1.5"></circle><circle cx="3" cy="12" r="1.5"></circle><circle cx="7" cy="12" r="1.5"></circle></svg>
+      {{ dragGhostTitle }}
+    </div>
+  </sc-if>
 
   <!-- TILE CONFIGURATION DRAWER -->
   <sc-if value="{{ tileDrawerOpen }}" hint-placeholder-val="{{ false }}">
@@ -139,7 +159,7 @@
         </button>
       </div>
       <div style="padding:0; border-bottom:1px solid var(--border-subtle-01); flex-shrink:0; --field-01: var(--field-02);">
-        <x-import component-from-global-scope="UniteDesignSystem_429d79.Search" value="{{ tileSearch }}" onChange="{{ onTileSearch }}" onClear="{{ clearTileSearch }}" placeholder="Search tiles…" size="md" hint-size="100%,40px"></x-import>
+        <x-import component-from-global-scope="UniteDesignSystem_429d79.Search" value="{{ tileSearch }}" dc-props="{{ tileSearchHandlers }}" placeholder="Search tiles…" size="md" hint-size="100%,40px"></x-import>
       </div>
       <div style="flex:1; overflow-y:auto; padding:4px 0;">
         <sc-for list="{{ tileCatalogRows }}" as="tile" hint-placeholder-count="10">
@@ -185,8 +205,8 @@
   <div class="tile-grid">
 
     <!-- ═══ HERO ═══ -->
-    <div onClick="{{ T.hero.onClick }}" onDragOver="{{ T.hero.onDragOver }}" onDrop="{{ T.hero.onDrop }}" style="grid-column:span {{ T.hero.span }}; order:{{ T.hero.order }}; background:var(--layer-01); outline:{{ T.hero.outline }}; opacity:{{ T.hero.opacity }}; display:{{ T.hero.display }}; height:{{ T.hero.totalHeight }}px;" data-drag-over="{{ T.hero.dragOver }}" className="{{ T.hero.dropClass }}">
-      <div draggable="{{ true }}" onDragStart="{{ T.hero.onDragStart }}" onDragEnd="{{ T.hero.onDragEnd }}" class="th">
+    <div data-tile-id="hero" onClick="{{ T.hero.onClick }}" style="grid-column:span {{ T.hero.span }}; order:{{ T.hero.order }}; background:var(--layer-01); outline:{{ T.hero.outline }}; opacity:{{ T.hero.opacity }}; display:{{ T.hero.display }}; height:{{ T.hero.totalHeight }}px; z-index:{{ T.hero.wrapperZIndex }}; overflow:{{ T.hero.wrapperOverflow }}; position:relative;" data-drag-over="{{ T.hero.dragOver }}" class="{{ T.hero.dropClass }}">
+      <div onMouseDown="{{ T.hero.onPointerDown }}" class="th" style="background:{{ T.hero.headerBg }}; border-bottom:{{ T.hero.headerBorderBottom }}; border:{{ T.hero.headerBorder }}; box-shadow:{{ T.hero.headerShadow }}; transform:{{ T.hero.headerTransform }}; position:relative; z-index:2; border-radius:{{ T.hero.headerRadius }};">
         <svg width="10" height="14" viewBox="0 0 10 14" fill="currentColor" style="color:var(--text-secondary); opacity:0.5; flex-shrink:0;"><circle cx="3" cy="2" r="1.5"></circle><circle cx="7" cy="2" r="1.5"></circle><circle cx="3" cy="7" r="1.5"></circle><circle cx="7" cy="7" r="1.5"></circle><circle cx="3" cy="12" r="1.5"></circle><circle cx="7" cy="12" r="1.5"></circle></svg>
         <span style="font-size:10px; font-weight:600; letter-spacing:0.6px; color:var(--text-secondary); text-transform:uppercase; flex:1;">Season overview</span>
         <button onClick="{{ T.hero.toggleMenu }}" data-tile-menu-btn="true" style="width:24px;height:24px;display:flex;align-items:center;justify-content:center;background:transparent;border:none;cursor:pointer;color:var(--text-secondary);flex-shrink:0;padding:0;" title="Resize tile"><svg viewBox="0 0 16 16" fill="currentColor" width="14" height="14"><circle cx="8" cy="3" r="1.2"></circle><circle cx="8" cy="8" r="1.2"></circle><circle cx="8" cy="13" r="1.2"></circle></svg></button>
@@ -209,8 +229,8 @@
     </div>
 
     <!-- ═══ KPI: POSITION ═══ -->
-    <div onClick="{{ T.kpiPos.onClick }}" onDragOver="{{ T.kpiPos.onDragOver }}" onDrop="{{ T.kpiPos.onDrop }}" style="grid-column:span {{ T.kpiPos.span }}; order:{{ T.kpiPos.order }}; background:var(--layer-01); outline:{{ T.kpiPos.outline }}; opacity:{{ T.kpiPos.opacity }}; display:{{ T.kpiPos.display }}; height:{{ T.kpiPos.totalHeight }}px;" data-drag-over="{{ T.kpiPos.dragOver }}" className="{{ T.kpiPos.dropClass }}">
-      <div draggable="{{ true }}" onDragStart="{{ T.kpiPos.onDragStart }}" onDragEnd="{{ T.kpiPos.onDragEnd }}" class="th">
+    <div data-tile-id="kpiPos" onClick="{{ T.kpiPos.onClick }}" style="grid-column:span {{ T.kpiPos.span }}; order:{{ T.kpiPos.order }}; background:var(--layer-01); outline:{{ T.kpiPos.outline }}; opacity:{{ T.kpiPos.opacity }}; display:{{ T.kpiPos.display }}; height:{{ T.kpiPos.totalHeight }}px; z-index:{{ T.kpiPos.wrapperZIndex }}; overflow:{{ T.kpiPos.wrapperOverflow }}; position:relative;" data-drag-over="{{ T.kpiPos.dragOver }}" class="{{ T.kpiPos.dropClass }}">
+      <div onMouseDown="{{ T.kpiPos.onPointerDown }}" class="th" style="background:{{ T.kpiPos.headerBg }}; border-bottom:{{ T.kpiPos.headerBorderBottom }}; border:{{ T.kpiPos.headerBorder }}; box-shadow:{{ T.kpiPos.headerShadow }}; transform:{{ T.kpiPos.headerTransform }}; position:relative; z-index:2; border-radius:{{ T.kpiPos.headerRadius }};">
         <svg width="10" height="14" viewBox="0 0 10 14" fill="currentColor" style="color:var(--text-secondary); opacity:0.5; flex-shrink:0;"><circle cx="3" cy="2" r="1.5"></circle><circle cx="7" cy="2" r="1.5"></circle><circle cx="3" cy="7" r="1.5"></circle><circle cx="7" cy="7" r="1.5"></circle><circle cx="3" cy="12" r="1.5"></circle><circle cx="7" cy="12" r="1.5"></circle></svg>
         <span style="font-size:10px; font-weight:600; letter-spacing:0.6px; color:var(--text-secondary); text-transform:uppercase; flex:1;">League position</span>
         <button onClick="{{ T.kpiPos.toggleMenu }}" data-tile-menu-btn="true" style="width:24px;height:24px;display:flex;align-items:center;justify-content:center;background:transparent;border:none;cursor:pointer;color:var(--text-secondary);flex-shrink:0;padding:0;" title="Resize tile"><svg viewBox="0 0 16 16" fill="currentColor" width="14" height="14"><circle cx="8" cy="3" r="1.2"></circle><circle cx="8" cy="8" r="1.2"></circle><circle cx="8" cy="13" r="1.2"></circle></svg></button>
@@ -225,8 +245,8 @@
     </div>
 
     <!-- ═══ KPI: RECORD ═══ -->
-    <div onClick="{{ T.kpiRec.onClick }}" onDragOver="{{ T.kpiRec.onDragOver }}" onDrop="{{ T.kpiRec.onDrop }}" style="grid-column:span {{ T.kpiRec.span }}; order:{{ T.kpiRec.order }}; background:var(--layer-01); outline:{{ T.kpiRec.outline }}; opacity:{{ T.kpiRec.opacity }}; display:{{ T.kpiRec.display }}; height:{{ T.kpiRec.totalHeight }}px;" data-drag-over="{{ T.kpiRec.dragOver }}" className="{{ T.kpiRec.dropClass }}">
-      <div draggable="{{ true }}" onDragStart="{{ T.kpiRec.onDragStart }}" onDragEnd="{{ T.kpiRec.onDragEnd }}" class="th">
+    <div data-tile-id="kpiRec" onClick="{{ T.kpiRec.onClick }}" style="grid-column:span {{ T.kpiRec.span }}; order:{{ T.kpiRec.order }}; background:var(--layer-01); outline:{{ T.kpiRec.outline }}; opacity:{{ T.kpiRec.opacity }}; display:{{ T.kpiRec.display }}; height:{{ T.kpiRec.totalHeight }}px; z-index:{{ T.kpiRec.wrapperZIndex }}; overflow:{{ T.kpiRec.wrapperOverflow }}; position:relative;" data-drag-over="{{ T.kpiRec.dragOver }}" class="{{ T.kpiRec.dropClass }}">
+      <div onMouseDown="{{ T.kpiRec.onPointerDown }}" class="th" style="background:{{ T.kpiRec.headerBg }}; border-bottom:{{ T.kpiRec.headerBorderBottom }}; border:{{ T.kpiRec.headerBorder }}; box-shadow:{{ T.kpiRec.headerShadow }}; transform:{{ T.kpiRec.headerTransform }}; position:relative; z-index:2; border-radius:{{ T.kpiRec.headerRadius }};">
         <svg width="10" height="14" viewBox="0 0 10 14" fill="currentColor" style="color:var(--text-secondary); opacity:0.5; flex-shrink:0;"><circle cx="3" cy="2" r="1.5"></circle><circle cx="7" cy="2" r="1.5"></circle><circle cx="3" cy="7" r="1.5"></circle><circle cx="7" cy="7" r="1.5"></circle><circle cx="3" cy="12" r="1.5"></circle><circle cx="7" cy="12" r="1.5"></circle></svg>
         <span style="font-size:10px; font-weight:600; letter-spacing:0.6px; color:var(--text-secondary); text-transform:uppercase; flex:1;">Season record</span>
         <button onClick="{{ T.kpiRec.toggleMenu }}" data-tile-menu-btn="true" style="width:24px;height:24px;display:flex;align-items:center;justify-content:center;background:transparent;border:none;cursor:pointer;color:var(--text-secondary);flex-shrink:0;padding:0;" title="Resize tile"><svg viewBox="0 0 16 16" fill="currentColor" width="14" height="14"><circle cx="8" cy="3" r="1.2"></circle><circle cx="8" cy="8" r="1.2"></circle><circle cx="8" cy="13" r="1.2"></circle></svg></button>
@@ -241,8 +261,8 @@
     </div>
 
     <!-- ═══ KPI: POINTS ═══ -->
-    <div onClick="{{ T.kpiPts.onClick }}" onDragOver="{{ T.kpiPts.onDragOver }}" onDrop="{{ T.kpiPts.onDrop }}" style="grid-column:span {{ T.kpiPts.span }}; order:{{ T.kpiPts.order }}; background:var(--layer-01); outline:{{ T.kpiPts.outline }}; opacity:{{ T.kpiPts.opacity }}; display:{{ T.kpiPts.display }}; height:{{ T.kpiPts.totalHeight }}px;" data-drag-over="{{ T.kpiPts.dragOver }}" className="{{ T.kpiPts.dropClass }}">
-      <div draggable="{{ true }}" onDragStart="{{ T.kpiPts.onDragStart }}" onDragEnd="{{ T.kpiPts.onDragEnd }}" class="th">
+    <div data-tile-id="kpiPts" onClick="{{ T.kpiPts.onClick }}" style="grid-column:span {{ T.kpiPts.span }}; order:{{ T.kpiPts.order }}; background:var(--layer-01); outline:{{ T.kpiPts.outline }}; opacity:{{ T.kpiPts.opacity }}; display:{{ T.kpiPts.display }}; height:{{ T.kpiPts.totalHeight }}px; z-index:{{ T.kpiPts.wrapperZIndex }}; overflow:{{ T.kpiPts.wrapperOverflow }}; position:relative;" data-drag-over="{{ T.kpiPts.dragOver }}" class="{{ T.kpiPts.dropClass }}">
+      <div onMouseDown="{{ T.kpiPts.onPointerDown }}" class="th" style="background:{{ T.kpiPts.headerBg }}; border-bottom:{{ T.kpiPts.headerBorderBottom }}; border:{{ T.kpiPts.headerBorder }}; box-shadow:{{ T.kpiPts.headerShadow }}; transform:{{ T.kpiPts.headerTransform }}; position:relative; z-index:2; border-radius:{{ T.kpiPts.headerRadius }};">
         <svg width="10" height="14" viewBox="0 0 10 14" fill="currentColor" style="color:var(--text-secondary); opacity:0.5; flex-shrink:0;"><circle cx="3" cy="2" r="1.5"></circle><circle cx="7" cy="2" r="1.5"></circle><circle cx="3" cy="7" r="1.5"></circle><circle cx="7" cy="7" r="1.5"></circle><circle cx="3" cy="12" r="1.5"></circle><circle cx="7" cy="12" r="1.5"></circle></svg>
         <span style="font-size:10px; font-weight:600; letter-spacing:0.6px; color:var(--text-secondary); text-transform:uppercase; flex:1;">League points</span>
         <button onClick="{{ T.kpiPts.toggleMenu }}" data-tile-menu-btn="true" style="width:24px;height:24px;display:flex;align-items:center;justify-content:center;background:transparent;border:none;cursor:pointer;color:var(--text-secondary);flex-shrink:0;padding:0;" title="Resize tile"><svg viewBox="0 0 16 16" fill="currentColor" width="14" height="14"><circle cx="8" cy="3" r="1.2"></circle><circle cx="8" cy="8" r="1.2"></circle><circle cx="8" cy="13" r="1.2"></circle></svg></button>
@@ -257,8 +277,8 @@
     </div>
 
     <!-- ═══ KPI: TRIES ═══ -->
-    <div onClick="{{ T.kpiTri.onClick }}" onDragOver="{{ T.kpiTri.onDragOver }}" onDrop="{{ T.kpiTri.onDrop }}" style="grid-column:span {{ T.kpiTri.span }}; order:{{ T.kpiTri.order }}; background:var(--layer-01); outline:{{ T.kpiTri.outline }}; opacity:{{ T.kpiTri.opacity }}; display:{{ T.kpiTri.display }}; height:{{ T.kpiTri.totalHeight }}px;" data-drag-over="{{ T.kpiTri.dragOver }}" className="{{ T.kpiTri.dropClass }}">
-      <div draggable="{{ true }}" onDragStart="{{ T.kpiTri.onDragStart }}" onDragEnd="{{ T.kpiTri.onDragEnd }}" class="th">
+    <div data-tile-id="kpiTri" onClick="{{ T.kpiTri.onClick }}" style="grid-column:span {{ T.kpiTri.span }}; order:{{ T.kpiTri.order }}; background:var(--layer-01); outline:{{ T.kpiTri.outline }}; opacity:{{ T.kpiTri.opacity }}; display:{{ T.kpiTri.display }}; height:{{ T.kpiTri.totalHeight }}px; z-index:{{ T.kpiTri.wrapperZIndex }}; overflow:{{ T.kpiTri.wrapperOverflow }}; position:relative;" data-drag-over="{{ T.kpiTri.dragOver }}" class="{{ T.kpiTri.dropClass }}">
+      <div onMouseDown="{{ T.kpiTri.onPointerDown }}" class="th" style="background:{{ T.kpiTri.headerBg }}; border-bottom:{{ T.kpiTri.headerBorderBottom }}; border:{{ T.kpiTri.headerBorder }}; box-shadow:{{ T.kpiTri.headerShadow }}; transform:{{ T.kpiTri.headerTransform }}; position:relative; z-index:2; border-radius:{{ T.kpiTri.headerRadius }};">
         <svg width="10" height="14" viewBox="0 0 10 14" fill="currentColor" style="color:var(--text-secondary); opacity:0.5; flex-shrink:0;"><circle cx="3" cy="2" r="1.5"></circle><circle cx="7" cy="2" r="1.5"></circle><circle cx="3" cy="7" r="1.5"></circle><circle cx="7" cy="7" r="1.5"></circle><circle cx="3" cy="12" r="1.5"></circle><circle cx="7" cy="12" r="1.5"></circle></svg>
         <span style="font-size:10px; font-weight:600; letter-spacing:0.6px; color:var(--text-secondary); text-transform:uppercase; flex:1;">Tries scored (PREM)</span>
         <button onClick="{{ T.kpiTri.toggleMenu }}" data-tile-menu-btn="true" style="width:24px;height:24px;display:flex;align-items:center;justify-content:center;background:transparent;border:none;cursor:pointer;color:var(--text-secondary);flex-shrink:0;padding:0;" title="Resize tile"><svg viewBox="0 0 16 16" fill="currentColor" width="14" height="14"><circle cx="8" cy="3" r="1.2"></circle><circle cx="8" cy="8" r="1.2"></circle><circle cx="8" cy="13" r="1.2"></circle></svg></button>
@@ -273,8 +293,8 @@
     </div>
 
     <!-- ═══ LEAGUE TABLE ═══ -->
-    <div onClick="{{ T.league.onClick }}" onDragOver="{{ T.league.onDragOver }}" onDrop="{{ T.league.onDrop }}" style="grid-column:span {{ T.league.span }}; order:{{ T.league.order }}; background:var(--layer-01); outline:{{ T.league.outline }}; opacity:{{ T.league.opacity }}; display:{{ T.league.display }}; height:{{ T.league.totalHeight }}px;" data-drag-over="{{ T.league.dragOver }}" className="{{ T.league.dropClass }}">
-      <div draggable="{{ true }}" onDragStart="{{ T.league.onDragStart }}" onDragEnd="{{ T.league.onDragEnd }}" class="th">
+    <div data-tile-id="league" onClick="{{ T.league.onClick }}" style="grid-column:span {{ T.league.span }}; order:{{ T.league.order }}; background:var(--layer-01); outline:{{ T.league.outline }}; opacity:{{ T.league.opacity }}; display:{{ T.league.display }}; height:{{ T.league.totalHeight }}px; z-index:{{ T.league.wrapperZIndex }}; overflow:{{ T.league.wrapperOverflow }}; position:relative;" data-drag-over="{{ T.league.dragOver }}" class="{{ T.league.dropClass }}">
+      <div onMouseDown="{{ T.league.onPointerDown }}" class="th" style="background:{{ T.league.headerBg }}; border-bottom:{{ T.league.headerBorderBottom }}; border:{{ T.league.headerBorder }}; box-shadow:{{ T.league.headerShadow }}; transform:{{ T.league.headerTransform }}; position:relative; z-index:2; border-radius:{{ T.league.headerRadius }};">
         <svg width="10" height="14" viewBox="0 0 10 14" fill="currentColor" style="color:var(--text-secondary); opacity:0.5; flex-shrink:0;"><circle cx="3" cy="2" r="1.5"></circle><circle cx="7" cy="2" r="1.5"></circle><circle cx="3" cy="7" r="1.5"></circle><circle cx="7" cy="7" r="1.5"></circle><circle cx="3" cy="12" r="1.5"></circle><circle cx="7" cy="12" r="1.5"></circle></svg>
         <span style="font-size:10px; font-weight:600; letter-spacing:0.6px; color:var(--text-secondary); text-transform:uppercase; flex:1;">Gallagher Premiership</span>
         <button onClick="{{ T.league.toggleMenu }}" data-tile-menu-btn="true" style="width:24px;height:24px;display:flex;align-items:center;justify-content:center;background:transparent;border:none;cursor:pointer;color:var(--text-secondary);flex-shrink:0;padding:0;" title="Resize tile"><svg viewBox="0 0 16 16" fill="currentColor" width="14" height="14"><circle cx="8" cy="3" r="1.2"></circle><circle cx="8" cy="8" r="1.2"></circle><circle cx="8" cy="13" r="1.2"></circle></svg></button>
@@ -310,8 +330,8 @@
     </div>
 
     <!-- ═══ POSITION CHART ═══ -->
-    <div onClick="{{ T.posChart.onClick }}" onDragOver="{{ T.posChart.onDragOver }}" onDrop="{{ T.posChart.onDrop }}" style="grid-column:span {{ T.posChart.span }}; order:{{ T.posChart.order }}; background:var(--layer-01); outline:{{ T.posChart.outline }}; opacity:{{ T.posChart.opacity }}; display:{{ T.posChart.display }}; height:{{ T.posChart.totalHeight }}px;" data-drag-over="{{ T.posChart.dragOver }}" className="{{ T.posChart.dropClass }}">
-      <div draggable="{{ true }}" onDragStart="{{ T.posChart.onDragStart }}" onDragEnd="{{ T.posChart.onDragEnd }}" class="th">
+    <div data-tile-id="posChart" onClick="{{ T.posChart.onClick }}" style="grid-column:span {{ T.posChart.span }}; order:{{ T.posChart.order }}; background:var(--layer-01); outline:{{ T.posChart.outline }}; opacity:{{ T.posChart.opacity }}; display:{{ T.posChart.display }}; height:{{ T.posChart.totalHeight }}px; z-index:{{ T.posChart.wrapperZIndex }}; overflow:{{ T.posChart.wrapperOverflow }}; position:relative;" data-drag-over="{{ T.posChart.dragOver }}" class="{{ T.posChart.dropClass }}">
+      <div onMouseDown="{{ T.posChart.onPointerDown }}" class="th" style="background:{{ T.posChart.headerBg }}; border-bottom:{{ T.posChart.headerBorderBottom }}; border:{{ T.posChart.headerBorder }}; box-shadow:{{ T.posChart.headerShadow }}; transform:{{ T.posChart.headerTransform }}; position:relative; z-index:2; border-radius:{{ T.posChart.headerRadius }};">
         <svg width="10" height="14" viewBox="0 0 10 14" fill="currentColor" style="color:var(--text-secondary); opacity:0.5; flex-shrink:0;"><circle cx="3" cy="2" r="1.5"></circle><circle cx="7" cy="2" r="1.5"></circle><circle cx="3" cy="7" r="1.5"></circle><circle cx="7" cy="7" r="1.5"></circle><circle cx="3" cy="12" r="1.5"></circle><circle cx="7" cy="12" r="1.5"></circle></svg>
         <span style="font-size:10px; font-weight:600; letter-spacing:0.6px; color:var(--text-secondary); text-transform:uppercase; flex:1;">Position over time</span>
         <button onClick="{{ T.posChart.toggleMenu }}" data-tile-menu-btn="true" style="width:24px;height:24px;display:flex;align-items:center;justify-content:center;background:transparent;border:none;cursor:pointer;color:var(--text-secondary);flex-shrink:0;padding:0;" title="Resize tile"><svg viewBox="0 0 16 16" fill="currentColor" width="14" height="14"><circle cx="8" cy="3" r="1.2"></circle><circle cx="8" cy="8" r="1.2"></circle><circle cx="8" cy="13" r="1.2"></circle></svg></button>
@@ -322,8 +342,8 @@
     </div>
 
     <!-- ═══ PLAYOFFS ═══ -->
-    <div onClick="{{ T.playoffs.onClick }}" onDragOver="{{ T.playoffs.onDragOver }}" onDrop="{{ T.playoffs.onDrop }}" style="grid-column:span {{ T.playoffs.span }}; order:{{ T.playoffs.order }}; background:var(--layer-01); outline:{{ T.playoffs.outline }}; opacity:{{ T.playoffs.opacity }}; display:{{ T.playoffs.display }}; height:{{ T.playoffs.totalHeight }}px;" data-drag-over="{{ T.playoffs.dragOver }}" className="{{ T.playoffs.dropClass }}">
-      <div draggable="{{ true }}" onDragStart="{{ T.playoffs.onDragStart }}" onDragEnd="{{ T.playoffs.onDragEnd }}" class="th">
+    <div data-tile-id="playoffs" onClick="{{ T.playoffs.onClick }}" style="grid-column:span {{ T.playoffs.span }}; order:{{ T.playoffs.order }}; background:var(--layer-01); outline:{{ T.playoffs.outline }}; opacity:{{ T.playoffs.opacity }}; display:{{ T.playoffs.display }}; height:{{ T.playoffs.totalHeight }}px; z-index:{{ T.playoffs.wrapperZIndex }}; overflow:{{ T.playoffs.wrapperOverflow }}; position:relative;" data-drag-over="{{ T.playoffs.dragOver }}" class="{{ T.playoffs.dropClass }}">
+      <div onMouseDown="{{ T.playoffs.onPointerDown }}" class="th" style="background:{{ T.playoffs.headerBg }}; border-bottom:{{ T.playoffs.headerBorderBottom }}; border:{{ T.playoffs.headerBorder }}; box-shadow:{{ T.playoffs.headerShadow }}; transform:{{ T.playoffs.headerTransform }}; position:relative; z-index:2; border-radius:{{ T.playoffs.headerRadius }};">
         <svg width="10" height="14" viewBox="0 0 10 14" fill="currentColor" style="color:var(--text-secondary); opacity:0.5; flex-shrink:0;"><circle cx="3" cy="2" r="1.5"></circle><circle cx="7" cy="2" r="1.5"></circle><circle cx="3" cy="7" r="1.5"></circle><circle cx="7" cy="7" r="1.5"></circle><circle cx="3" cy="12" r="1.5"></circle><circle cx="7" cy="12" r="1.5"></circle></svg>
         <span style="font-size:10px; font-weight:600; letter-spacing:0.6px; color:var(--text-secondary); text-transform:uppercase; flex:1;">Playoff results</span>
         <button onClick="{{ T.playoffs.toggleMenu }}" data-tile-menu-btn="true" style="width:24px;height:24px;display:flex;align-items:center;justify-content:center;background:transparent;border:none;cursor:pointer;color:var(--text-secondary);flex-shrink:0;padding:0;" title="Resize tile"><svg viewBox="0 0 16 16" fill="currentColor" width="14" height="14"><circle cx="8" cy="3" r="1.2"></circle><circle cx="8" cy="8" r="1.2"></circle><circle cx="8" cy="13" r="1.2"></circle></svg></button>
@@ -345,8 +365,8 @@
     </div>
 
     <!-- ═══ CHAMPIONS CUP ═══ -->
-    <div onClick="{{ T.cc.onClick }}" onDragOver="{{ T.cc.onDragOver }}" onDrop="{{ T.cc.onDrop }}" style="grid-column:span {{ T.cc.span }}; order:{{ T.cc.order }}; background:var(--layer-01); outline:{{ T.cc.outline }}; opacity:{{ T.cc.opacity }}; display:{{ T.cc.display }}; height:{{ T.cc.totalHeight }}px;" data-drag-over="{{ T.cc.dragOver }}" className="{{ T.cc.dropClass }}">
-      <div draggable="{{ true }}" onDragStart="{{ T.cc.onDragStart }}" onDragEnd="{{ T.cc.onDragEnd }}" class="th">
+    <div data-tile-id="cc" onClick="{{ T.cc.onClick }}" style="grid-column:span {{ T.cc.span }}; order:{{ T.cc.order }}; background:var(--layer-01); outline:{{ T.cc.outline }}; opacity:{{ T.cc.opacity }}; display:{{ T.cc.display }}; height:{{ T.cc.totalHeight }}px; z-index:{{ T.cc.wrapperZIndex }}; overflow:{{ T.cc.wrapperOverflow }}; position:relative;" data-drag-over="{{ T.cc.dragOver }}" class="{{ T.cc.dropClass }}">
+      <div onMouseDown="{{ T.cc.onPointerDown }}" class="th" style="background:{{ T.cc.headerBg }}; border-bottom:{{ T.cc.headerBorderBottom }}; border:{{ T.cc.headerBorder }}; box-shadow:{{ T.cc.headerShadow }}; transform:{{ T.cc.headerTransform }}; position:relative; z-index:2; border-radius:{{ T.cc.headerRadius }};">
         <svg width="10" height="14" viewBox="0 0 10 14" fill="currentColor" style="color:var(--text-secondary); opacity:0.5; flex-shrink:0;"><circle cx="3" cy="2" r="1.5"></circle><circle cx="7" cy="2" r="1.5"></circle><circle cx="3" cy="7" r="1.5"></circle><circle cx="7" cy="7" r="1.5"></circle><circle cx="3" cy="12" r="1.5"></circle><circle cx="7" cy="12" r="1.5"></circle></svg>
         <span style="font-size:10px; font-weight:600; letter-spacing:0.6px; color:var(--text-secondary); text-transform:uppercase; flex:1;">Champions Cup</span>
         <button onClick="{{ T.cc.toggleMenu }}" data-tile-menu-btn="true" style="width:24px;height:24px;display:flex;align-items:center;justify-content:center;background:transparent;border:none;cursor:pointer;color:var(--text-secondary);flex-shrink:0;padding:0;" title="Resize tile"><svg viewBox="0 0 16 16" fill="currentColor" width="14" height="14"><circle cx="8" cy="3" r="1.2"></circle><circle cx="8" cy="8" r="1.2"></circle><circle cx="8" cy="13" r="1.2"></circle></svg></button>
@@ -359,8 +379,8 @@
     </div>
 
     <!-- ═══ TITLE HISTORY ═══ -->
-    <div onClick="{{ T.history.onClick }}" onDragOver="{{ T.history.onDragOver }}" onDrop="{{ T.history.onDrop }}" style="grid-column:span {{ T.history.span }}; order:{{ T.history.order }}; background:var(--layer-01); outline:{{ T.history.outline }}; opacity:{{ T.history.opacity }}; display:{{ T.history.display }}; height:{{ T.history.totalHeight }}px;" data-drag-over="{{ T.history.dragOver }}" className="{{ T.history.dropClass }}">
-      <div draggable="{{ true }}" onDragStart="{{ T.history.onDragStart }}" onDragEnd="{{ T.history.onDragEnd }}" class="th">
+    <div data-tile-id="history" onClick="{{ T.history.onClick }}" style="grid-column:span {{ T.history.span }}; order:{{ T.history.order }}; background:var(--layer-01); outline:{{ T.history.outline }}; opacity:{{ T.history.opacity }}; display:{{ T.history.display }}; height:{{ T.history.totalHeight }}px; z-index:{{ T.history.wrapperZIndex }}; overflow:{{ T.history.wrapperOverflow }}; position:relative;" data-drag-over="{{ T.history.dragOver }}" class="{{ T.history.dropClass }}">
+      <div onMouseDown="{{ T.history.onPointerDown }}" class="th" style="background:{{ T.history.headerBg }}; border-bottom:{{ T.history.headerBorderBottom }}; border:{{ T.history.headerBorder }}; box-shadow:{{ T.history.headerShadow }}; transform:{{ T.history.headerTransform }}; position:relative; z-index:2; border-radius:{{ T.history.headerRadius }};">
         <svg width="10" height="14" viewBox="0 0 10 14" fill="currentColor" style="color:var(--text-secondary); opacity:0.5; flex-shrink:0;"><circle cx="3" cy="2" r="1.5"></circle><circle cx="7" cy="2" r="1.5"></circle><circle cx="3" cy="7" r="1.5"></circle><circle cx="7" cy="7" r="1.5"></circle><circle cx="3" cy="12" r="1.5"></circle><circle cx="7" cy="12" r="1.5"></circle></svg>
         <span style="font-size:10px; font-weight:600; letter-spacing:0.6px; color:var(--text-secondary); text-transform:uppercase; flex:1;">Club title history</span>
         <button onClick="{{ T.history.toggleMenu }}" data-tile-menu-btn="true" style="width:24px;height:24px;display:flex;align-items:center;justify-content:center;background:transparent;border:none;cursor:pointer;color:var(--text-secondary);flex-shrink:0;padding:0;" title="Resize tile"><svg viewBox="0 0 16 16" fill="currentColor" width="14" height="14"><circle cx="8" cy="3" r="1.2"></circle><circle cx="8" cy="8" r="1.2"></circle><circle cx="8" cy="13" r="1.2"></circle></svg></button>
@@ -379,8 +399,8 @@
     </div>
 
     <!-- ═══ STAT: TRY BONUS ═══ -->
-    <div onClick="{{ T.statBonus.onClick }}" onDragOver="{{ T.statBonus.onDragOver }}" onDrop="{{ T.statBonus.onDrop }}" style="grid-column:span {{ T.statBonus.span }}; order:{{ T.statBonus.order }}; background:var(--layer-01); outline:{{ T.statBonus.outline }}; opacity:{{ T.statBonus.opacity }}; display:{{ T.statBonus.display }}; height:{{ T.statBonus.totalHeight }}px;" data-drag-over="{{ T.statBonus.dragOver }}" className="{{ T.statBonus.dropClass }}">
-      <div draggable="{{ true }}" onDragStart="{{ T.statBonus.onDragStart }}" onDragEnd="{{ T.statBonus.onDragEnd }}" class="th">
+    <div data-tile-id="statBonus" onClick="{{ T.statBonus.onClick }}" style="grid-column:span {{ T.statBonus.span }}; order:{{ T.statBonus.order }}; background:var(--layer-01); outline:{{ T.statBonus.outline }}; opacity:{{ T.statBonus.opacity }}; display:{{ T.statBonus.display }}; height:{{ T.statBonus.totalHeight }}px; z-index:{{ T.statBonus.wrapperZIndex }}; overflow:{{ T.statBonus.wrapperOverflow }}; position:relative;" data-drag-over="{{ T.statBonus.dragOver }}" class="{{ T.statBonus.dropClass }}">
+      <div onMouseDown="{{ T.statBonus.onPointerDown }}" class="th" style="background:{{ T.statBonus.headerBg }}; border-bottom:{{ T.statBonus.headerBorderBottom }}; border:{{ T.statBonus.headerBorder }}; box-shadow:{{ T.statBonus.headerShadow }}; transform:{{ T.statBonus.headerTransform }}; position:relative; z-index:2; border-radius:{{ T.statBonus.headerRadius }};">
         <svg width="10" height="14" viewBox="0 0 10 14" fill="currentColor" style="color:var(--text-secondary); opacity:0.5; flex-shrink:0;"><circle cx="3" cy="2" r="1.5"></circle><circle cx="7" cy="2" r="1.5"></circle><circle cx="3" cy="7" r="1.5"></circle><circle cx="7" cy="7" r="1.5"></circle><circle cx="3" cy="12" r="1.5"></circle><circle cx="7" cy="12" r="1.5"></circle></svg>
         <span style="font-size:10px; font-weight:600; letter-spacing:0.6px; color:var(--text-secondary); text-transform:uppercase; flex:1;">Try bonus rate</span>
         <button onClick="{{ T.statBonus.toggleMenu }}" data-tile-menu-btn="true" style="width:24px;height:24px;display:flex;align-items:center;justify-content:center;background:transparent;border:none;cursor:pointer;color:var(--text-secondary);flex-shrink:0;padding:0;" title="Resize tile"><svg viewBox="0 0 16 16" fill="currentColor" width="14" height="14"><circle cx="8" cy="3" r="1.2"></circle><circle cx="8" cy="8" r="1.2"></circle><circle cx="8" cy="13" r="1.2"></circle></svg></button>
@@ -395,8 +415,8 @@
     </div>
 
     <!-- ═══ STAT: HOME AVERAGE ═══ -->
-    <div onClick="{{ T.statAvg.onClick }}" onDragOver="{{ T.statAvg.onDragOver }}" onDrop="{{ T.statAvg.onDrop }}" style="grid-column:span {{ T.statAvg.span }}; order:{{ T.statAvg.order }}; background:var(--layer-01); outline:{{ T.statAvg.outline }}; opacity:{{ T.statAvg.opacity }}; display:{{ T.statAvg.display }}; height:{{ T.statAvg.totalHeight }}px;" data-drag-over="{{ T.statAvg.dragOver }}" className="{{ T.statAvg.dropClass }}">
-      <div draggable="{{ true }}" onDragStart="{{ T.statAvg.onDragStart }}" onDragEnd="{{ T.statAvg.onDragEnd }}" class="th">
+    <div data-tile-id="statAvg" onClick="{{ T.statAvg.onClick }}" style="grid-column:span {{ T.statAvg.span }}; order:{{ T.statAvg.order }}; background:var(--layer-01); outline:{{ T.statAvg.outline }}; opacity:{{ T.statAvg.opacity }}; display:{{ T.statAvg.display }}; height:{{ T.statAvg.totalHeight }}px; z-index:{{ T.statAvg.wrapperZIndex }}; overflow:{{ T.statAvg.wrapperOverflow }}; position:relative;" data-drag-over="{{ T.statAvg.dragOver }}" class="{{ T.statAvg.dropClass }}">
+      <div onMouseDown="{{ T.statAvg.onPointerDown }}" class="th" style="background:{{ T.statAvg.headerBg }}; border-bottom:{{ T.statAvg.headerBorderBottom }}; border:{{ T.statAvg.headerBorder }}; box-shadow:{{ T.statAvg.headerShadow }}; transform:{{ T.statAvg.headerTransform }}; position:relative; z-index:2; border-radius:{{ T.statAvg.headerRadius }};">
         <svg width="10" height="14" viewBox="0 0 10 14" fill="currentColor" style="color:var(--text-secondary); opacity:0.5; flex-shrink:0;"><circle cx="3" cy="2" r="1.5"></circle><circle cx="7" cy="2" r="1.5"></circle><circle cx="3" cy="7" r="1.5"></circle><circle cx="7" cy="7" r="1.5"></circle><circle cx="3" cy="12" r="1.5"></circle><circle cx="7" cy="12" r="1.5"></circle></svg>
         <span style="font-size:10px; font-weight:600; letter-spacing:0.6px; color:var(--text-secondary); text-transform:uppercase; flex:1;">Home try average</span>
         <button onClick="{{ T.statAvg.toggleMenu }}" data-tile-menu-btn="true" style="width:24px;height:24px;display:flex;align-items:center;justify-content:center;background:transparent;border:none;cursor:pointer;color:var(--text-secondary);flex-shrink:0;padding:0;" title="Resize tile"><svg viewBox="0 0 16 16" fill="currentColor" width="14" height="14"><circle cx="8" cy="3" r="1.2"></circle><circle cx="8" cy="8" r="1.2"></circle><circle cx="8" cy="13" r="1.2"></circle></svg></button>
@@ -411,8 +431,8 @@
     </div>
 
     <!-- ═══ STAT: POINTS DIFF ═══ -->
-    <div onClick="{{ T.statDiff.onClick }}" onDragOver="{{ T.statDiff.onDragOver }}" onDrop="{{ T.statDiff.onDrop }}" style="grid-column:span {{ T.statDiff.span }}; order:{{ T.statDiff.order }}; background:var(--layer-01); outline:{{ T.statDiff.outline }}; opacity:{{ T.statDiff.opacity }}; display:{{ T.statDiff.display }}; height:{{ T.statDiff.totalHeight }}px;" data-drag-over="{{ T.statDiff.dragOver }}" className="{{ T.statDiff.dropClass }}">
-      <div draggable="{{ true }}" onDragStart="{{ T.statDiff.onDragStart }}" onDragEnd="{{ T.statDiff.onDragEnd }}" class="th">
+    <div data-tile-id="statDiff" onClick="{{ T.statDiff.onClick }}" style="grid-column:span {{ T.statDiff.span }}; order:{{ T.statDiff.order }}; background:var(--layer-01); outline:{{ T.statDiff.outline }}; opacity:{{ T.statDiff.opacity }}; display:{{ T.statDiff.display }}; height:{{ T.statDiff.totalHeight }}px; z-index:{{ T.statDiff.wrapperZIndex }}; overflow:{{ T.statDiff.wrapperOverflow }}; position:relative;" data-drag-over="{{ T.statDiff.dragOver }}" class="{{ T.statDiff.dropClass }}">
+      <div onMouseDown="{{ T.statDiff.onPointerDown }}" class="th" style="background:{{ T.statDiff.headerBg }}; border-bottom:{{ T.statDiff.headerBorderBottom }}; border:{{ T.statDiff.headerBorder }}; box-shadow:{{ T.statDiff.headerShadow }}; transform:{{ T.statDiff.headerTransform }}; position:relative; z-index:2; border-radius:{{ T.statDiff.headerRadius }};">
         <svg width="10" height="14" viewBox="0 0 10 14" fill="currentColor" style="color:var(--text-secondary); opacity:0.5; flex-shrink:0;"><circle cx="3" cy="2" r="1.5"></circle><circle cx="7" cy="2" r="1.5"></circle><circle cx="3" cy="7" r="1.5"></circle><circle cx="7" cy="7" r="1.5"></circle><circle cx="3" cy="12" r="1.5"></circle><circle cx="7" cy="12" r="1.5"></circle></svg>
         <span style="font-size:10px; font-weight:600; letter-spacing:0.6px; color:var(--text-secondary); text-transform:uppercase; flex:1;">Points difference</span>
         <button onClick="{{ T.statDiff.toggleMenu }}" data-tile-menu-btn="true" style="width:24px;height:24px;display:flex;align-items:center;justify-content:center;background:transparent;border:none;cursor:pointer;color:var(--text-secondary);flex-shrink:0;padding:0;" title="Resize tile"><svg viewBox="0 0 16 16" fill="currentColor" width="14" height="14"><circle cx="8" cy="3" r="1.2"></circle><circle cx="8" cy="8" r="1.2"></circle><circle cx="8" cy="13" r="1.2"></circle></svg></button>
@@ -427,8 +447,8 @@
     </div>
 
     <!-- ═══ RESULTS ═══ -->
-    <div onClick="{{ T.results.onClick }}" onDragOver="{{ T.results.onDragOver }}" onDrop="{{ T.results.onDrop }}" style="grid-column:span {{ T.results.span }}; order:{{ T.results.order }}; background:var(--layer-01); outline:{{ T.results.outline }}; opacity:{{ T.results.opacity }}; display:{{ T.results.display }}; height:{{ T.results.totalHeight }}px;" data-drag-over="{{ T.results.dragOver }}" className="{{ T.results.dropClass }}">
-      <div draggable="{{ true }}" onDragStart="{{ T.results.onDragStart }}" onDragEnd="{{ T.results.onDragEnd }}" class="th">
+    <div data-tile-id="results" onClick="{{ T.results.onClick }}" style="grid-column:span {{ T.results.span }}; order:{{ T.results.order }}; background:var(--layer-01); outline:{{ T.results.outline }}; opacity:{{ T.results.opacity }}; display:{{ T.results.display }}; height:{{ T.results.totalHeight }}px; z-index:{{ T.results.wrapperZIndex }}; overflow:{{ T.results.wrapperOverflow }}; position:relative;" data-drag-over="{{ T.results.dragOver }}" class="{{ T.results.dropClass }}">
+      <div onMouseDown="{{ T.results.onPointerDown }}" class="th" style="background:{{ T.results.headerBg }}; border-bottom:{{ T.results.headerBorderBottom }}; border:{{ T.results.headerBorder }}; box-shadow:{{ T.results.headerShadow }}; transform:{{ T.results.headerTransform }}; position:relative; z-index:2; border-radius:{{ T.results.headerRadius }};">
         <svg width="10" height="14" viewBox="0 0 10 14" fill="currentColor" style="color:var(--text-secondary); opacity:0.5; flex-shrink:0;"><circle cx="3" cy="2" r="1.5"></circle><circle cx="7" cy="2" r="1.5"></circle><circle cx="3" cy="7" r="1.5"></circle><circle cx="7" cy="7" r="1.5"></circle><circle cx="3" cy="12" r="1.5"></circle><circle cx="7" cy="12" r="1.5"></circle></svg>
         <span style="font-size:10px; font-weight:600; letter-spacing:0.6px; color:var(--text-secondary); text-transform:uppercase; flex:1;">Match results</span>
         <div style="display:flex; gap:4px; margin-right:8px;">
@@ -499,8 +519,8 @@
     </div>
 
     <!-- ═══ POINTS SCORERS ═══ -->
-    <div onClick="{{ T.scorers.onClick }}" onDragOver="{{ T.scorers.onDragOver }}" onDrop="{{ T.scorers.onDrop }}" style="grid-column:span {{ T.scorers.span }}; order:{{ T.scorers.order }}; background:var(--layer-01); outline:{{ T.scorers.outline }}; opacity:{{ T.scorers.opacity }}; display:{{ T.scorers.display }}; height:{{ T.scorers.totalHeight }}px;" data-drag-over="{{ T.scorers.dragOver }}" className="{{ T.scorers.dropClass }}">
-      <div draggable="{{ true }}" onDragStart="{{ T.scorers.onDragStart }}" onDragEnd="{{ T.scorers.onDragEnd }}" class="th">
+    <div data-tile-id="scorers" onClick="{{ T.scorers.onClick }}" style="grid-column:span {{ T.scorers.span }}; order:{{ T.scorers.order }}; background:var(--layer-01); outline:{{ T.scorers.outline }}; opacity:{{ T.scorers.opacity }}; display:{{ T.scorers.display }}; height:{{ T.scorers.totalHeight }}px; z-index:{{ T.scorers.wrapperZIndex }}; overflow:{{ T.scorers.wrapperOverflow }}; position:relative;" data-drag-over="{{ T.scorers.dragOver }}" class="{{ T.scorers.dropClass }}">
+      <div onMouseDown="{{ T.scorers.onPointerDown }}" class="th" style="background:{{ T.scorers.headerBg }}; border-bottom:{{ T.scorers.headerBorderBottom }}; border:{{ T.scorers.headerBorder }}; box-shadow:{{ T.scorers.headerShadow }}; transform:{{ T.scorers.headerTransform }}; position:relative; z-index:2; border-radius:{{ T.scorers.headerRadius }};">
         <svg width="10" height="14" viewBox="0 0 10 14" fill="currentColor" style="color:var(--text-secondary); opacity:0.5; flex-shrink:0;"><circle cx="3" cy="2" r="1.5"></circle><circle cx="7" cy="2" r="1.5"></circle><circle cx="3" cy="7" r="1.5"></circle><circle cx="7" cy="7" r="1.5"></circle><circle cx="3" cy="12" r="1.5"></circle><circle cx="7" cy="12" r="1.5"></circle></svg>
         <span style="font-size:10px; font-weight:600; letter-spacing:0.6px; color:var(--text-secondary); text-transform:uppercase; flex:1;">{{ scorersTileTitle }}</span>
         <button onClick="{{ T.scorers.toggleMenu }}" data-tile-menu-btn="true" style="width:24px;height:24px;display:flex;align-items:center;justify-content:center;background:transparent;border:none;cursor:pointer;color:var(--text-secondary);flex-shrink:0;padding:0;" title="Resize tile"><svg viewBox="0 0 16 16" fill="currentColor" width="14" height="14"><circle cx="8" cy="3" r="1.2"></circle><circle cx="8" cy="8" r="1.2"></circle><circle cx="8" cy="13" r="1.2"></circle></svg></button>
@@ -541,8 +561,8 @@
     </div>
 
     <!-- ═══ SQUAD NEWS ═══ -->
-    <div onClick="{{ T.squadNews.onClick }}" onDragOver="{{ T.squadNews.onDragOver }}" onDrop="{{ T.squadNews.onDrop }}" style="grid-column:span {{ T.squadNews.span }}; order:{{ T.squadNews.order }}; background:var(--layer-01); outline:{{ T.squadNews.outline }}; opacity:{{ T.squadNews.opacity }}; display:{{ T.squadNews.display }}; height:{{ T.squadNews.totalHeight }}px;" data-drag-over="{{ T.squadNews.dragOver }}" className="{{ T.squadNews.dropClass }}">
-      <div draggable="{{ true }}" onDragStart="{{ T.squadNews.onDragStart }}" onDragEnd="{{ T.squadNews.onDragEnd }}" class="th">
+    <div data-tile-id="squadNews" onClick="{{ T.squadNews.onClick }}" style="grid-column:span {{ T.squadNews.span }}; order:{{ T.squadNews.order }}; background:var(--layer-01); outline:{{ T.squadNews.outline }}; opacity:{{ T.squadNews.opacity }}; display:{{ T.squadNews.display }}; height:{{ T.squadNews.totalHeight }}px; z-index:{{ T.squadNews.wrapperZIndex }}; overflow:{{ T.squadNews.wrapperOverflow }}; position:relative;" data-drag-over="{{ T.squadNews.dragOver }}" class="{{ T.squadNews.dropClass }}">
+      <div onMouseDown="{{ T.squadNews.onPointerDown }}" class="th" style="background:{{ T.squadNews.headerBg }}; border-bottom:{{ T.squadNews.headerBorderBottom }}; border:{{ T.squadNews.headerBorder }}; box-shadow:{{ T.squadNews.headerShadow }}; transform:{{ T.squadNews.headerTransform }}; position:relative; z-index:2; border-radius:{{ T.squadNews.headerRadius }};">
         <svg width="10" height="14" viewBox="0 0 10 14" fill="currentColor" style="color:var(--text-secondary); opacity:0.5; flex-shrink:0;"><circle cx="3" cy="2" r="1.5"></circle><circle cx="7" cy="2" r="1.5"></circle><circle cx="3" cy="7" r="1.5"></circle><circle cx="7" cy="7" r="1.5"></circle><circle cx="3" cy="12" r="1.5"></circle><circle cx="7" cy="12" r="1.5"></circle></svg>
         <span style="font-size:10px; font-weight:600; letter-spacing:0.6px; color:var(--text-secondary); text-transform:uppercase; flex:1;">Squad news</span>
         <button onClick="{{ T.squadNews.toggleMenu }}" data-tile-menu-btn="true" style="width:24px;height:24px;display:flex;align-items:center;justify-content:center;background:transparent;border:none;cursor:pointer;color:var(--text-secondary);flex-shrink:0;padding:0;" title="Resize tile"><svg viewBox="0 0 16 16" fill="currentColor" width="14" height="14"><circle cx="8" cy="3" r="1.2"></circle><circle cx="8" cy="8" r="1.2"></circle><circle cx="8" cy="13" r="1.2"></circle></svg></button>
@@ -571,12 +591,12 @@
     </div>
 
     <!-- ═══ SQUAD CARDS ═══ -->
-    <div onClick="{{ T.squad.onClick }}" onDragOver="{{ T.squad.onDragOver }}" onDrop="{{ T.squad.onDrop }}" style="grid-column:span {{ T.squad.span }}; order:{{ T.squad.order }}; background:var(--layer-01); outline:{{ T.squad.outline }}; opacity:{{ T.squad.opacity }}; display:{{ T.squad.display }}; height:{{ T.squad.totalHeight }}px;" data-drag-over="{{ T.squad.dragOver }}" className="{{ T.squad.dropClass }}">
-      <div draggable="{{ true }}" onDragStart="{{ T.squad.onDragStart }}" onDragEnd="{{ T.squad.onDragEnd }}" class="th">
+    <div data-tile-id="squad" onClick="{{ T.squad.onClick }}" style="grid-column:span {{ T.squad.span }}; order:{{ T.squad.order }}; background:var(--layer-01); outline:{{ T.squad.outline }}; opacity:{{ T.squad.opacity }}; display:{{ T.squad.display }}; height:{{ T.squad.totalHeight }}px; z-index:{{ T.squad.wrapperZIndex }}; overflow:{{ T.squad.wrapperOverflow }}; position:relative;" data-drag-over="{{ T.squad.dragOver }}" class="{{ T.squad.dropClass }}">
+      <div onMouseDown="{{ T.squad.onPointerDown }}" class="th" style="background:{{ T.squad.headerBg }}; border-bottom:{{ T.squad.headerBorderBottom }}; border:{{ T.squad.headerBorder }}; box-shadow:{{ T.squad.headerShadow }}; transform:{{ T.squad.headerTransform }}; position:relative; z-index:2; border-radius:{{ T.squad.headerRadius }};">
         <svg width="10" height="14" viewBox="0 0 10 14" fill="currentColor" style="color:var(--text-secondary); opacity:0.5; flex-shrink:0;"><circle cx="3" cy="2" r="1.5"></circle><circle cx="7" cy="2" r="1.5"></circle><circle cx="3" cy="7" r="1.5"></circle><circle cx="7" cy="7" r="1.5"></circle><circle cx="3" cy="12" r="1.5"></circle><circle cx="7" cy="12" r="1.5"></circle></svg>
         <span style="font-size:10px; font-weight:600; letter-spacing:0.6px; color:var(--text-secondary); text-transform:uppercase;">{{ squadTileLabel }}</span>
         <div style="width:200px; margin:0 8px; flex-shrink:0;">
-          <x-import component-from-global-scope="UniteDesignSystem_429d79.Search" value="{{ playerSearch }}" onChange="{{ onPlayerSearch }}" onClear="{{ clearPlayerSearch }}" placeholder="Search players…" size="sm" hint-size="100%,32px"></x-import>
+          <x-import component-from-global-scope="UniteDesignSystem_429d79.Search" value="{{ playerSearch }}" dc-props="{{ playerSearchHandlers }}" placeholder="Search players…" size="sm" hint-size="100%,32px"></x-import>
         </div>
         <span style="font-family:var(--font-mono); font-size:10px; color:var(--text-secondary); margin-right:8px; flex-shrink:0;">{{ playerCount }}</span>
         <div style="flex:1;"></div>
@@ -604,8 +624,8 @@
     </div>
 
     <!-- ═══ TRIES CHART ═══ -->
-    <div onClick="{{ T.triesChart.onClick }}" onDragOver="{{ T.triesChart.onDragOver }}" onDrop="{{ T.triesChart.onDrop }}" style="grid-column:span {{ T.triesChart.span }}; order:{{ T.triesChart.order }}; background:var(--layer-01); outline:{{ T.triesChart.outline }}; opacity:{{ T.triesChart.opacity }}; display:{{ T.triesChart.display }}; height:{{ T.triesChart.totalHeight }}px;" data-drag-over="{{ T.triesChart.dragOver }}" className="{{ T.triesChart.dropClass }}">
-      <div draggable="{{ true }}" onDragStart="{{ T.triesChart.onDragStart }}" onDragEnd="{{ T.triesChart.onDragEnd }}" class="th">
+    <div data-tile-id="triesChart" onClick="{{ T.triesChart.onClick }}" style="grid-column:span {{ T.triesChart.span }}; order:{{ T.triesChart.order }}; background:var(--layer-01); outline:{{ T.triesChart.outline }}; opacity:{{ T.triesChart.opacity }}; display:{{ T.triesChart.display }}; height:{{ T.triesChart.totalHeight }}px; z-index:{{ T.triesChart.wrapperZIndex }}; overflow:{{ T.triesChart.wrapperOverflow }}; position:relative;" data-drag-over="{{ T.triesChart.dragOver }}" class="{{ T.triesChart.dropClass }}">
+      <div onMouseDown="{{ T.triesChart.onPointerDown }}" class="th" style="background:{{ T.triesChart.headerBg }}; border-bottom:{{ T.triesChart.headerBorderBottom }}; border:{{ T.triesChart.headerBorder }}; box-shadow:{{ T.triesChart.headerShadow }}; transform:{{ T.triesChart.headerTransform }}; position:relative; z-index:2; border-radius:{{ T.triesChart.headerRadius }};">
         <svg width="10" height="14" viewBox="0 0 10 14" fill="currentColor" style="color:var(--text-secondary); opacity:0.5; flex-shrink:0;"><circle cx="3" cy="2" r="1.5"></circle><circle cx="7" cy="2" r="1.5"></circle><circle cx="3" cy="7" r="1.5"></circle><circle cx="7" cy="7" r="1.5"></circle><circle cx="3" cy="12" r="1.5"></circle><circle cx="7" cy="12" r="1.5"></circle></svg>
         <span style="font-size:10px; font-weight:600; letter-spacing:0.6px; color:var(--text-secondary); text-transform:uppercase; flex:1;">Tries per match</span>
         <button onClick="{{ T.triesChart.toggleMenu }}" data-tile-menu-btn="true" style="width:24px;height:24px;display:flex;align-items:center;justify-content:center;background:transparent;border:none;cursor:pointer;color:var(--text-secondary);flex-shrink:0;padding:0;" title="Resize tile"><svg viewBox="0 0 16 16" fill="currentColor" width="14" height="14"><circle cx="8" cy="3" r="1.2"></circle><circle cx="8" cy="8" r="1.2"></circle><circle cx="8" cy="13" r="1.2"></circle></svg></button>
@@ -617,8 +637,8 @@
     </div>
 
     <!-- ═══ POINTS CHART ═══ -->
-    <div onClick="{{ T.ptsChart.onClick }}" onDragOver="{{ T.ptsChart.onDragOver }}" onDrop="{{ T.ptsChart.onDrop }}" style="grid-column:span {{ T.ptsChart.span }}; order:{{ T.ptsChart.order }}; background:var(--layer-01); outline:{{ T.ptsChart.outline }}; opacity:{{ T.ptsChart.opacity }}; display:{{ T.ptsChart.display }}; height:{{ T.ptsChart.totalHeight }}px;" data-drag-over="{{ T.ptsChart.dragOver }}" className="{{ T.ptsChart.dropClass }}">
-      <div draggable="{{ true }}" onDragStart="{{ T.ptsChart.onDragStart }}" onDragEnd="{{ T.ptsChart.onDragEnd }}" class="th">
+    <div data-tile-id="ptsChart" onClick="{{ T.ptsChart.onClick }}" style="grid-column:span {{ T.ptsChart.span }}; order:{{ T.ptsChart.order }}; background:var(--layer-01); outline:{{ T.ptsChart.outline }}; opacity:{{ T.ptsChart.opacity }}; display:{{ T.ptsChart.display }}; height:{{ T.ptsChart.totalHeight }}px; z-index:{{ T.ptsChart.wrapperZIndex }}; overflow:{{ T.ptsChart.wrapperOverflow }}; position:relative;" data-drag-over="{{ T.ptsChart.dragOver }}" class="{{ T.ptsChart.dropClass }}">
+      <div onMouseDown="{{ T.ptsChart.onPointerDown }}" class="th" style="background:{{ T.ptsChart.headerBg }}; border-bottom:{{ T.ptsChart.headerBorderBottom }}; border:{{ T.ptsChart.headerBorder }}; box-shadow:{{ T.ptsChart.headerShadow }}; transform:{{ T.ptsChart.headerTransform }}; position:relative; z-index:2; border-radius:{{ T.ptsChart.headerRadius }};">
         <svg width="10" height="14" viewBox="0 0 10 14" fill="currentColor" style="color:var(--text-secondary); opacity:0.5; flex-shrink:0;"><circle cx="3" cy="2" r="1.5"></circle><circle cx="7" cy="2" r="1.5"></circle><circle cx="3" cy="7" r="1.5"></circle><circle cx="7" cy="7" r="1.5"></circle><circle cx="3" cy="12" r="1.5"></circle><circle cx="7" cy="12" r="1.5"></circle></svg>
         <span style="font-size:10px; font-weight:600; letter-spacing:0.6px; color:var(--text-secondary); text-transform:uppercase; flex:1;">Points scored vs conceded</span>
         <button onClick="{{ T.ptsChart.toggleMenu }}" data-tile-menu-btn="true" style="width:24px;height:24px;display:flex;align-items:center;justify-content:center;background:transparent;border:none;cursor:pointer;color:var(--text-secondary);flex-shrink:0;padding:0;" title="Resize tile"><svg viewBox="0 0 16 16" fill="currentColor" width="14" height="14"><circle cx="8" cy="3" r="1.2"></circle><circle cx="8" cy="8" r="1.2"></circle><circle cx="8" cy="13" r="1.2"></circle></svg></button>
@@ -630,8 +650,8 @@
     </div>
 
     <!-- ═══ SEASON COMPARISON ═══ -->
-    <div onClick="{{ T.seasonComp.onClick }}" onDragOver="{{ T.seasonComp.onDragOver }}" onDrop="{{ T.seasonComp.onDrop }}" style="grid-column:span {{ T.seasonComp.span }}; order:{{ T.seasonComp.order }}; background:var(--layer-01); outline:{{ T.seasonComp.outline }}; opacity:{{ T.seasonComp.opacity }}; display:{{ T.seasonComp.display }}; height:{{ T.seasonComp.totalHeight }}px;" data-drag-over="{{ T.seasonComp.dragOver }}" className="{{ T.seasonComp.dropClass }}">
-      <div draggable="{{ true }}" onDragStart="{{ T.seasonComp.onDragStart }}" onDragEnd="{{ T.seasonComp.onDragEnd }}" class="th">
+    <div data-tile-id="seasonComp" onClick="{{ T.seasonComp.onClick }}" style="grid-column:span {{ T.seasonComp.span }}; order:{{ T.seasonComp.order }}; background:var(--layer-01); outline:{{ T.seasonComp.outline }}; opacity:{{ T.seasonComp.opacity }}; display:{{ T.seasonComp.display }}; height:{{ T.seasonComp.totalHeight }}px; z-index:{{ T.seasonComp.wrapperZIndex }}; overflow:{{ T.seasonComp.wrapperOverflow }}; position:relative;" data-drag-over="{{ T.seasonComp.dragOver }}" class="{{ T.seasonComp.dropClass }}">
+      <div onMouseDown="{{ T.seasonComp.onPointerDown }}" class="th" style="background:{{ T.seasonComp.headerBg }}; border-bottom:{{ T.seasonComp.headerBorderBottom }}; border:{{ T.seasonComp.headerBorder }}; box-shadow:{{ T.seasonComp.headerShadow }}; transform:{{ T.seasonComp.headerTransform }}; position:relative; z-index:2; border-radius:{{ T.seasonComp.headerRadius }};">
         <svg width="10" height="14" viewBox="0 0 10 14" fill="currentColor" style="color:var(--text-secondary); opacity:0.5; flex-shrink:0;"><circle cx="3" cy="2" r="1.5"></circle><circle cx="7" cy="2" r="1.5"></circle><circle cx="3" cy="7" r="1.5"></circle><circle cx="7" cy="7" r="1.5"></circle><circle cx="3" cy="12" r="1.5"></circle><circle cx="7" cy="12" r="1.5"></circle></svg>
         <span style="font-size:10px; font-weight:600; letter-spacing:0.6px; color:var(--text-secondary); text-transform:uppercase; flex:1;">Season comparison</span>
         <button onClick="{{ T.seasonComp.toggleMenu }}" data-tile-menu-btn="true" style="width:24px;height:24px;display:flex;align-items:center;justify-content:center;background:transparent;border:none;cursor:pointer;color:var(--text-secondary);flex-shrink:0;padding:0;" title="Resize tile"><svg viewBox="0 0 16 16" fill="currentColor" width="14" height="14"><circle cx="8" cy="3" r="1.2"></circle><circle cx="8" cy="8" r="1.2"></circle><circle cx="8" cy="13" r="1.2"></circle></svg></button>
@@ -655,8 +675,8 @@
     </div>
 
     <!-- ═══ RADAR CHART ═══ -->
-    <div onClick="{{ T.radar.onClick }}" onDragOver="{{ T.radar.onDragOver }}" onDrop="{{ T.radar.onDrop }}" style="grid-column:span {{ T.radar.span }}; order:{{ T.radar.order }}; background:var(--layer-01); outline:{{ T.radar.outline }}; opacity:{{ T.radar.opacity }}; display:{{ T.radar.display }}; height:{{ T.radar.totalHeight }}px;" data-drag-over="{{ T.radar.dragOver }}" className="{{ T.radar.dropClass }}">
-      <div draggable="{{ true }}" onDragStart="{{ T.radar.onDragStart }}" onDragEnd="{{ T.radar.onDragEnd }}" class="th">
+    <div data-tile-id="radar" onClick="{{ T.radar.onClick }}" style="grid-column:span {{ T.radar.span }}; order:{{ T.radar.order }}; background:var(--layer-01); outline:{{ T.radar.outline }}; opacity:{{ T.radar.opacity }}; display:{{ T.radar.display }}; height:{{ T.radar.totalHeight }}px; z-index:{{ T.radar.wrapperZIndex }}; overflow:{{ T.radar.wrapperOverflow }}; position:relative;" data-drag-over="{{ T.radar.dragOver }}" class="{{ T.radar.dropClass }}">
+      <div onMouseDown="{{ T.radar.onPointerDown }}" class="th" style="background:{{ T.radar.headerBg }}; border-bottom:{{ T.radar.headerBorderBottom }}; border:{{ T.radar.headerBorder }}; box-shadow:{{ T.radar.headerShadow }}; transform:{{ T.radar.headerTransform }}; position:relative; z-index:2; border-radius:{{ T.radar.headerRadius }};">
         <svg width="10" height="14" viewBox="0 0 10 14" fill="currentColor" style="color:var(--text-secondary); opacity:0.5; flex-shrink:0;"><circle cx="3" cy="2" r="1.5"></circle><circle cx="7" cy="2" r="1.5"></circle><circle cx="3" cy="7" r="1.5"></circle><circle cx="7" cy="7" r="1.5"></circle><circle cx="3" cy="12" r="1.5"></circle><circle cx="7" cy="12" r="1.5"></circle></svg>
         <span style="font-size:10px; font-weight:600; letter-spacing:0.6px; color:var(--text-secondary); text-transform:uppercase; flex:1;">Team performance radar</span>
         <button onClick="{{ T.radar.toggleMenu }}" data-tile-menu-btn="true" style="width:24px;height:24px;display:flex;align-items:center;justify-content:center;background:transparent;border:none;cursor:pointer;color:var(--text-secondary);flex-shrink:0;padding:0;" title="Resize tile"><svg viewBox="0 0 16 16" fill="currentColor" width="14" height="14"><circle cx="8" cy="3" r="1.2"></circle><circle cx="8" cy="8" r="1.2"></circle><circle cx="8" cy="13" r="1.2"></circle></svg></button>
@@ -667,8 +687,8 @@
     </div>
 
     <!-- ═══ TRAJECTORY ═══ -->
-    <div onClick="{{ T.trajectory.onClick }}" onDragOver="{{ T.trajectory.onDragOver }}" onDrop="{{ T.trajectory.onDrop }}" style="grid-column:span {{ T.trajectory.span }}; order:{{ T.trajectory.order }}; background:var(--layer-01); outline:{{ T.trajectory.outline }}; opacity:{{ T.trajectory.opacity }}; display:{{ T.trajectory.display }}; height:{{ T.trajectory.totalHeight }}px;" data-drag-over="{{ T.trajectory.dragOver }}" className="{{ T.trajectory.dropClass }}">
-      <div draggable="{{ true }}" onDragStart="{{ T.trajectory.onDragStart }}" onDragEnd="{{ T.trajectory.onDragEnd }}" class="th">
+    <div data-tile-id="trajectory" onClick="{{ T.trajectory.onClick }}" style="grid-column:span {{ T.trajectory.span }}; order:{{ T.trajectory.order }}; background:var(--layer-01); outline:{{ T.trajectory.outline }}; opacity:{{ T.trajectory.opacity }}; display:{{ T.trajectory.display }}; height:{{ T.trajectory.totalHeight }}px; z-index:{{ T.trajectory.wrapperZIndex }}; overflow:{{ T.trajectory.wrapperOverflow }}; position:relative;" data-drag-over="{{ T.trajectory.dragOver }}" class="{{ T.trajectory.dropClass }}">
+      <div onMouseDown="{{ T.trajectory.onPointerDown }}" class="th" style="background:{{ T.trajectory.headerBg }}; border-bottom:{{ T.trajectory.headerBorderBottom }}; border:{{ T.trajectory.headerBorder }}; box-shadow:{{ T.trajectory.headerShadow }}; transform:{{ T.trajectory.headerTransform }}; position:relative; z-index:2; border-radius:{{ T.trajectory.headerRadius }};">
         <svg width="10" height="14" viewBox="0 0 10 14" fill="currentColor" style="color:var(--text-secondary); opacity:0.5; flex-shrink:0;"><circle cx="3" cy="2" r="1.5"></circle><circle cx="7" cy="2" r="1.5"></circle><circle cx="3" cy="7" r="1.5"></circle><circle cx="7" cy="7" r="1.5"></circle><circle cx="3" cy="12" r="1.5"></circle><circle cx="7" cy="12" r="1.5"></circle></svg>
         <span style="font-size:10px; font-weight:600; letter-spacing:0.6px; color:var(--text-secondary); text-transform:uppercase; flex:1;">Points trajectory — Saints vs Bath</span>
         <button onClick="{{ T.trajectory.toggleMenu }}" data-tile-menu-btn="true" style="width:24px;height:24px;display:flex;align-items:center;justify-content:center;background:transparent;border:none;cursor:pointer;color:var(--text-secondary);flex-shrink:0;padding:0;" title="Resize tile"><svg viewBox="0 0 16 16" fill="currentColor" width="14" height="14"><circle cx="8" cy="3" r="1.2"></circle><circle cx="8" cy="8" r="1.2"></circle><circle cx="8" cy="13" r="1.2"></circle></svg></button>
@@ -679,8 +699,8 @@
     </div>
 
     <!-- ═══ SET-PIECE STATS ═══ -->
-    <div onClick="{{ T.setpiece.onClick }}" onDragOver="{{ T.setpiece.onDragOver }}" onDrop="{{ T.setpiece.onDrop }}" style="grid-column:span {{ T.setpiece.span }}; order:{{ T.setpiece.order }}; background:var(--layer-01); outline:{{ T.setpiece.outline }}; opacity:{{ T.setpiece.opacity }}; display:{{ T.setpiece.display }}; height:{{ T.setpiece.totalHeight }}px;" data-drag-over="{{ T.setpiece.dragOver }}" className="{{ T.setpiece.dropClass }}">
-      <div draggable="{{ true }}" onDragStart="{{ T.setpiece.onDragStart }}" onDragEnd="{{ T.setpiece.onDragEnd }}" class="th">
+    <div data-tile-id="setpiece" onClick="{{ T.setpiece.onClick }}" style="grid-column:span {{ T.setpiece.span }}; order:{{ T.setpiece.order }}; background:var(--layer-01); outline:{{ T.setpiece.outline }}; opacity:{{ T.setpiece.opacity }}; display:{{ T.setpiece.display }}; height:{{ T.setpiece.totalHeight }}px; z-index:{{ T.setpiece.wrapperZIndex }}; overflow:{{ T.setpiece.wrapperOverflow }}; position:relative;" data-drag-over="{{ T.setpiece.dragOver }}" class="{{ T.setpiece.dropClass }}">
+      <div onMouseDown="{{ T.setpiece.onPointerDown }}" class="th" style="background:{{ T.setpiece.headerBg }}; border-bottom:{{ T.setpiece.headerBorderBottom }}; border:{{ T.setpiece.headerBorder }}; box-shadow:{{ T.setpiece.headerShadow }}; transform:{{ T.setpiece.headerTransform }}; position:relative; z-index:2; border-radius:{{ T.setpiece.headerRadius }};">
         <svg width="10" height="14" viewBox="0 0 10 14" fill="currentColor" style="color:var(--text-secondary); opacity:0.5; flex-shrink:0;"><circle cx="3" cy="2" r="1.5"></circle><circle cx="7" cy="2" r="1.5"></circle><circle cx="3" cy="7" r="1.5"></circle><circle cx="7" cy="7" r="1.5"></circle><circle cx="3" cy="12" r="1.5"></circle><circle cx="7" cy="12" r="1.5"></circle></svg>
         <span style="font-size:10px; font-weight:600; letter-spacing:0.6px; color:var(--text-secondary); text-transform:uppercase; flex:1;">Set-piece &amp; performance stats</span>
         <button onClick="{{ T.setpiece.toggleMenu }}" data-tile-menu-btn="true" style="width:24px;height:24px;display:flex;align-items:center;justify-content:center;background:transparent;border:none;cursor:pointer;color:var(--text-secondary);flex-shrink:0;padding:0;" title="Resize tile"><svg viewBox="0 0 16 16" fill="currentColor" width="14" height="14"><circle cx="8" cy="3" r="1.2"></circle><circle cx="8" cy="8" r="1.2"></circle><circle cx="8" cy="13" r="1.2"></circle></svg></button>
@@ -701,8 +721,8 @@
     </div>
 
     <!-- ═══ OPPONENT COMPARE ═══ -->
-    <div onClick="{{ T.compare.onClick }}" onDragOver="{{ T.compare.onDragOver }}" onDrop="{{ T.compare.onDrop }}" style="grid-column:span {{ T.compare.span }}; order:{{ T.compare.order }}; background:var(--layer-01); outline:{{ T.compare.outline }}; opacity:{{ T.compare.opacity }}; display:{{ T.compare.display }}; height:{{ T.compare.totalHeight }}px;" data-drag-over="{{ T.compare.dragOver }}" className="{{ T.compare.dropClass }}">
-      <div draggable="{{ true }}" onDragStart="{{ T.compare.onDragStart }}" onDragEnd="{{ T.compare.onDragEnd }}" class="th">
+    <div data-tile-id="compare" onClick="{{ T.compare.onClick }}" style="grid-column:span {{ T.compare.span }}; order:{{ T.compare.order }}; background:var(--layer-01); outline:{{ T.compare.outline }}; opacity:{{ T.compare.opacity }}; display:{{ T.compare.display }}; height:{{ T.compare.totalHeight }}px; z-index:{{ T.compare.wrapperZIndex }}; overflow:{{ T.compare.wrapperOverflow }}; position:relative;" data-drag-over="{{ T.compare.dragOver }}" class="{{ T.compare.dropClass }}">
+      <div onMouseDown="{{ T.compare.onPointerDown }}" class="th" style="background:{{ T.compare.headerBg }}; border-bottom:{{ T.compare.headerBorderBottom }}; border:{{ T.compare.headerBorder }}; box-shadow:{{ T.compare.headerShadow }}; transform:{{ T.compare.headerTransform }}; position:relative; z-index:2; border-radius:{{ T.compare.headerRadius }};">
         <svg width="10" height="14" viewBox="0 0 10 14" fill="currentColor" style="color:var(--text-secondary); opacity:0.5; flex-shrink:0;"><circle cx="3" cy="2" r="1.5"></circle><circle cx="7" cy="2" r="1.5"></circle><circle cx="3" cy="7" r="1.5"></circle><circle cx="7" cy="7" r="1.5"></circle><circle cx="3" cy="12" r="1.5"></circle><circle cx="7" cy="12" r="1.5"></circle></svg>
         <span style="font-size:10px; font-weight:600; letter-spacing:0.6px; color:var(--text-secondary); text-transform:uppercase; flex:1;">Opponent comparison — click 2 teams in the league table</span>
         <button onClick="{{ T.compare.toggleMenu }}" data-tile-menu-btn="true" style="width:24px;height:24px;display:flex;align-items:center;justify-content:center;background:transparent;border:none;cursor:pointer;color:var(--text-secondary);flex-shrink:0;padding:0;" title="Resize tile"><svg viewBox="0 0 16 16" fill="currentColor" width="14" height="14"><circle cx="8" cy="3" r="1.2"></circle><circle cx="8" cy="8" r="1.2"></circle><circle cx="8" cy="13" r="1.2"></circle></svg></button>
@@ -738,8 +758,8 @@
     </div>
 
     <!-- ═══ INJURY TIMELINE ═══ -->
-    <div onClick="{{ T.injTimeline.onClick }}" onDragOver="{{ T.injTimeline.onDragOver }}" onDrop="{{ T.injTimeline.onDrop }}" style="grid-column:span {{ T.injTimeline.span }}; order:{{ T.injTimeline.order }}; background:var(--layer-01); outline:{{ T.injTimeline.outline }}; opacity:{{ T.injTimeline.opacity }}; display:{{ T.injTimeline.display }}; height:{{ T.injTimeline.totalHeight }}px;" data-drag-over="{{ T.injTimeline.dragOver }}" className="{{ T.injTimeline.dropClass }}">
-      <div draggable="{{ true }}" onDragStart="{{ T.injTimeline.onDragStart }}" onDragEnd="{{ T.injTimeline.onDragEnd }}" class="th">
+    <div data-tile-id="injTimeline" onClick="{{ T.injTimeline.onClick }}" style="grid-column:span {{ T.injTimeline.span }}; order:{{ T.injTimeline.order }}; background:var(--layer-01); outline:{{ T.injTimeline.outline }}; opacity:{{ T.injTimeline.opacity }}; display:{{ T.injTimeline.display }}; height:{{ T.injTimeline.totalHeight }}px; z-index:{{ T.injTimeline.wrapperZIndex }}; overflow:{{ T.injTimeline.wrapperOverflow }}; position:relative;" data-drag-over="{{ T.injTimeline.dragOver }}" class="{{ T.injTimeline.dropClass }}">
+      <div onMouseDown="{{ T.injTimeline.onPointerDown }}" class="th" style="background:{{ T.injTimeline.headerBg }}; border-bottom:{{ T.injTimeline.headerBorderBottom }}; border:{{ T.injTimeline.headerBorder }}; box-shadow:{{ T.injTimeline.headerShadow }}; transform:{{ T.injTimeline.headerTransform }}; position:relative; z-index:2; border-radius:{{ T.injTimeline.headerRadius }};">
         <svg width="10" height="14" viewBox="0 0 10 14" fill="currentColor" style="color:var(--text-secondary); opacity:0.5; flex-shrink:0;"><circle cx="3" cy="2" r="1.5"></circle><circle cx="7" cy="2" r="1.5"></circle><circle cx="3" cy="7" r="1.5"></circle><circle cx="7" cy="7" r="1.5"></circle><circle cx="3" cy="12" r="1.5"></circle><circle cx="7" cy="12" r="1.5"></circle></svg>
         <span style="font-size:10px; font-weight:600; letter-spacing:0.6px; color:var(--text-secondary); text-transform:uppercase; flex:1;">Injury timeline — 2025/26 season</span>
         <button onClick="{{ T.injTimeline.toggleMenu }}" data-tile-menu-btn="true" style="width:24px;height:24px;display:flex;align-items:center;justify-content:center;background:transparent;border:none;cursor:pointer;color:var(--text-secondary);flex-shrink:0;padding:0;" title="Resize tile"><svg viewBox="0 0 16 16" fill="currentColor" width="14" height="14"><circle cx="8" cy="3" r="1.2"></circle><circle cx="8" cy="8" r="1.2"></circle><circle cx="8" cy="13" r="1.2"></circle></svg></button>
@@ -777,8 +797,8 @@
     </div>
 
     <!-- ═══ PERFORMANCE SPLITS ═══ -->
-    <div onClick="{{ T.splits.onClick }}" onDragOver="{{ T.splits.onDragOver }}" onDrop="{{ T.splits.onDrop }}" style="grid-column:span {{ T.splits.span }}; order:{{ T.splits.order }}; background:var(--layer-01); outline:{{ T.splits.outline }}; opacity:{{ T.splits.opacity }}; display:{{ T.splits.display }}; height:{{ T.splits.totalHeight }}px;" data-drag-over="{{ T.splits.dragOver }}" className="{{ T.splits.dropClass }}">
-      <div draggable="{{ true }}" onDragStart="{{ T.splits.onDragStart }}" onDragEnd="{{ T.splits.onDragEnd }}" class="th">
+    <div data-tile-id="splits" onClick="{{ T.splits.onClick }}" style="grid-column:span {{ T.splits.span }}; order:{{ T.splits.order }}; background:var(--layer-01); outline:{{ T.splits.outline }}; opacity:{{ T.splits.opacity }}; display:{{ T.splits.display }}; height:{{ T.splits.totalHeight }}px; z-index:{{ T.splits.wrapperZIndex }}; overflow:{{ T.splits.wrapperOverflow }}; position:relative;" data-drag-over="{{ T.splits.dragOver }}" class="{{ T.splits.dropClass }}">
+      <div onMouseDown="{{ T.splits.onPointerDown }}" class="th" style="background:{{ T.splits.headerBg }}; border-bottom:{{ T.splits.headerBorderBottom }}; border:{{ T.splits.headerBorder }}; box-shadow:{{ T.splits.headerShadow }}; transform:{{ T.splits.headerTransform }}; position:relative; z-index:2; border-radius:{{ T.splits.headerRadius }};">
         <svg width="10" height="14" viewBox="0 0 10 14" fill="currentColor" style="color:var(--text-secondary); opacity:0.5; flex-shrink:0;"><circle cx="3" cy="2" r="1.5"></circle><circle cx="7" cy="2" r="1.5"></circle><circle cx="3" cy="7" r="1.5"></circle><circle cx="7" cy="7" r="1.5"></circle><circle cx="3" cy="12" r="1.5"></circle><circle cx="7" cy="12" r="1.5"></circle></svg>
         <span style="font-size:10px; font-weight:600; letter-spacing:0.6px; color:var(--text-secondary); text-transform:uppercase; flex:1;">Performance splits</span>
         <button onClick="{{ T.splits.toggleMenu }}" data-tile-menu-btn="true" style="width:24px;height:24px;display:flex;align-items:center;justify-content:center;background:transparent;border:none;cursor:pointer;color:var(--text-secondary);flex-shrink:0;padding:0;" title="Resize tile"><svg viewBox="0 0 16 16" fill="currentColor" width="14" height="14"><circle cx="8" cy="3" r="1.2"></circle><circle cx="8" cy="8" r="1.2"></circle><circle cx="8" cy="13" r="1.2"></circle></svg></button>
@@ -802,8 +822,8 @@
     </div>
 
     <!-- ═══ AVERAGE ATTENDANCE (new) ═══ -->
-    <div onClick="{{ T.attendance.onClick }}" onDragOver="{{ T.attendance.onDragOver }}" onDrop="{{ T.attendance.onDrop }}" style="grid-column:span {{ T.attendance.span }}; order:{{ T.attendance.order }}; background:var(--layer-01); outline:{{ T.attendance.outline }}; opacity:{{ T.attendance.opacity }}; display:{{ T.attendance.display }}; height:{{ T.attendance.totalHeight }}px;" data-drag-over="{{ T.attendance.dragOver }}" className="{{ T.attendance.dropClass }}">
-      <div draggable="{{ true }}" onDragStart="{{ T.attendance.onDragStart }}" onDragEnd="{{ T.attendance.onDragEnd }}" class="th">
+    <div data-tile-id="attendance" onClick="{{ T.attendance.onClick }}" style="grid-column:span {{ T.attendance.span }}; order:{{ T.attendance.order }}; background:var(--layer-01); outline:{{ T.attendance.outline }}; opacity:{{ T.attendance.opacity }}; display:{{ T.attendance.display }}; height:{{ T.attendance.totalHeight }}px; z-index:{{ T.attendance.wrapperZIndex }}; overflow:{{ T.attendance.wrapperOverflow }}; position:relative;" data-drag-over="{{ T.attendance.dragOver }}" class="{{ T.attendance.dropClass }}">
+      <div onMouseDown="{{ T.attendance.onPointerDown }}" class="th" style="background:{{ T.attendance.headerBg }}; border-bottom:{{ T.attendance.headerBorderBottom }}; border:{{ T.attendance.headerBorder }}; box-shadow:{{ T.attendance.headerShadow }}; transform:{{ T.attendance.headerTransform }}; position:relative; z-index:2; border-radius:{{ T.attendance.headerRadius }};">
         <svg width="10" height="14" viewBox="0 0 10 14" fill="currentColor" style="color:var(--text-secondary); opacity:0.5; flex-shrink:0;"><circle cx="3" cy="2" r="1.5"></circle><circle cx="7" cy="2" r="1.5"></circle><circle cx="3" cy="7" r="1.5"></circle><circle cx="7" cy="7" r="1.5"></circle><circle cx="3" cy="12" r="1.5"></circle><circle cx="7" cy="12" r="1.5"></circle></svg>
         <span style="font-size:10px; font-weight:600; letter-spacing:0.6px; color:var(--text-secondary); text-transform:uppercase; flex:1;">Average attendance</span>
         <button onClick="{{ T.attendance.toggleMenu }}" data-tile-menu-btn="true" style="width:24px;height:24px;display:flex;align-items:center;justify-content:center;background:transparent;border:none;cursor:pointer;color:var(--text-secondary);flex-shrink:0;padding:0;" title="Resize tile"><svg viewBox="0 0 16 16" fill="currentColor" width="14" height="14"><circle cx="8" cy="3" r="1.2"></circle><circle cx="8" cy="8" r="1.2"></circle><circle cx="8" cy="13" r="1.2"></circle></svg></button>
@@ -818,8 +838,8 @@
     </div>
 
     <!-- ═══ CARDS & DISCIPLINE (new) ═══ -->
-    <div onClick="{{ T.discipline.onClick }}" onDragOver="{{ T.discipline.onDragOver }}" onDrop="{{ T.discipline.onDrop }}" style="grid-column:span {{ T.discipline.span }}; order:{{ T.discipline.order }}; background:var(--layer-01); outline:{{ T.discipline.outline }}; opacity:{{ T.discipline.opacity }}; display:{{ T.discipline.display }}; height:{{ T.discipline.totalHeight }}px;" data-drag-over="{{ T.discipline.dragOver }}" className="{{ T.discipline.dropClass }}">
-      <div draggable="{{ true }}" onDragStart="{{ T.discipline.onDragStart }}" onDragEnd="{{ T.discipline.onDragEnd }}" class="th">
+    <div data-tile-id="discipline" onClick="{{ T.discipline.onClick }}" style="grid-column:span {{ T.discipline.span }}; order:{{ T.discipline.order }}; background:var(--layer-01); outline:{{ T.discipline.outline }}; opacity:{{ T.discipline.opacity }}; display:{{ T.discipline.display }}; height:{{ T.discipline.totalHeight }}px; z-index:{{ T.discipline.wrapperZIndex }}; overflow:{{ T.discipline.wrapperOverflow }}; position:relative;" data-drag-over="{{ T.discipline.dragOver }}" class="{{ T.discipline.dropClass }}">
+      <div onMouseDown="{{ T.discipline.onPointerDown }}" class="th" style="background:{{ T.discipline.headerBg }}; border-bottom:{{ T.discipline.headerBorderBottom }}; border:{{ T.discipline.headerBorder }}; box-shadow:{{ T.discipline.headerShadow }}; transform:{{ T.discipline.headerTransform }}; position:relative; z-index:2; border-radius:{{ T.discipline.headerRadius }};">
         <svg width="10" height="14" viewBox="0 0 10 14" fill="currentColor" style="color:var(--text-secondary); opacity:0.5; flex-shrink:0;"><circle cx="3" cy="2" r="1.5"></circle><circle cx="7" cy="2" r="1.5"></circle><circle cx="3" cy="7" r="1.5"></circle><circle cx="7" cy="7" r="1.5"></circle><circle cx="3" cy="12" r="1.5"></circle><circle cx="7" cy="12" r="1.5"></circle></svg>
         <span style="font-size:10px; font-weight:600; letter-spacing:0.6px; color:var(--text-secondary); text-transform:uppercase; flex:1;">Cards &amp; discipline</span>
         <button onClick="{{ T.discipline.toggleMenu }}" data-tile-menu-btn="true" style="width:24px;height:24px;display:flex;align-items:center;justify-content:center;background:transparent;border:none;cursor:pointer;color:var(--text-secondary);flex-shrink:0;padding:0;" title="Resize tile"><svg viewBox="0 0 16 16" fill="currentColor" width="14" height="14"><circle cx="8" cy="3" r="1.2"></circle><circle cx="8" cy="8" r="1.2"></circle><circle cx="8" cy="13" r="1.2"></circle></svg></button>
@@ -831,8 +851,8 @@
     </div>
 
     <!-- ═══ NEXT FIXTURE (new) ═══ -->
-    <div onClick="{{ T.fixture.onClick }}" onDragOver="{{ T.fixture.onDragOver }}" onDrop="{{ T.fixture.onDrop }}" style="grid-column:span {{ T.fixture.span }}; order:{{ T.fixture.order }}; background:var(--layer-01); outline:{{ T.fixture.outline }}; opacity:{{ T.fixture.opacity }}; display:{{ T.fixture.display }}; height:{{ T.fixture.totalHeight }}px;" data-drag-over="{{ T.fixture.dragOver }}" className="{{ T.fixture.dropClass }}">
-      <div draggable="{{ true }}" onDragStart="{{ T.fixture.onDragStart }}" onDragEnd="{{ T.fixture.onDragEnd }}" class="th">
+    <div data-tile-id="fixture" onClick="{{ T.fixture.onClick }}" style="grid-column:span {{ T.fixture.span }}; order:{{ T.fixture.order }}; background:var(--layer-01); outline:{{ T.fixture.outline }}; opacity:{{ T.fixture.opacity }}; display:{{ T.fixture.display }}; height:{{ T.fixture.totalHeight }}px; z-index:{{ T.fixture.wrapperZIndex }}; overflow:{{ T.fixture.wrapperOverflow }}; position:relative;" data-drag-over="{{ T.fixture.dragOver }}" class="{{ T.fixture.dropClass }}">
+      <div onMouseDown="{{ T.fixture.onPointerDown }}" class="th" style="background:{{ T.fixture.headerBg }}; border-bottom:{{ T.fixture.headerBorderBottom }}; border:{{ T.fixture.headerBorder }}; box-shadow:{{ T.fixture.headerShadow }}; transform:{{ T.fixture.headerTransform }}; position:relative; z-index:2; border-radius:{{ T.fixture.headerRadius }};">
         <svg width="10" height="14" viewBox="0 0 10 14" fill="currentColor" style="color:var(--text-secondary); opacity:0.5; flex-shrink:0;"><circle cx="3" cy="2" r="1.5"></circle><circle cx="7" cy="2" r="1.5"></circle><circle cx="3" cy="7" r="1.5"></circle><circle cx="7" cy="7" r="1.5"></circle><circle cx="3" cy="12" r="1.5"></circle><circle cx="7" cy="12" r="1.5"></circle></svg>
         <span style="font-size:10px; font-weight:600; letter-spacing:0.6px; color:var(--text-secondary); text-transform:uppercase; flex:1;">Next fixture</span>
         <button onClick="{{ T.fixture.toggleMenu }}" data-tile-menu-btn="true" style="width:24px;height:24px;display:flex;align-items:center;justify-content:center;background:transparent;border:none;cursor:pointer;color:var(--text-secondary);flex-shrink:0;padding:0;" title="Resize tile"><svg viewBox="0 0 16 16" fill="currentColor" width="14" height="14"><circle cx="8" cy="3" r="1.2"></circle><circle cx="8" cy="8" r="1.2"></circle><circle cx="8" cy="13" r="1.2"></circle></svg></button>
@@ -850,7 +870,7 @@
 <script type="text/x-dc" data-dc-script>
 class Component extends DCLogic {
 
-  DFLT_ORDER = ['hero','kpiPos','kpiRec','kpiPts','kpiTri','league','ptsChart','results','posChart','triesChart','squad','statAvg','statDiff','squadNews','scorers','statBonus','playoffs','cc','history','seasonComp','splits','radar','trajectory','setpiece','compare','injTimeline','seasonComp','splits','attendance','discipline','fixture'];
+  DFLT_ORDER = ['hero','kpiPos','kpiRec','kpiPts','kpiTri','league','ptsChart','results','posChart','triesChart','squad','statAvg','statDiff','squadNews','scorers','statBonus','playoffs','cc','history','seasonComp','splits','radar','trajectory','setpiece','compare','injTimeline','attendance','discipline','fixture'];
 
   // Tiles available to add via the "Configure dashboard" drawer.
   // The first 26 ship on the dashboard by default; the last 3 are new additions
@@ -1177,6 +1197,8 @@ class Component extends DCLogic {
 
   componentWillUnmount() {
     window.removeEventListener('resize', this._onResize);
+    window.removeEventListener('mousemove', this._onTilePointerMove);
+    window.removeEventListener('mouseup', this._onTilePointerUp);
     if (this._closeMenuOnClick) document.removeEventListener('click', this._closeMenuOnClick, true);
 
     Object.values(this._charts).forEach(c => { try { c && c.dispose(); } catch(e){} });
@@ -1203,6 +1225,48 @@ class Component extends DCLogic {
   _onResize = () => { Object.values(this._charts).forEach(c => { try { c && c.resize(); } catch(e){} }); };
 
   _resizeCharts() { setTimeout(() => this._onResize(), 100); }
+
+  // Tile reorder uses plain mouse events (mousedown/mousemove/mouseup) rather
+  // than Pointer Events or native HTML5 drag-and-drop: this DC's offline
+  // export bundler round-trips the template through the browser's HTML
+  // parser, which lowercases attribute names; the runtime's fallback only
+  // restores a small hardcoded set of native event names (onmousedown ->
+  // onMouseDown is on that list, onpointerdown/onpointerdown are not), so
+  // mouse events are the only drag mechanism that reliably survives export.
+  _onTilePointerDown(id, e) {
+    if (e.button !== undefined && e.button !== 0) return;
+    this._dragId = id;
+    this._didDrag = false;
+    this._dragStartX = e.clientX;
+    this._dragStartY = e.clientY;
+    const titleEl = e.currentTarget.querySelector('span');
+    this._dragTitle = titleEl ? titleEl.textContent : id;
+    window.addEventListener('mousemove', this._onTilePointerMove);
+    window.addEventListener('mouseup', this._onTilePointerUp);
+  }
+
+  _onTilePointerMove = (e) => {
+    if (!this._dragId) return;
+    if (!this._didDrag) {
+      const dx = e.clientX - this._dragStartX, dy = e.clientY - this._dragStartY;
+      if (Math.hypot(dx, dy) < 4) return;
+      this._didDrag = true;
+      this.setState({ dragId: this._dragId, dragTitle: this._dragTitle });
+    }
+    const el = document.elementFromPoint(e.clientX, e.clientY);
+    const wrap = el && el.closest ? el.closest('[data-tile-id]') : null;
+    const overId = wrap ? wrap.getAttribute('data-tile-id') : null;
+    this.setState({ dragOverId: overId, dragX: e.clientX, dragY: e.clientY });
+  };
+
+  _onTilePointerUp = (e) => {
+    window.removeEventListener('mousemove', this._onTilePointerMove);
+    window.removeEventListener('mouseup', this._onTilePointerUp);
+    if (this._dragId && this.state.dragOverId) this._reorderTiles(this._dragId, this.state.dragOverId);
+    this._dragId = null;
+    this.setState({ dragId: null, dragOverId: null, dragTitle: null });
+    this._resizeCharts();
+  };
 
   _reorderTiles(fromId, toId) {
     if (!fromId || fromId === toId) return;
@@ -1254,7 +1318,20 @@ class Component extends DCLogic {
     const shadow   = 'none';
     const outline  = isSelected ? '1px solid var(--interactive)' : 'none';
     const dragOver = isTarget ? 'true' : 'false';
-    const dropClass = isTarget ? 'tile-drop-target' : '';
+    const isDragging = dragId === id;
+    const dropClass = [isTarget ? 'tile-drop-target' : '', isDragging ? 'tile-dragging' : ''].filter(Boolean).join(' ');
+    // Only the floating ghost (which follows the cursor) gets the "being moved"
+    // treatment now — the originating tile stays visually normal in the grid,
+    // matching the FX Spot Workspace reference where the source card doesn't
+    // change, only the cursor-following ghost + the hovered drop target do.
+    const headerBg = 'var(--layer-02)';
+    const headerBorderBottom = '1px solid var(--border-subtle-01)';
+    const headerBorder = 'none';
+    const headerShadow = 'none';
+    const headerTransform = 'none';
+    const headerRadius = '0';
+    const wrapperZIndex = 'auto';
+    const wrapperOverflow = 'hidden';
     const tileId   = id;
     const active   = (this.state.activeTiles || this.BASE_ACTIVE).includes(id);
     return {
@@ -1262,14 +1339,11 @@ class Component extends DCLogic {
       contentHeight: cH,
       totalHeight:   cH + 32,
       chartHeight:   Math.max(60, cH - 64), // 32px padding + ~32px for label/title
-      shadow, outline, dragOver, dropClass, tileId,
+      shadow, outline, dragOver, dropClass, tileId, headerBg, headerBorderBottom, headerBorder, headerShadow, headerTransform, headerRadius, wrapperZIndex, wrapperOverflow,
       active, display: active ? 'flex' : 'none',
-      opacity: dragId === id ? '0.5' : '1',
+      opacity: '1', // dimming now handled by .tile-dragging CSS, which exempts the header so it stays legible while dragging
       onClick: (e) => { e.stopPropagation(); if (this._didDrag) { this._didDrag = false; return; } this.setState({ selectedTile: isSelected ? null : id }); },
-      onDragStart: (e) => { e.dataTransfer.effectAllowed = 'move'; this._activeDragId = id; this._didDrag = true; this.setState({ dragId: id }); },
-      onDragEnd:   () => { this._activeDragId = null; this.setState({ dragId: null, dragOverId: null }); this._resizeCharts(); },
-      onDragOver:  (e) => { e.preventDefault(); e.dataTransfer.dropEffect = 'move'; if (this.state.dragOverId !== id) this.setState({ dragOverId: id }); },
-      onDrop:      (e) => { e.preventDefault(); e.stopPropagation(); this._reorderTiles(this._activeDragId || this.state.dragId, id); },
+      onPointerDown: (e) => this._onTilePointerDown(id, e),
       setSpan1: () => this._setSpan(id, 1),
       setSpan2: () => this._setSpan(id, 2),
       setSpan4: () => this._setSpan(id, 4),
@@ -1492,6 +1566,14 @@ class Component extends DCLogic {
       kpiPtsVal, kpiPtsLabel,
       kpiTriVal, kpiTriLabel, kpiTriColor,
       kpiMode, clearMatch,
+      hasDragGhost: !!this.state.dragId,
+      dragGhostTitle: this.state.dragTitle || '',
+      dragGhostStyle: this.state.dragId ? {
+        position: 'fixed', left: (this.state.dragX || 0) + 16, top: (this.state.dragY || 0) + 16,
+        zIndex: 999, pointerEvents: 'none', background: 'var(--layer-02)', border: '2px solid var(--interactive)',
+        color: 'var(--interactive)', fontSize: '11px', fontWeight: 600, letterSpacing: '0.3px', textTransform: 'uppercase',
+        padding: '8px 14px', boxShadow: 'var(--shadow-lg)', display: 'flex', alignItems: 'center', gap: '8px', opacity: 0.95,
+      } : { display: 'none' },
       kpiModeOff: !sel,
       hasNoSelMatchScorers: !!sel && !selScorers,
       scorersTileTitle,
@@ -1521,6 +1603,10 @@ class Component extends DCLogic {
       tileSearch: this.state.tileSearch,
       onTileSearch: (e) => this.setState({ tileSearch: e.target.value }),
       clearTileSearch: () => this.setState({ tileSearch: '' }),
+      tileSearchHandlers: {
+        onChange: (e) => this.setState({ tileSearch: e.target.value }),
+        onClear: () => this.setState({ tileSearch: '' }),
+      },
       activeTileCount: (this.state.activeTiles || this.BASE_ACTIVE).length,
       totalTileCount: this.TILE_CATALOG.length,
       tileCountLabel: (() => {
@@ -1665,6 +1751,10 @@ class Component extends DCLogic {
       playerSearch: this.state.playerSearch,
       onPlayerSearch: (e) => this.setState({ playerSearch: typeof e === 'string' ? e : (e && e.target ? e.target.value : '') }),
       clearPlayerSearch: () => this.setState({ playerSearch: '' }),
+      playerSearchHandlers: {
+        onChange: (e) => this.setState({ playerSearch: typeof e === 'string' ? e : (e && e.target ? e.target.value : '') }),
+        onClear: () => this.setState({ playerSearch: '' }),
+      },
       playerCount: filteredPlayers.length,
       squadTileLabel: lineupNames ? 'Match squad · ' + (sel.opp || '') + (lineupSourced ? ' ✓ sourced' : ' (modelled)') : 'Squad — 2025/26',
       selMatchScorers: selScorers,
